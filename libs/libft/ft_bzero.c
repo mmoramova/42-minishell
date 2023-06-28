@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/06/28 19:14:17 by mmoramov         ###   ########.fr       */
+/*   Created: 2022/10/08 15:05:14 by mmoramov          #+#    #+#             */
+/*   Updated: 2022/10/21 22:21:45 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <dirent.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <termios.h>
-
-/*typedef struct s_x
+void	ft_bzero(void *s, size_t n)
 {
-	int xx;
-}	t_x;
-*/
+	unsigned char	*b;
 
-#endif
+	b = s;
+	while (n--)
+		*b++ = '\0';
+}
+
+/*int main(void)
+{
+	char s1[50] = "abcdefghijklmnop";
+	char s2[50] = "abcdefghijklmnop";
+
+	bzero(s1 + 4, 2);
+	ft_bzero(s2 + 4, 2);
+	printf ("%s\n%s", s1, s2);
+}*/

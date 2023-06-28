@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/06/28 19:14:17 by mmoramov         ###   ########.fr       */
+/*   Created: 2022/10/11 22:28:15 by mmoramov          #+#    #+#             */
+/*   Updated: 2022/10/21 22:55:29 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <dirent.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <termios.h>
-
-/*typedef struct s_x
+void	ft_putendl_fd(char *s, int fd)
 {
-	int xx;
-}	t_x;
-*/
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}
 
-#endif
+/*int	main(void)
+{
+	char *s;
+
+	s = "hello";
+	ft_putendl_fd (s, 1);
+}
+*/

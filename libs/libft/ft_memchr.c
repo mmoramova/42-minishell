@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/06/28 19:14:17 by mmoramov         ###   ########.fr       */
+/*   Created: 2022/10/08 16:45:01 by mmoramov          #+#    #+#             */
+/*   Updated: 2022/10/21 22:51:20 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <dirent.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <termios.h>
-
-/*typedef struct s_x
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	int xx;
-}	t_x;
-*/
+	const char	*a;
 
-#endif
+	a = s;
+	while (n--)
+	{
+		if (*a == (char) c)
+			return ((void *) a);
+		a++;
+	}
+	return (NULL);
+}
+
+/*int main(void)
+{
+	const char *str;
+	int c;
+
+	str = "tripo\0uille";
+	//c = 't' + 256;
+	c = '\0';
+	printf("%s, %s, %c", memchr(str, c, 7), ft_memchr(str, c, 7),(char)c);
+}*/

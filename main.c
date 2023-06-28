@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/06/28 19:14:17 by mmoramov         ###   ########.fr       */
+/*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
+/*   Updated: 2023/06/28 19:17:03 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+# include "inc/minishell.h"
 
-# include <dirent.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <termios.h>
-
-/*typedef struct s_x
+int	main(int argc, char **argv) // char *env[])
 {
-	int xx;
-}	t_x;
-*/
+	char *str;
 
-#endif
+	if (argc != 1 && argv[0])
+		return(1);
+
+	while (1)
+	{
+		str = readline("minishell>");
+		printf("%s\n", str);
+		if (str)
+		{
+			add_history(str);
+		}
+	}
+	//return (0);
+}

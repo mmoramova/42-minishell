@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/06/28 19:14:17 by mmoramov         ###   ########.fr       */
+/*   Created: 2022/10/08 14:29:11 by mmoramov          #+#    #+#             */
+/*   Updated: 2022/10/21 23:41:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <dirent.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <termios.h>
-
-/*typedef struct s_x
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int xx;
-}	t_x;
-*/
+	unsigned char	*s;
 
-#endif
+	s = b;
+	while (len--)
+		*s++ = (unsigned char)c;
+	return (b);
+}
+
+/*int main(void)
+{
+	char s1[50] = "abcdefghijklmnop";
+	char s2[50] = "abcdefghijklmnop";
+	
+	memset(s1 + 5, 'k', 4);
+	ft_memset(s2 + 5, 'k', 204);
+	printf ("%s\n%s", s1, s2);
+}*/
