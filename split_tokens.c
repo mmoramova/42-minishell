@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/06/29 20:14:31 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:34:46 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ void	ft_toklstadd_back(t_tok **lst, t_tok *new)
 		*lst = new;
 }
 
+void	ft_toklstadd_previous(t_tok *lst)
+{
+	t_tok	*previous;
+
+	previous = lst;
+	lst = lst -> next;
+	while (lst)
+	{
+		lst -> previous = previous;
+		previous = lst;
+		lst = lst -> next;
+	}
+}
+
 t_tok	*ft_split_tok(char *s, char c)
 {
 	int		i;
@@ -83,11 +97,12 @@ t_tok	*ft_split_tok(char *s, char c)
 		}
 		s++;
 	}
+	ft_toklstadd_previous(lst);
 	return (lst);
 }
 
-
-/*int main(void)
+/*
+int main(void)
 {
 	char *s  = "'z\"e\"ro' one \"two twoandhalf\" 'three four'";
 
@@ -101,8 +116,17 @@ t_tok	*ft_split_tok(char *s, char c)
 		lst=lst->next;
 	}
 
-	//gcc split_tokens.c libs/libft/libft.a && ./a.out
-}*/
+	printf("\n-------------previous:\n");
+	lst = ft_split_tok(s, ' ');
+	lst=lst->next;
+	while (lst)
+	{
+		printf("%s\n", lst->previous->content);
+		lst=lst->next;
+	}
 
+	//gcc split_tokens.c libs/libft/libft.a && ./a.out
+}
+*/
 
 
