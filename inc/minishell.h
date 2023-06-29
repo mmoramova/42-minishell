@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/06/29 17:23:42 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:57:57 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,20 @@
 //struct for storage the enviroment
 
 
+typedef	struct s_tok
+{
+	char	*content;
+	//int	type;
+	struct	s_tok	*previous;
+	struct	s_tok	*next;
 
+}	t_tok;
 
 typedef struct s_env
 {
 	char	*evar;
 	char	*eval;
-	struct s_env	*next;	
+	struct s_env	*next;
 }	t_env;
 
 typedef	struct s_ms
