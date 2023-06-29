@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 19:33:18 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/04/24 17:33:23 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:40:25 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,8 @@ size_t	ft_gnl_strlen(char *s);
 char	*ft_gnl_strjoin(char *s1, char *s2);
 char	*ft_gnl_strchr(char *s, int c);
 char	*ft_gnl_substr(char *s, unsigned int start, size_t len);
+
+/* EXTRA MINISHELL (ERIC'S IDEA)*/
+int		ft_strchrn(const char *s, int c);
 
 #endif
