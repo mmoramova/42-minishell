@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
+#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/26 18:48:29 by josorteg          #+#    #+#              #
-#    Updated: 2023/06/29 19:57:34 by mmoramov         ###   ########.fr        #
+#    Updated: 2023/07/02 10:17:39 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ MAGENTA = \033[0;95m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-SRC_FILES = main env split_tokens
+SRC_FILES = main env split_tokens quotes
 SRC = $(addsuffix .c, $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
