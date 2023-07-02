@@ -6,11 +6,11 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/02 12:09:32 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:04:27 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"inc/minishell.h"
+#include "minishell.h"
 
 int	open_quotes(char *line, int in)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/06/29 20:34:46 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:04:57 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"inc/minishell.h"
+#include "minishell.h"
 
 int	ft_wordlen_wq(char const *s, char c)
 {

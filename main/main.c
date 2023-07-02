@@ -6,11 +6,11 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/02 12:30:55 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:44:45 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/minishell.h"
+# include "minishell.h"
 
 int ft_checkinput(t_ms ms)
 {
@@ -55,12 +55,19 @@ int	main(int argc, char **argv, char *env[])
 
 
 		ms.line = readline("minishell>");
+		//printf("%s\n",ms.line);
 		if (ms.line)
+		{
 			add_history(ms.line);
+			ft_parse(&ms);
+			// if (ms.line != (void *)0)
+			// 	free(ms.line);
+		}
+
 		//ms.line = "dfsfsdf fsd fsd fdfs ";
 		//ms.tokens = NULL;
 
-		ft_parse(&ms);
+		//ft_parse(&ms);
 		//add_history(ms.line);
 
 		//printf("%d\n", open_quotes(ms.line,879));
@@ -72,7 +79,7 @@ int	main(int argc, char **argv, char *env[])
 
 		add_history(ms.line);
 			ft_parse(ms);
-			//free(ms.line);
+			free(ms.line);
 		}*/
 
 	}
