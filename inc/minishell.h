@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/02 19:07:30 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:18:03 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,30 @@
 # include <termios.h>
 # include "../libs/libft/libft.h"
 
+
+# define ARG 0
+# define PIPE 1
+# define INFILE 2
+# define HEREDOC 3
+# define OUTFILE 4
+# define OUTFILETRUNC 5
+
+typedef struct s_ex
+{
+	char	**command;
+	char	**infile;
+	char	**outfile;
+	int		fd[2];
+	struct s_ex	*next;
+	struct s_ex *previous;
+};
+
+
 //struct for storage the enviroment
-
-
 typedef	struct s_tok
 {
 	char	*content;
-	//int	type;
+	int		type;
 	struct	s_tok	*previous;
 	struct	s_tok	*next;
 

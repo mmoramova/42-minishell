@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/02 19:30:49 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:45:20 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,15 @@ void ft_parse(t_ms	*ms)
 		exit(1);
 	}
 	ms->start = ft_split_tok(ms->line, ' ');
+
+
+	/*token only for printing:*/
 	tokens = ms->start;
 	while (tokens)
 	{
-		printf("%s\n", tokens->content);
+
+		printf("%s || ", tokens->content);
+		printf("%d\n", tokens->type);
 		tokens=tokens->next;
 	}
 }

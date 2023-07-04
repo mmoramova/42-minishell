@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/02 19:04:47 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/04 18:02:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,26 @@ int	ft_wordlen_wq(char const *s, char c)
 	return (i);
 }
 
+
+int ft_tok_addtype(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s[i + 1] && ft_strchr("<", s[i]) && s[i] == s[i + 1])
+		return (3);
+	if (s[i + 1] && ft_strchr(">", s[i]) && s[i] == s[i + 1])
+		return (5);
+	if (ft_strchr("<", s[i]))
+		return (2);
+	if (ft_strchr(">", s[i]))
+		return (4);
+	if (ft_strchr("|", s[i]))
+		return (1);
+	return (0);
+}
+
+
 t_tok	*ft_toklstnew(char *content)
 {
 	t_tok	*lst;
@@ -45,6 +65,9 @@ t_tok	*ft_toklstnew(char *content)
 	lst -> content = content;
 	lst -> next = NULL;
 	lst -> previous = NULL;
+	lst -> type = ft_tok_addtype(content);
+
+
 	return (lst);
 }
 
@@ -77,6 +100,34 @@ void	ft_toklstadd_previous(t_tok *lst)
 	}
 }
 
+void	ft_tok_checks(t_tok *lst)
+{
+	t_tok	*previous;
+
+	previous = lst;
+	if (lst->type == 1)
+	{
+		exit(1);
+		//TODO ERROR PIPE
+	}
+	lst = lst -> next;
+
+	while (lst)
+	{
+		//ERRORS IN TOKENS
+		if ((previous->type > 1 && (lst->type != 0))
+			|| (previous->type == 1 && lst->type == 1)
+			|| (lst->type > 0 && !lst->next))
+		{
+			//TODO ERROR
+			exit(1);
+		}
+		previous = lst;
+		lst = lst -> next;
+	}
+
+}
+
 t_tok	*ft_split_tok(char *s, char c)
 {
 	t_tok	*lst;
@@ -89,10 +140,13 @@ t_tok	*ft_split_tok(char *s, char c)
 			//printf("WORDLEN IS: %d\n", ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ft_substr(s, 0, ft_wordlen_wq(s, c))));
 			s += ft_wordlen_wq(s, c) - 1;
+
 		}
 		s++;
 	}
 	ft_toklstadd_previous(lst);
+	ft_tok_checks(lst);
+
 	return (lst);
 }
 
