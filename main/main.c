@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/04 15:45:20 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:15:31 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,19 @@ void ft_parse(t_ms	*ms)
 	}
 }
 
-int	main(int argc, char **argv) //, char *env[])
+int	main(int argc, char **argv , char *env[])
 {
 	t_ms	ms;
 
 	ms.start = NULL;
 	if (argc != 1 && argv[0])
 		return(1);
-
-	//ms.env = get_env(env);
-
-	//print enviroment (like env, only for test)
-	//print_env(ms.env);
-	//printf("%s\n",get_env_value(ms.env ,"PATH"));
-
-	while (1)
+	//print enviroment (like env, only for test, OK no bus error!!!)
+	if(get_env(&ms,env) == 0)
+		return (0);
+	print_env(ms.env);
+	//start parsing
+	while (42)
 	{
 		ms.line = readline("minishell>");
 		if (ms.line && strlen(ms.line) > 0)
@@ -67,3 +65,4 @@ int	main(int argc, char **argv) //, char *env[])
 	}
 	return (0);
 }
+

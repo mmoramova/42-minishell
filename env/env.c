@@ -6,39 +6,56 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/02 16:04:46 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:45:11 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env   *get_env(char **env)
+int	get_env(t_ms *ms, char **env)
 {
 	int     i;
 	t_env   *aux;
 	t_env   *new;
-	t_env   *res;
-	t_env   *last;
-	int     j;
 
-   i = 0;
-   while (env[i])
+	if (!(aux = malloc(sizeof(t_env))))
+		return(1);
+	aux = new_env(env[0]);
+	ms->env = aux;
+	i = 1;
+	while (env[i])
 	{
-		if (aux)
-			last=aux;
-		j = ft_strchrn(env[i], '=');
-		new = malloc(sizeof(t_env));
-		new->evar = ft_substr(env[i], 0, j);
-		new->eval = ft_substr(env[i], j + 1, 0xffffff);
-		new->next = NULL;
-		if (i == 0)
-			res = new;
-		if(last)
-			last->next = new;
+		if (!(new = malloc (sizeof(t_env))))
+			return(1);
+		new = new_env(env[i]);
+		aux->next = new;
 		aux = new;
 		i++;
 	}
-	return(res);
+	return(1);
+}
+
+t_env	*new_env(char *env)
+{
+	t_env	*new;
+	int		k;
+	int		j;
+
+	j = ft_strchrn(env, '=');
+	if (j == -1)
+	{
+		new = malloc(sizeof(t_env));
+		new->evar = ft_strdup (env);
+		new->eval = NULL;
+		new->next = NULL;
+		return(new);
+	}
+	k = ft_strlen(env);
+	new = malloc(sizeof(t_env));
+	new->evar = ft_substr(env, 0, j);
+	new->eval = ft_substr(env, j + 1, k);
+	new->next = NULL;
+	return (new);
 }
 
 char    *get_env_value(t_env *env ,char *var)
@@ -62,10 +79,13 @@ char    *get_env_value(t_env *env ,char *var)
 }
 void    print_env(t_env *env)
 {
-	while (env)
+	t_env	*aux;
+
+	aux = env;
+	while (aux)
 	{
-		printf("%s=%s\n", env->evar, env->eval);
-		env=env->next;
+		printf("%s=%s\n", aux->evar, aux->eval);
+		aux=aux->next;
 	}
 	return;
 }

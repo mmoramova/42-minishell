@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/04 19:18:03 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:54:56 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_ex
 	int		fd[2];
 	struct s_ex	*next;
 	struct s_ex *previous;
-};
+} t_ex;
 
 
 //struct for storage the enviroment
@@ -72,7 +72,8 @@ typedef	struct s_ms
 }	t_ms;
 
 //enviroment functions
-t_env	*get_env(char **env);/*initial version, malloc protetcion and compact*/
+t_env	*new_env(char *env);
+int		get_env(t_ms *ms, char **env);/*initial version, malloc protetcion and compact*/
 void	print_env(t_env *env);/*only for test, it will becomes env command...*/
 char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
 
