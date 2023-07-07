@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/02 16:32:41 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/07 11:41:00 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,12 @@ MAKE_READLINE = make -C readline --no-print-directory
 MAIN = main
 ENV = env
 PARSE = quotes split_tokens
+BUILT = echo
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \
 	  $(addsuffix .c, $(MAIN)) \
+	  $(addsuffix .c, $(BUILT)) \
 
 F_OBJ = obj/
 OBJ = $(addprefix $(F_OBJ), $(SRC:.c=.o))
@@ -46,7 +48,7 @@ make_readline:
 
 -include ${DEP}
 
-vpath %.c main/:parse/:env/
+vpath %.c main/:parse/:env/:buit-ins
 
 dir:
 	@mkdir -p $(F_OBJ)

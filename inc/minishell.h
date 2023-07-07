@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/05 09:54:56 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/07 09:04:00 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,9 @@ int		open_quotes(char *line, int i);
 
 //split the token
 t_tok	*ft_split_tok(char *s, char c);
+
+//builts
+int	b_echo(char *arg);
+int	check-n(char *arg);
 
 #endif
