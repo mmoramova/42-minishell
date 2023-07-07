@@ -6,15 +6,15 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 08:50:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/07 12:33:04 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/07 13:46:09 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minishell.h"
-# include <stdlib.h>
+#include "minishell.h"
+/*# include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
-# include <stdio.h>
+# include <stdio.h>*/
 
 
 int	check_n(char *str)
@@ -45,9 +45,9 @@ int	b_echo(char **com)
 	int 	j;
 
 	n = 0;
-	i = 1;
+	i = 0;
 	m = 0;
-	while (com[i])
+	while (com[++i])
 	{
 		while(check_n(com[i]) == 1 && n == 0)
 		{
@@ -61,14 +61,13 @@ int	b_echo(char **com)
 			write (1,&com[i][j++],1);
 		}
 		write(1," ",1);
-		i++;
 	}
 	if (m == 0)
 		write(1,"\n",1);
 	return (0);
 }
 
-// main
+/* main
 
 int	main	(int args,char **argv)
 {
@@ -78,3 +77,4 @@ int	main	(int args,char **argv)
 }
 //gcc -Wall -Wextra -Werror echo.c
 
+*/

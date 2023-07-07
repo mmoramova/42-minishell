@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/07 09:04:00 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/07 13:46:15 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef	struct s_ms
 //enviroment functions
 t_env	*new_env(char *env);
 int		get_env(t_ms *ms, char **env);/*initial version, malloc protetcion and compact*/
-void	print_env(t_env *env);/*only for test, it will becomes env command...*/
 char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
 
 //check line functions
@@ -84,7 +83,10 @@ int		open_quotes(char *line, int i);
 t_tok	*ft_split_tok(char *s, char c);
 
 //builts
-int	b_echo(char *arg);
-int	check-n(char *arg);
+int		b_echo(char **com);
+int		check_n(char *arg);
+int		pwd(t_env *env);
+void	print_env(t_env *env);/*only for test, it will becomes env command...*/
+int		env(t_env *env);
 
 #endif

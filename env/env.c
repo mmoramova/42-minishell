@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/05 14:45:11 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/07 13:46:11 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,4 @@ char    *get_env_value(t_env *env ,char *var)
 		aux = aux->next;
 	}
 	return(str);
-}
-void    print_env(t_env *env)
-{
-	t_env	*aux;
-
-	aux = env;
-	while (aux)
-	{
-		printf("%s=%s\n", aux->evar, aux->eval);
-		aux=aux->next;
-	}
-	return;
 }

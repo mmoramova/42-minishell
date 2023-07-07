@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/07 11:41:00 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/07 13:46:18 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MAKE_READLINE = make -C readline --no-print-directory
 MAIN = main
 ENV = env
 PARSE = quotes split_tokens
-BUILT = echo
+BUILT = echo envcomand pwd
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \
@@ -48,7 +48,7 @@ make_readline:
 
 -include ${DEP}
 
-vpath %.c main/:parse/:env/:buit-ins
+vpath %.c main/:parse/:env/:built-ins
 
 dir:
 	@mkdir -p $(F_OBJ)
