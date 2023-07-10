@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:34:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/07 13:46:16 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:58:53 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void    print_env(t_env *env)
 	aux = env;
 	while (aux)
 	{
-		printf("%s=%s\n", aux->evar, aux->eval);
+		if (aux->eval == NULL)
+			;
+		else
+			printf("%s=%s\n", aux->evar, aux->eval);
 		aux=aux->next;
 	}
 	return;
@@ -31,3 +34,19 @@ int	env(t_env *env)
 	return (0);
 }
 
+//for export, we print no value vars, need format!!!!
+void    print_env_export(t_env *env)
+{
+	t_env	*aux;
+
+	aux = env;
+	while (aux)
+	{
+		if (aux->eval == NULL)
+			printf("%s\n", aux->evar);
+		else
+			printf("%s=%s\n", aux->evar, aux->eval);
+		aux=aux->next;
+	}
+	return;
+}

@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/07 13:46:18 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/10 15:24:16 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MAKE_READLINE = make -C readline --no-print-directory
 MAIN = main
 ENV = env
 PARSE = quotes split_tokens
-BUILT = echo envcomand pwd
+BUILT = echo envcomand pwd cd
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \
@@ -74,3 +74,4 @@ fclean: clean
 	@echo "$(MAGENTA)Everything has been cleaned.$(BLACK)"
 
 re: fclean all
+.SILENT:

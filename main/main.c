@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/07 13:46:13 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:02:16 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void ft_parse(t_ms	*ms)
 	tokens = ms->start;
 	while (tokens)
 	{
-
 		printf("%s || ", tokens->content);
 		printf("%d\n", tokens->type);
 		tokens=tokens->next;
@@ -52,6 +51,8 @@ int	main(int argc, char **argv , char *env[])
 	//print enviroment (like env, only for test, OK no bus error!!!)
 	if(get_env(&ms,env) == 0)
 		return (0);
+	//adding (plusing!!) oldpwd
+	add_env (&ms, "OLDPWD");
 	print_env(ms.env);
 	//start parsing
 	while (42)

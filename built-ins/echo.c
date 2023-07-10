@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 08:50:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/07 13:46:09 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:05:12 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 /*# include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
-# include <stdio.h>*/
-
+# include <stdio.h>
+*/
 
 int	check_n(char *str)
 {
@@ -67,7 +67,7 @@ int	b_echo(char **com)
 	return (0);
 }
 
-/* main
+/*
 
 int	main	(int args,char **argv)
 {
@@ -76,5 +76,6 @@ int	main	(int args,char **argv)
 	return (0);
 }
 //gcc -Wall -Wextra -Werror echo.c
+
 
 */

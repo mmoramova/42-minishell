@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/07 13:46:15 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:24:00 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <unistd.h>
 # include <termios.h>
 # include "../libs/libft/libft.h"
+# include <limits.h>
 
 
 # define ARG 0
@@ -75,6 +76,9 @@ typedef	struct s_ms
 t_env	*new_env(char *env);
 int		get_env(t_ms *ms, char **env);/*initial version, malloc protetcion and compact*/
 char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
+void	add_env(t_ms *ms, char *newvar); //añade variables, para oldpwd y para export
+int		check_env(t_env *env, char *var);
+void	change_env(t_env *env, char *var, char *val);
 
 //check line functions
 int		open_quotes(char *line, int i);
@@ -86,7 +90,9 @@ t_tok	*ft_split_tok(char *s, char c);
 int		b_echo(char **com);
 int		check_n(char *arg);
 int		pwd(t_env *env);
-void	print_env(t_env *env);/*only for test, it will becomes env command...*/
+void	print_env(t_env *env);/*only for test, it will becomes ENV command...*/
 int		env(t_env *env);
+void    print_env_export(t_env *env); //for EXPORT
+int		cd(t_env *env,char **com);
 
 #endif
