@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/10 15:09:48 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:11:47 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,13 @@ int	get_env(t_ms *ms, char **env)
 	t_env   *aux;
 	t_env   *new;
 
-	if (!(aux = malloc(sizeof(t_env))))
-		return(1);
-	aux = new_env(env[0]);
+
+	aux = new_env(ft_strdup(env[0]));
 	ms->env = aux;
 	i = 1;
 	while (env[i])
 	{
-		if (!(new = malloc (sizeof(t_env))))
-			return(1);
-		new = new_env(env[i]);
+		new = new_env(ft_strdup(env[i]));
 		aux->next = new;
 		aux = new;
 		i++;
@@ -38,15 +35,11 @@ int	get_env(t_ms *ms, char **env)
 void	add_env (t_ms *ms, char *newvar)
 {
 	t_env	*aux;
-	t_env   *new;
 
-	if (!(new = malloc (sizeof(t_env))))
-			return;
-	new = new_env(newvar);
 	aux = ms->env;
 	while (aux && aux->next)
 		aux = aux->next;
-	aux->next = new;
+	aux->next = new_env(newvar);
 }
 
 t_env	*new_env(char *env)
@@ -56,12 +49,15 @@ t_env	*new_env(char *env)
 	size_t		j;
 
 	j = ft_strchrn(env, '=');
-	if (j > ft_strlen(env))
+	if (!(ft_strchr(env,'=')))
 	{
 		new = malloc(sizeof(t_env));
+		if (!new)
+			return(NULL);
 		new->evar = ft_strdup (env);
 		new->eval = NULL;
 		new->next = NULL;
+		free(env);
 		return(new);
 	}
 	k = ft_strlen(env);
@@ -71,6 +67,7 @@ t_env	*new_env(char *env)
 	new->evar = ft_substr(env, 0, j);
 	new->eval = ft_substr(env, j + 1, k);
 	new->next = NULL;
+	free(env);
 	return (new);
 }
 

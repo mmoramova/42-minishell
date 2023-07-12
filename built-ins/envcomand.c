@@ -34,19 +34,4 @@ int	env(t_env *env)
 	return (0);
 }
 
-//for export, we print no value vars, need format!!!!
-void    print_env_export(t_env *env)
-{
-	t_env	*aux;
 
-	aux = env;
-	while (aux)
-	{
-		if (aux->eval == NULL)
-			printf("%s\n", aux->evar);
-		else
-			printf("%s=%s\n", aux->evar, aux->eval);
-		aux=aux->next;
-	}
-	return;
-}

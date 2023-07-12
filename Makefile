@@ -6,13 +6,13 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/10 15:24:16 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/12 17:06:37 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 HEADER = inc/minishell.h
-C_FLAGS = -Wall -Wextra -Werror -MMD
+C_FLAGS = -Wall -Wextra -Werror -MMD -g
 RM = rm -f
 
 #------------------------------LIBRARIES---------------------------------------#
@@ -24,10 +24,10 @@ SRC_HISTORY = readline/libhistory.a
 MAKE_READLINE = make -C readline --no-print-directory
 
 #------------------------------SOURCES-----------------------------------------#
-MAIN = main
+MAIN = main freems
 ENV = env
 PARSE = quotes split_tokens
-BUILT = echo envcomand pwd cd
+BUILT = echo envcomand pwd cd export
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \

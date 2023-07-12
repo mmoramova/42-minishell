@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/10 16:02:16 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:36:34 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	main(int argc, char **argv , char *env[])
 	//print enviroment (like env, only for test, OK no bus error!!!)
 	if(get_env(&ms,env) == 0)
 		return (0);
-	//adding (plusing!!) oldpwd
+	//adding (plusing!!) oldpwd for cd porpose
 	add_env (&ms, "OLDPWD");
-	print_env(ms.env);
+
 	//start parsing
 	while (42)
 	{
@@ -61,9 +61,20 @@ int	main(int argc, char **argv , char *env[])
 		if (ms.line && strlen(ms.line) > 0)
 		{
 			ft_parse(&ms);
+
 			add_history(ms.line);
+			if (ft_strncmp(ms.line,"exit",4) == 0)
+			{
+				//print_env(ms.env);
+				free_env(ms.env);
+				exit(0);
+			}
+			free(ms.line);
 		}
+		//free_env(ms.env);
+
 	}
+	//clean_history();
 	return (0);
 }
 
