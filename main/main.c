@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/12 17:36:34 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:40:29 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv , char *env[])
 		if (ms.line && strlen(ms.line) > 0)
 		{
 			ft_parse(&ms);
+			ft_prep_exe(&ms);
 
 			add_history(ms.line);
 			if (ft_strncmp(ms.line,"exit",4) == 0)

@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/12 17:06:37 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/12 19:50:12 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC_HISTORY = readline/libhistory.a
 MAKE_READLINE = make -C readline --no-print-directory
 
 #------------------------------SOURCES-----------------------------------------#
-MAIN = main freems
+MAIN = main freems prep_exe
 ENV = env
 PARSE = quotes split_tokens
 BUILT = echo envcomand pwd cd export

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/12 09:51:20 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:41:23 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 typedef struct s_ex
 {
 	char	**command;
-	char	**infile;
-	char	**outfile;
+	// char	**infile;
+	// char	**outfile;
 	int		fd[2];
 	struct s_ex	*next;
 	struct s_ex *previous;
@@ -69,6 +69,7 @@ typedef	struct s_ms
 	t_env	*env;
 	char	*line;
 	t_tok	*start;
+	t_ex	*exe;
 
 }	t_ms;
 
@@ -85,6 +86,9 @@ int		open_quotes(char *line, int i);
 
 //split the token
 t_tok	*ft_split_tok(char *s, char c);
+
+//commad structure
+void	ft_prep_exe(t_ms	*ms);
 
 //builts
 int		b_echo(char **com);
