@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:34:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/10 13:58:53 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:13:43 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    print_env(t_env *env)
 	while (aux)
 	{
 		if (aux->eval == NULL)
-			;
+			printf("%s=\n", aux->evar);
 		else
 			printf("%s=%s\n", aux->evar, aux->eval);
 		aux=aux->next;
