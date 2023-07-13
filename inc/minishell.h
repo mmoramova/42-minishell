@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/12 22:30:03 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:01:26 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <dirent.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -36,6 +37,8 @@
 # define HEREDOC 3
 # define OUTFILE 4
 # define OUTFILETRUNC 5
+
+# define DEF_PATH "/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 typedef struct s_ex
 {
@@ -104,5 +107,10 @@ int		cd(t_env *env,char **com);
 void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
 void	free_line(char *line);
+
+//execution
+void	ft_execute(t_ms	*ms, char **env);
+void	ft_singlecommand(t_ms *ms,char **env);
+void	ft_execve_prepare(t_ms	*ms, char **env);
 
 #endif

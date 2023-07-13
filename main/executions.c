@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 19:23:41 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/13 18:10:28 by josorteg         ###   ########.fr       */
+/*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
+/*   Updated: 2023/07/13 19:37:00 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+void	ft_singlecommand(t_ms *ms,char **env)
 {
-	char	*p;
-	size_t	len_s1;
+	if (ms->exe->fd[0])
+	{
+		dup2(ms->exe->fd[0] ,STDIN_FILENO);
+		close(ms->exe->fd[0]);
+	}
+	if (ms->exe->fd[1] )
+	{
+		dup2(ms->exe->fd[1] ,STDOUT_FILENO);
+		close(ms->exe->fd[1]);
+	}
 
-	len_s1 = ft_strlen(s1) + 1;
-	p = (char *)malloc(len_s1 * sizeof(char)); // sostituido void * por char *
-	if (!p)
-		return (NULL);
-	ft_strlcpy(p, s1, len_s1);
-	return (p);
+	ft_execve_prepare(ms, env);
+}
+
+void	ft_execute(t_ms	*ms, char **env)
+{
+	if(ms->exe->next == NULL)
+		ft_singlecommand(ms, env);
+	else
+		; //pipe
 }

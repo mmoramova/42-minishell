@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/12 09:39:08 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:36:37 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    print_env_export(t_env *env)
 		else if (ft_strncmp(aux->eval, "",1) == 0)
 			printf("%s=\"\"", aux->evar);
 		else
-			printf("%s=%s\n", aux->evar, aux->eval);
+			printf("%s=\"%s\"\n", aux->evar, aux->eval);
 		aux=aux->next;
 	}
 }
@@ -56,11 +56,13 @@ int	export(t_env *env, char **com)
 		i = 1;
 		while (com[i])
 		{
+			if (check_export(com[i]) != 0)
+				return(1);
 			nenv = malloc (sizeof(t_env));
 			if (!nenv)
 				return(1);
 			nenv = new_env(com[i]);
-
+			i++;
 		}
 	}
 	return(0);
@@ -77,7 +79,22 @@ int	export(t_env *env, char **com)
 // 	-puede ir entre comillas.
 // 	-ninguna regla especial.
 
+int	check_export(char	*nenv)
+{
+	int i;
 
+	i = 0;
+	if (ft_isalpha(nenv[0]) == 1 && nenv[0] != '_')
+		return(1);
+	i++;
+	while (nenv[i] != '=')
+	{
+		if (ft_isalnum(nenv[i]) == 1 && nenv[i] != '_')
+			return(1);
+		i++;
+	}
+
+}
 
 
 
