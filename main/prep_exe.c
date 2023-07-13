@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/13 12:27:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/12 22:31:29 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	ft_prep_exe(t_ms	*ms)
 			printf("command: %s \n", aux->command[i]);
 			i++;
 		}
-		printf("fd[0]=%d || fd[1]=%d\n",aux->fd[0],aux->fd[1]);
+		printf("fd[0]=%d || fd[1]=%d",aux->fd[0],aux->fd[1]);
 
 		aux=aux->next;
 	}

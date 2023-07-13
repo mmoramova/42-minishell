@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/13 12:25:30 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:11:47 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	get_env(t_ms *ms, char **env)
 	t_env   *new;
 
 
-	aux = new_env(env[0]);
+	aux = new_env(ft_strdup(env[0]));
 	ms->env = aux;
 	i = 1;
 	while (env[i])
 	{
-		new = new_env(env[i]);
+		new = new_env(ft_strdup(env[i]));
 		aux->next = new;
 		aux = new;
 		i++;
@@ -54,12 +54,10 @@ t_env	*new_env(char *env)
 		new = malloc(sizeof(t_env));
 		if (!new)
 			return(NULL);
-		new->evar = ft_strdup(env);
+		new->evar = ft_strdup (env);
 		new->eval = NULL;
 		new->next = NULL;
-		//no free si viene de cadena!!!!
-		// if (env)
-		// 	free(env);
+		free(env);
 		return(new);
 	}
 	k = ft_strlen(env);
@@ -69,8 +67,7 @@ t_env	*new_env(char *env)
 	new->evar = ft_substr(env, 0, j);
 	new->eval = ft_substr(env, j + 1, k);
 	new->next = NULL;
-	// if (env)
-	// 	free(env);
+	free(env);
 	return (new);
 }
 
@@ -121,8 +118,7 @@ void	change_env(t_env *env, char *var, char *val)
 	aux = env;
 	while (aux->evar != var)
 		aux = aux->next;
-	if (aux->eval)
-		free (aux->eval);
+	free (aux->eval);
 	new_size = (int)ft_strlen(val);
 	aux->eval = malloc (new_size * sizeof(char));
 	if (!aux->eval)
