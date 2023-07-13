@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/13 12:27:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:08:19 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_ex	*ft_exlstnew(t_tok *token)
 	lst -> next = NULL;
 	//lst -> fd[0] = NULL;
 	//lst -> fd[1] = NULL;
-	lst -> command = (char **) malloc(sizeof(char) * ft_lstcmd_count(token));
+	lst -> command = malloc(sizeof(char *) * (ft_lstcmd_count(token) + 1));
 	while (token && token->type != 1)
 	{
 		if (token->type == 0)
@@ -81,6 +81,7 @@ t_ex	*ft_exlstnew(t_tok *token)
 		}
 		token = token -> next;
 	}
+	lst -> command[i] = NULL;
 	return (lst);
 }
 
