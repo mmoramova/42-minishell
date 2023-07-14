@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/13 19:01:26 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:44:23 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,10 @@ int		check_n(char *arg);
 int		pwd(t_env *env);
 void	print_env(t_env *env);/*only for test, it will becomes ENV command...*/
 int		env(t_env *env);
-void    print_env_export(t_env *env); //for EXPORT
+void	print_env_export(t_env *env); //for EXPORT
+int		check_export(char	*nenv);
 int		cd(t_env *env,char **com);
+int		export(t_env *env, char **com);
 
 //free
 void	free_ms(t_ms *ms);
