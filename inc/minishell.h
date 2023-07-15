@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/15 21:18:03 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 01:48:58 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@
 typedef struct s_ex
 {
 	char	**command;
-	// char	**infile;
-	// char	**outfile;
 	int		fd[2];
 	struct s_ex	*next;
 	struct s_ex *previous;
@@ -74,7 +72,9 @@ typedef	struct s_ms
 	char	*line;
 	t_tok	*start;
 	t_ex	*exe;
-
+	int		cntcmds;
+	int		**pipes;
+	int		*pids;
 }	t_ms;
 
 //enviroment functions
@@ -95,6 +95,7 @@ t_tok	*ft_split_tok(char *s, char c);
 void	ft_prep_exe(t_ms	*ms);
 
 //builts
+int		is_builtin(char *cmd);
 int		b_echo(char **com);
 int		check_n(char *arg);
 int		pwd(t_env *env);
@@ -111,9 +112,14 @@ void	free_env(t_env *env);
 void	free_line(char *line);
 
 //execution
-void	ft_execute(t_ms	*ms, char **env);
-void	ft_singlecommand(t_ms *ms,char **env);
-void	ft_execve_prepare(t_ms	*ms, char **env, char **command);
+void	execute_cmds(t_ms *ms, char **env);
+void	execute_builtin(t_env *env,char **cmd);
+void	execve_prepare(t_ms	*ms, char **env, char **cmd);
+int		**handle_pipes(t_ms *ms);
+void	handle_forks(t_ms *ms, char **env);
+void	handle_redirections(t_ms *ms, int fd[2], int lvl);
+void	handle_waitpid(int *pids);
+void	close_pipes(int **pipes);
 
 //exit
 void	ft_exit(int exitnumber, char *txt, char *txt2);

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/15 19:00:38 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 01:40:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ int	main(int argc, char **argv , char *env[])
 		ms.line = readline("minishell>");
 		if (ms.line && strlen(ms.line) > 0)
 		{
+			if (ft_strncmp(ms.line,"exit",4) == 0)
+			{
+				free_env(ms.env);
+				exit(0);
+			}
+
 			ft_parse(&ms);
 			ft_prep_exe(&ms);
 
@@ -66,15 +72,8 @@ int	main(int argc, char **argv , char *env[])
 			//print env
 			//print_env(ms.env);
 
-			ft_execute(&ms, env);
-
-
+			execute_cmds(&ms, env);
 			add_history(ms.line);
-			if (ft_strncmp(ms.line,"exit",4) == 0)
-			{
-				free_env(ms.env);
-				exit(0);
-			}
 			free(ms.line);
 		}
 	}

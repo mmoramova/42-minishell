@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/15 21:53:49 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 01:45:35 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ void	ft_prep_exe(t_ms	*ms)
 {
 	t_ex	*aux;
 	t_tok	*token;
+	int		cntcmds;
 
 	aux = NULL;
 	token = ms->start;
+	cntcmds = 0;
 	while (token)
 	{
 		ft_exlstadd_back(&aux, ft_exlstnew(token));
@@ -116,8 +118,10 @@ void	ft_prep_exe(t_ms	*ms)
 			token = token->next;
 		if (token)
 			token = token->next;
+		cntcmds++;
 	}
 	ms->exe = aux;
+	ms->cntcmds = cntcmds;
 	//TODO FREE TOKEN
 
 	/*token only for printing:*/
@@ -132,4 +136,5 @@ void	ft_prep_exe(t_ms	*ms)
 		printf("fd[0]=%d || fd[1]=%d\n",aux->fd[0],aux->fd[1]);
 		aux=aux->next;
 	}
+	printf("We have %d commands.\n", cntcmds);
 }
