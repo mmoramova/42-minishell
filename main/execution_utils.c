@@ -6,13 +6,11 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/15 18:39:10 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/15 21:54:12 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	ft_exit(int exitnumber, char *txt, char *txt2)
 {
@@ -33,7 +31,6 @@ char	**ft_get_paths(char *env)
 	char	**paths;
 
 	i = 0;
-
 	if (env)
 		paths = ft_split(env, ':');
 	else
@@ -52,37 +49,26 @@ void	ft_execve(char *path, char **command, char **env)
 	}
 }
 
-void	ft_execve_prepare(t_ms	*ms, char **env, int level)
+void	ft_execve_prepare(t_ms	*ms, char **env, char **command)
 {
-	char	**command;
 	int		i;
-	int		j;
 	char	**paths;
-	t_ex	*com;
 
-	j = 0;
 	i = 0;
-
-	printf("Executing level %d\n", level);
-	com = ms->exe;
-	while (level--)
-		com = com->next;
-	command = com->command;
-	printf("Executing command %s %s\n",command[0], command[1]);
 	// if (argv[0] == '.' && argv[1] == '/' && ft_strchr(argv, 32))
 	// 	ft_exit(127, command[0], "No such file or directory");
-	while (command[j])
+	while (command[i])
 	{
-		if (command[j][0] == '\'')
-			command[j] = ft_strtrim(command[j], "\'");
-		else if (command[j][0] == '\"')
-			command[j] = ft_strtrim(command[j], "\"");
-		j++;
+		if (command[i][0] == '\'')
+			command[i] = ft_strtrim(command[i], "\'");
+		else if (command[i][0] == '\"')
+			command[i] = ft_strtrim(command[i], "\"");
+		i++;
 	}
-	printf("Before execution-----fd[0]=%d || fd[1]=%d\n",com->fd[0],com->fd[1]);
 	if (ft_strchr(command[0], '/'))
 		ft_execve(command[0], command, env);
 	paths = ft_get_paths(get_env_value(ms->env ,"PATH"));
+	i = 0;
 	while (paths[i])
 		ft_execve(ft_strjoin(ft_strjoin(paths[i++], "/"),
 				command[0]), command, env);
