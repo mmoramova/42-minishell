@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/15 18:37:41 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/15 19:07:25 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,75 +105,172 @@ void	ft_singlecommand(t_ms *ms,char **env)
 
 int	ft_doublecommand(t_ms *ms,char **env)
 {
-	int	fd[2];
-	int	pid;
-	int	pid2;
+	int	pipes[2];
+	int pids[2];
 
 	printf("Hi from doublecommand\n");
-
-	if (pipe(fd) == -1)
+	if (pipe(pipes) == -1)
 		ft_exit(errno, strerror(errno), NULL);
 
-	pid = fork();
-	if (pid == -1)
+	pids[0] = fork();
+	if (pids[0] == -1)
 		ft_exit(errno, strerror(errno), NULL);
-	if (pid == 0) //child 1
+	if (pids[0] == 0) //child 1
 	{
 		printf("I am in child 1\n");
-		dup2(fd[1], STDOUT_FILENO);
+		dup2(pipes[1], STDOUT_FILENO);
 		if (ms->exe->fd[0])
 		{
 			dup2(ms->exe->fd[0] ,STDIN_FILENO);
-			printf("I have child 1 infile\n");
 			close(ms->exe->fd[0]);
 		}
 		if (ms->exe->fd[1])
 		{
 			dup2(ms->exe->fd[1] ,STDOUT_FILENO);
-			printf("I have child 1 outfile\n");
-			close(ms->exe->next->fd[1]);
+			close(ms->exe->fd[1]);
 		}
 
-		close(fd[0]);
-		close(fd[1]);
+		close(pipes[0]);
+		close(pipes[1]);
 		ft_execve_prepare(ms, env, 0);
 		return (0);
 	}
 
-	pid2 = fork(); //with second child i need to call the other file descriptor
+	pids[1] = fork(); //with second child i need to call the other file descriptor
 
 	// >> is not working
-	if (pid2 == -1)
+	if (pids[1] == -1)
 		ft_exit(errno, strerror(errno), NULL);
-	if (pid2 == 0) //child 2
+	if (pids[1] == 0) //child 2
 	{
 		printf("I am in child 2\n");
-		dup2(fd[0], STDIN_FILENO);
+		dup2(pipes[0], STDIN_FILENO);
 		if (ms->exe->next->fd[0])
 		{
 			dup2(ms->exe->next->fd[0] ,STDIN_FILENO);
-			printf("I have child 2 infile\n");
-			close(ms->exe->fd[0]);
+			close(ms->exe->next->fd[0]);
 		}
 
 		if (ms->exe->next->fd[1])
 		{
 			dup2(ms->exe->next->fd[1] ,STDOUT_FILENO);
-			printf("I have child 2 outfile\n");
 			close(ms->exe->next->fd[1]);
 		}
 
-		close(fd[0]);
-		close(fd[1]);
+		close(pipes[0]);
+		close(pipes[1]);
 		ft_execve_prepare(ms, env, 1);
 		return (0);
 	}
 	//parent
-	close(fd[0]);
-	close(fd[1]);
+	close(pipes[0]);
+	close(pipes[1]);
 
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pids[0], NULL, 0);
+	waitpid(pids[1], NULL, 0);
+	return (0);
+}
+
+int	ft_tripplecommand(t_ms *ms,char **env)
+{
+	int pipes[2][2];
+	int pids[3];
+
+	printf("Hi from tripplecommand\n");
+	if (pipe(pipes[0]) == -1)
+		ft_exit(errno, strerror(errno), NULL);
+	if (pipe(pipes[1]) == -1)
+		ft_exit(errno, strerror(errno), NULL);
+
+	pids[0] = fork();
+	if (pids[0] == -1)
+		ft_exit(errno, strerror(errno), NULL);
+	if (pids[0] == 0) //child 1
+	{
+		printf("I am in child 1\n");
+		dup2(pipes[0][1], STDOUT_FILENO);
+		if (ms->exe->fd[0])
+		{
+			dup2(ms->exe->fd[0] ,STDIN_FILENO);
+			close(ms->exe->fd[0]);
+		}
+		if (ms->exe->fd[1])
+		{
+			dup2(ms->exe->fd[1] ,STDOUT_FILENO);
+			close(ms->exe->fd[1]);
+		}
+
+		close(pipes[0][0]);
+		close(pipes[0][1]);
+		close(pipes[1][0]);
+		close(pipes[1][1]);
+		ft_execve_prepare(ms, env, 0);
+		return (0);
+	}
+
+	pids[1] = fork(); //with second child i need to call the other file descriptor
+	if (pids[1] == -1)
+		ft_exit(errno, strerror(errno), NULL);
+	if (pids[1] == 0) //child 2
+	{
+		printf("I am in child 2\n");
+		dup2(pipes[0][0], STDIN_FILENO);
+		dup2(pipes[1][1], STDOUT_FILENO);
+		if (ms->exe->next->fd[0])
+		{
+			dup2(ms->exe->next->fd[0] ,STDIN_FILENO);
+			close(ms->exe->next->fd[0]);
+		}
+
+		if (ms->exe->next->fd[1])
+		{
+			dup2(ms->exe->next->fd[1] ,STDOUT_FILENO);
+			close(ms->exe->next->fd[1]);
+		}
+
+		close(pipes[0][0]);
+		close(pipes[0][1]);
+		close(pipes[1][0]);
+		close(pipes[1][1]);
+		ft_execve_prepare(ms, env, 1);
+		return (0);
+	}
+
+	pids[2] = fork(); //with second child i need to call the other file descriptor
+	if (pids[2] == -1)
+		ft_exit(errno, strerror(errno), NULL);
+	if (pids[2] == 0) //child 3
+	{
+		printf("I am in child 3\n");
+		dup2(pipes[1][0], STDIN_FILENO);
+		if (ms->exe->next->next->fd[0])
+		{
+			dup2(ms->exe->next->next->fd[0] ,STDIN_FILENO);
+			close(ms->exe->next->next->fd[0]);
+		}
+
+		if (ms->exe->next->next->fd[1])
+		{
+			dup2(ms->exe->next->next->fd[1] ,STDOUT_FILENO);
+			close(ms->exe->next->next->fd[1]);
+		}
+
+		close(pipes[0][0]);
+		close(pipes[0][1]);
+		close(pipes[1][0]);
+		close(pipes[1][1]);
+		ft_execve_prepare(ms, env, 2);
+		return (0);
+	}
+	//parent
+	close(pipes[0][0]);
+	close(pipes[0][1]);
+	close(pipes[1][0]);
+	close(pipes[1][1]);
+
+	waitpid(pids[0], NULL, 0);
+	waitpid(pids[1], NULL, 0);
+	waitpid(pids[2], NULL, 0);
 	return (0);
 }
 
@@ -191,8 +288,10 @@ void	ft_execute(t_ms	*ms, char **env)
 	else*/
 	if (ft_lstppipes_count(ms->exe) == 1)
 		ft_singlecommand(ms, env);
-	else
+	else if (ft_lstppipes_count(ms->exe) == 2)
 		ft_doublecommand(ms, env);
+	else
+		ft_tripplecommand(ms, env);
 }
 
 
