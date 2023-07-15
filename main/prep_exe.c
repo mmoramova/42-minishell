@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/13 18:08:19 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:24:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void ft_open(int type, int fd[2], char *file)
 		if (fd[0] == -1)
 		{
 			ft_putstr_fd(strerror(errno), 2);
-			exit(errno); //TODO EXIT
+			//exit(errno); //TODO EXIT
 		}
 	}
 	else
@@ -32,11 +32,13 @@ void ft_open(int type, int fd[2], char *file)
 		if (type == 4)
 			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		else
-			fd[1] = open(file, O_WRONLY | O_CREAT, 0666);
+			//fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666); not working
+			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+
 		if (fd[1] == -1)
 		{
 			ft_putstr_fd(strerror(errno), 2);
-			exit(errno); //TODO EXIT
+			//exit(errno); //TODO EXIT
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/14 19:44:23 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:55:47 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ void	free_line(char *line);
 //execution
 void	ft_execute(t_ms	*ms, char **env);
 void	ft_singlecommand(t_ms *ms,char **env);
-void	ft_execve_prepare(t_ms	*ms, char **env);
+void	ft_execve_prepare(t_ms	*ms, char **env, int level);
+
+//exit
+void	ft_exit(int exitnumber, char *txt, char *txt2);
 
 #endif
