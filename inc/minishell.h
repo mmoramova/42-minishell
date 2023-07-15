@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/12 19:41:23 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:55:47 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -35,6 +37,8 @@
 # define HEREDOC 3
 # define OUTFILE 4
 # define OUTFILETRUNC 5
+
+# define DEF_PATH "/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 typedef struct s_ex
 {
@@ -96,12 +100,22 @@ int		check_n(char *arg);
 int		pwd(t_env *env);
 void	print_env(t_env *env);/*only for test, it will becomes ENV command...*/
 int		env(t_env *env);
-void    print_env_export(t_env *env); //for EXPORT
+void	print_env_export(t_env *env); //for EXPORT
+int		check_export(char	*nenv);
 int		cd(t_env *env,char **com);
+int		export(t_env *env, char **com);
 
 //free
 void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
 void	free_line(char *line);
+
+//execution
+void	ft_execute(t_ms	*ms, char **env);
+void	ft_singlecommand(t_ms *ms,char **env);
+void	ft_execve_prepare(t_ms	*ms, char **env, int level);
+
+//exit
+void	ft_exit(int exitnumber, char *txt, char *txt2);
 
 #endif

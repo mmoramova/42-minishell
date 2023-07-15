@@ -3,14 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/12 19:47:05 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:24:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void ft_open(int type, int fd[2], char *file)
+{
+	if (type == 2)
+	{
+		if (fd[0])
+			close(fd[0]);
+		fd[0] = open(file, O_RDONLY, 0666);
+		if (fd[0] == -1)
+		{
+			ft_putstr_fd(strerror(errno), 2);
+			//exit(errno); //TODO EXIT
+		}
+	}
+	else
+	{
+		if (fd[1])
+			close(fd[1]);
+		if (type == 4)
+			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		else
+			//fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666); not working
+			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+
+		if (fd[1] == -1)
+		{
+			ft_putstr_fd(strerror(errno), 2);
+			//exit(errno); //TODO EXIT
+		}
+	}
+}
 
 int ft_lstcmd_count(t_tok *token)
 {
@@ -40,52 +71,19 @@ t_ex	*ft_exlstnew(t_tok *token)
 	lst -> next = NULL;
 	//lst -> fd[0] = NULL;
 	//lst -> fd[1] = NULL;
-	lst -> command = (char **) malloc(sizeof(char) * ft_lstcmd_count(token));
-
+	lst -> command = malloc(sizeof(char *) * (ft_lstcmd_count(token) + 1));
 	while (token && token->type != 1)
 	{
-		//comands
 		if (token->type == 0)
+			lst -> command[i++] = ft_strdup(token ->content);
+		if (token->type > 1 && token->type != 3)
 		{
-			lst -> command[i] = ft_strdup(token ->content);
-			i++;
-		}
-
-		//read <
-		if (token->type == 2)
-		{
-			if (lst->fd[0])
-				close(lst->fd[0]);
-			lst->fd[0] = open(token->next->content, O_RDONLY, 0666);
-			if (lst->fd[0] == -1)
-				exit(1); //TODO EXIT
+			ft_open(token->type, lst->fd, token->next->content);
 			token = token -> next;
 		}
-
-		//read >
-		if (token->type == 4)
-		{
-			if (lst->fd[1])
-				close(lst->fd[1]);
-			lst->fd[1] = open(token->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-			if (lst->fd[1] == -1)
-				exit(1); //TODO EXIT
-			token = token -> next;
-		}
-		//read >>
-		if (token->type == 5)
-		{
-			if (lst->fd[1])
-				close(lst->fd[1]);
-			lst->fd[1] = open(token->next->content, O_WRONLY | O_CREAT, 0666);
-			if (lst->fd[1] == -1)
-				exit(1); //TODO EXIT
-			token = token -> next;
-		}
-
 		token = token -> next;
 	}
-
+	lst -> command[i] = NULL;
 	return (lst);
 }
 
@@ -122,7 +120,7 @@ void	ft_prep_exe(t_ms	*ms)
 	ms->exe = aux;
 	//TODO FREE TOKEN
 
-		/*token only for printing:*/
+	/*token only for printing:*/
 	int i = 0;
 	while (aux)
 	{
@@ -132,7 +130,7 @@ void	ft_prep_exe(t_ms	*ms)
 			printf("command: %s \n", aux->command[i]);
 			i++;
 		}
-		printf("fd[0]=%d || fd[1]=%d",aux->fd[0],aux->fd[1]);
+		printf("fd[0]=%d || fd[1]=%d\n",aux->fd[0],aux->fd[1]);
 
 		aux=aux->next;
 	}
