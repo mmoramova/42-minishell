@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/16 01:40:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:08:35 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void ft_parse(t_ms	*ms)
 		//TODO ERROR
 		exit(1);
 	}
-	ms->start = ft_split_tok(ms->line, ' ');
+	ms->start = ft_split_tok(ms, ' ');
 
 
 	/*token only for printing:*/
@@ -66,13 +66,13 @@ int	main(int argc, char **argv , char *env[])
 			}
 
 			ft_parse(&ms);
-			ft_prep_exe(&ms);
+			//ft_prep_exe(&ms);
 
 			//print ms exe
 			//print env
 			//print_env(ms.env);
 
-			execute_cmds(&ms, env);
+			//execute_cmds(&ms, env);
 			add_history(ms.line);
 			free(ms.line);
 		}

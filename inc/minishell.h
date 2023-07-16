@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 01:48:58 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:01:29 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ void	change_env(t_env *env, char *var, char *val);
 int		open_quotes(char *line, int i);
 
 //split the token
-t_tok	*ft_split_tok(char *s, char c);
+t_tok	*ft_split_tok(t_ms *ms, char c);
+
+//expand
+char	*ft_expand (t_ms *ms, char *s);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);
