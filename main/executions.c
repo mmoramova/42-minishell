@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 01:40:51 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 11:34:48 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,15 +150,73 @@ void handle_forks(t_ms	*ms, char **env)
 	}
 }
 
+void execute_secondoption(t_ms	*ms, char **env)
+{
+	int		i;
+	t_ex	*com;
+	int		onepipe[2];
+	int		inredir;
+	int		pid;
+
+	i = 0;
+	inredir = 0;
+	com = ms->exe;
+	while (i < ms->cntcmds)
+	{
+		if (i < ms->cntcmds - 1)
+		{
+			if (pipe(onepipe) == -1)
+				ft_exit(errno, strerror(errno), NULL);
+		}
+
+		pid = fork();
+		if (pid == -1)
+			ft_exit(errno, strerror(errno), NULL);
+		if (pid == 0) //child i
+		{
+
+			if (inredir)
+			{
+				dup2(inredir, STDIN_FILENO);
+				close(inredir);
+			}
+
+			if (onepipe[1] && i < ms->cntcmds-2) //??
+			{
+				dup2(onepipe[1], STDOUT_FILENO);
+				close(onepipe[1]);
+			}
+
+			//if (is_builtin(com->command[0])) //TODO BUILTIN EXE
+			//	execute_builtin(ms->env, com->command);
+			//else
+			execve_prepare(ms, env, com->command);
+		}
+	close(onepipe[1]);
+	inredir = onepipe[0];
+	com = com->next;
+	i++;
+	}
+}
+
 void	execute_cmds(t_ms	*ms, char **env)
 {
 	printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
 
-	ms->pipes = handle_pipes(ms);
-	ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
-	//children
-	handle_forks(ms, env);
-	//parent
-	close_pipes(ms->pipes);
-	handle_waitpid(ms->pids);
+	int version;
+
+	version = 1;
+	// first version
+	if (version == 1)
+	{
+		ms->pipes = handle_pipes(ms);
+		ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
+		//children
+		handle_forks(ms, env);
+		//parent
+		close_pipes(ms->pipes);
+		handle_waitpid(ms->pids);
+	}
+	else //second with one pipe
+		execute_secondoption(ms, env);
 }
