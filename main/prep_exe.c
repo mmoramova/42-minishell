@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/15 18:24:05 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:10:06 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ void ft_open(int type, int fd[2], char *file)
 		if (type == 4)
 			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		else
-			//fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666); not working
-			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-
+		{
+			printf("we are in type 5");
+			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND , 0666); //not working
+			//fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		}
 		if (fd[1] == -1)
 		{
 			ft_putstr_fd(strerror(errno), 2);
@@ -106,9 +108,11 @@ void	ft_prep_exe(t_ms	*ms)
 {
 	t_ex	*aux;
 	t_tok	*token;
+	int		cntcmds;
 
 	aux = NULL;
 	token = ms->start;
+	cntcmds = 0;
 	while (token)
 	{
 		ft_exlstadd_back(&aux, ft_exlstnew(token));
@@ -116,8 +120,10 @@ void	ft_prep_exe(t_ms	*ms)
 			token = token->next;
 		if (token)
 			token = token->next;
+		cntcmds++;
 	}
 	ms->exe = aux;
+	ms->cntcmds = cntcmds;
 	//TODO FREE TOKEN
 
 	/*token only for printing:*/
@@ -125,13 +131,12 @@ void	ft_prep_exe(t_ms	*ms)
 	while (aux)
 	{
 		i = 0;
+		printf("Command is: ");
 		while (aux->command[i])
-		{
-			printf("command: %s \n", aux->command[i]);
-			i++;
-		}
+			printf("%s ", aux->command[i++]);
+		printf("\n");
 		printf("fd[0]=%d || fd[1]=%d\n",aux->fd[0],aux->fd[1]);
-
 		aux=aux->next;
 	}
+	printf("We have %d commands.\n", cntcmds);
 }

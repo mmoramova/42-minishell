@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:34:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/10 13:58:53 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:20:38 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    print_env(t_env *env)
 	while (aux)
 	{
 		if (aux->eval == NULL)
-			;
+			printf("%s=\n", aux->evar);
 		else
 			printf("%s=%s\n", aux->evar, aux->eval);
 		aux=aux->next;
@@ -34,4 +34,4 @@ int	env(t_env *env)
 	return (0);
 }
 
-
+//Falta la _= para imprimir que en export no se imprime y que cambia con CATcada comando.

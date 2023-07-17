@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/15 16:55:47 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:25:44 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@
 typedef struct s_ex
 {
 	char	**command;
-	// char	**infile;
-	// char	**outfile;
 	int		fd[2];
 	struct s_ex	*next;
 	struct s_ex *previous;
@@ -74,7 +72,9 @@ typedef	struct s_ms
 	char	*line;
 	t_tok	*start;
 	t_ex	*exe;
-
+	int		cntcmds;
+	int		**pipes;
+	int		*pids;
 }	t_ms;
 
 //enviroment functions
@@ -85,16 +85,23 @@ void	add_env(t_ms *ms, char *newvar); //añade variables, para oldpwd y para exp
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
 
-//check line functions
+//check line functions and quotes
 int		open_quotes(char *line, int i);
+char 	*ft_quotes_remove(char *s);
+int 	ft_quotes_nbr(char *line);
 
 //split the token
-t_tok	*ft_split_tok(char *s, char c);
+t_tok	*ft_split_tok(t_ms *ms, char c);
+
+//expand
+char	*ft_expand (t_ms *ms, char *s);
+char	*ft_strjoinfree(char *s1, char const *s2);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);
 
 //builts
+int		is_builtin(char *cmd);
 int		b_echo(char **com);
 int		check_n(char *arg);
 int		pwd(t_env *env);
@@ -111,9 +118,14 @@ void	free_env(t_env *env);
 void	free_line(char *line);
 
 //execution
-void	ft_execute(t_ms	*ms, char **env);
-void	ft_singlecommand(t_ms *ms,char **env);
-void	ft_execve_prepare(t_ms	*ms, char **env, int level);
+void	execute_cmds(t_ms *ms, char **env);
+void	execute_builtin(t_env *env,char **cmd);
+void	execve_prepare(t_ms	*ms, char **env, char **cmd);
+int		**handle_pipes(t_ms *ms);
+void	handle_forks(t_ms *ms, char **env);
+void	handle_redirections(t_ms *ms, int fd[2], int lvl);
+void	handle_waitpid(int *pids);
+void	close_pipes(int **pipes);
 
 //exit
 void	ft_exit(int exitnumber, char *txt, char *txt2);
