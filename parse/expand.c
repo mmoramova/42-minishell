@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 16:06:09 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:30:40 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,15 @@ char	*ft_expand (t_ms *ms, char *s)
 				i++;
 			}
 			var = ft_substr(s ,i - count ,count);
-			//printf("Before join aux=%s var=%s\n", aux, var);
+			printf("Before join aux=%s var=%s\n", aux, var);
 			if (check_env(ms->env, var) == 0)
 			{
 				val = get_env_value (ms->env,var);
-				//printf("\nvariable:%s valor:%s\n\n",var, val);
+				printf("\nvariable:%s valor:%s\n\n",var, val);
 				//res = malloc(ft_strlen(s) - ft_strlen(var) + ft_strlen(val));
 				//printf("Before join aux=%s var=%s       val=%s\n", aux, var, val);
 				aux = ft_strjoinfree(aux,val);
+
 
 			}
 			else
@@ -85,5 +86,6 @@ char	*ft_expand (t_ms *ms, char *s)
 		}
 		aux = ft_strjoinfree(aux,ft_substr(s,i - count,count));
 	}
+	printf("at the end aux=%s var=%s\n", aux, var);
 	return (aux);
 }

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/16 19:08:35 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:35:06 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ int	main(int argc, char **argv , char *env[])
 			}
 
 			ft_parse(&ms);
-			//ft_prep_exe(&ms);
+			ft_prep_exe(&ms);
 
 			//print ms exe
 			//print env
 			//print_env(ms.env);
 
-			//execute_cmds(&ms, env);
+			execute_cmds(&ms, env);
 			add_history(ms.line);
 			free(ms.line);
 		}
