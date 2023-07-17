@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 19:01:29 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:25:44 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,17 @@ void	add_env(t_ms *ms, char *newvar); //añade variables, para oldpwd y para exp
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
 
-//check line functions
+//check line functions and quotes
 int		open_quotes(char *line, int i);
+char 	*ft_quotes_remove(char *s);
+int 	ft_quotes_nbr(char *line);
 
 //split the token
 t_tok	*ft_split_tok(t_ms *ms, char c);
 
 //expand
 char	*ft_expand (t_ms *ms, char *s);
+char	*ft_strjoinfree(char *s1, char const *s2);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);

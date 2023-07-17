@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/02 16:04:27 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:25:10 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,44 @@ int	open_quotes(char *line, int in)
 	return (res);
 }
 
+int ft_quotes_nbr(char *line)
+{
+	//function returns how many quotes I have
+	int qnbr;
+	int i;
+
+	qnbr = 0;
+	i = 0;
+	while(line[i])
+		{
+		if (open_quotes(line, i) != open_quotes(line, i-1))
+		qnbr++;
+		i++;
+		}
+	return (qnbr);
+}
+
+char *ft_quotes_remove(char *s)
+{
+	char *res;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	res = malloc(sizeof(char) * (ft_strlen(s) - ft_quotes_nbr(s) + 1));
+	if (!res)
+		return (NULL);
+	while (s[i])
+	{
+		if ((open_quotes(s, i) != open_quotes(s, i-1)))
+		i++;
+		else
+		res[j++] = s[i++];
+	}
+	res[j] = '\0';
+	return(res);
+}
 /*
 int main(void)
 {

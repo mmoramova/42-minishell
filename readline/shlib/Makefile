@@ -32,7 +32,7 @@ datarootdir = ${prefix}/share
 srcdir = .
 VPATH = ..
 topdir = ..
-BUILD_DIR = /Users/mmoramov/Documents/GitHub/42-minishell/readline
+BUILD_DIR = /Users/josorteg/Documents/GitHub/42-minishell/readline
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

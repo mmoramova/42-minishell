@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/16 19:31:52 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:26:39 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,74 +15,76 @@
 // needs strjoin with free, tomorrow as the first thing!!!!
 
 
-char	*ft_strjoinfree(char *s1, char const *s2)
-{
-	int		j;
-	int		i;
-	char	*p;
+// char	*ft_strjoinfree(char *s1, char const *s2)
+// {
+// 	int		j;
+// 	int		i;
+// 	char	*p;
 
-	p = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!p)
-		return (NULL);
-	i = -1;
-	while (s1[++i])
-		p[i] = s1[i];
-	j = -1;
-	while (s2[++j])
-		p[i + j] = s2[j];
-	p[i + j] = '\0';
-	free(s1);
-	s1 = NULL;
-	return (p);
-}
+// 	if (!s1)
+// 		return((char *)s2);
+// 	p = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+// 	if (!p)
+// 		return (NULL);
+// 	i = -1;
+// 	while (s1[++i])
+// 		p[i] = s1[i];
+// 	j = -1;
+// 	while (s2[++j])
+// 		p[i + j] = s2[j];
+// 	p[i + j] = '\0';
+// 	free(s1);
+// 	s1 = NULL;
+// 	return (p);
+// }
 
+// char	*ft_sub_expand(char *res,char *s,char *var, char *val);
+// {
 
-char	*ft_expand (t_ms *ms, char *s)
-{
-	int	i;
-	int count;
-	char	*var;
-	char	*val;
-	char	*res;
-	int		start;
+// }
 
-	i = 0;
-	count = 0;
-	res = NULL;
-	start = 0;
-	write(1,"1\n",2);
-	while (s[i])
-	{
-		write(1,"a\n",2);
-		printf("s[%d] = %c\n", i, s[i]);
-		if (s[i] == '$' && (open_quotes(s,i) != 2))
-			// i want to expand
-		{
-			printf("Calling substring 1 with %d, %d", start , i -start);
-			res =ft_strjoin(res,ft_substr(s, start, i - 1 - start));
-			i++;
-			while (!ft_strchr("\'\" $",s[i++]))
-				count++;
-			var = ft_substr(s ,i - count ,count);
-			if (check_env(ms->env, var) == 0)
-				val = get_env_value (ms->env,var);
-			res = ft_strjoin(res,val);
-			start = i;
-		}
-		i++;
-	}
+// char	*ft_expand (t_ms *ms, char *s)
+// {
+// 	int	i;
+// 	int count;
+// 	char	*var;
+// 	char	*val;
+// 	char	*res;
+// 	int		start;
 
-	if (i - start > 0)
-	{
-		printf("Calling substring 2 with %d, %d", start , i -start);
-		write(1,"b\n",2);
+// 	i = 0;
+// 	count = 0;
+// 	res = NULL;
+// 	start = 0;
 
-		res =ft_strjoinfree(res,ft_substr(s, start, i - start));
-		//res =ft_substr(s, start, i - start);
-		write(1,"c\n",2);
-	}
-	return(res);
-}
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '$' && (open_quotes(s,i) != 2))
+// 		{
+// 			i++;
+// 			while (!ft_strchr("\'\" $",s[i++]) && s[i])
+// 				count++;
+// 			var = ft_substr(s ,i - count - 1 ,count + 1);
+// 			if (check_env(ms->env, var) == 0)
+// 			{
+// 				val = get_env_value (ms->env,var);
+// 				printf("\nvariable:%s valor:%s\n\n",var, val);
+// 				res = malloc(ft_strlen(s) - ft_strlen(var) + ft_strlen(val));
+// 				ft_sub_expand(res,s,var,val);
+// 			}
+// 			start = i;
+// 		}
+// 		i++;
+// 	}
+
+// 	if (i - start > 0)
+// 	{
+// 		printf("Calling substring 2 with %d, %d\n", start , i -start);
+// 		res =ft_strjoinfree(res,ft_substr(s, start, i - start));
+// 		//res =ft_substr(s, start, i - start);
+// 	}
+// 	return(res);
+// }
 int	ft_wordlen_wq(char const *s, char c)
 {
 	int		i;
@@ -133,9 +135,15 @@ t_tok	*ft_toklstnew(t_ms *ms, char *content)
 	lst = (t_tok *) malloc(sizeof(t_tok));
 	if (!lst)
 		return (NULL);
-	printf("no expand:%s\n",content);
-	lst -> content = ft_expand(ms, content);
-	printf("after expand:%s\n",lst -> content);
+
+	if (ft_strchrn (content,'$') == - 1)
+		lst->content = content;
+	else
+	{
+		printf("---before expand:%s\n",content);
+		lst -> content = ft_quotes_remove(ft_expand(ms, content));
+		printf("---after expand + quotes:%s\n",lst -> content);
+	}
 	lst -> next = NULL;
 	lst -> previous = NULL;
 	lst -> type = ft_tok_addtype(content);

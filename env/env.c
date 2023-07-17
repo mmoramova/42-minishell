@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/13 12:25:30 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:54:15 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,17 @@ char    *get_env_value(t_env *env ,char *var)
 
 int	check_env (t_env *env, char *var)
 {
-	int     size;
 	t_env	*aux;
 
 	if(!env || !var)
 		return(1);
 	aux = env;
-	size = ft_strlen(var);
+
 	while (aux && aux->next)
 	{
-		if(ft_strncmp (var, aux->evar, size) == 0)
+		if(ft_strncmp (var, aux->evar, ft_strlen(aux->evar)) == 0)
 			return(0);
+		aux = aux->next;
 	}
 	return(1);
 }

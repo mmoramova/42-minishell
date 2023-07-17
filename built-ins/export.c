@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/14 18:59:03 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:26:18 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,18 @@ void    print_env_export(t_env *env)
 	aux = env;
 	while (aux)
 	{
-		printf("declare\t-x\t");
-		if (aux->eval == NULL)
-			printf("%s\n", aux->evar);
-			//string compare para el vacio
-		else if (ft_strncmp(aux->eval, "",1) == 0)
-			printf("%s=\"\"", aux->evar);
-		else
-			printf("%s=\"%s\"\n", aux->evar, aux->eval);
-		aux=aux->next;
+		if (ft_strncmp(aux->evar,"-",2))
+		{
+			printf("declare\t-x\t");
+			if (aux->eval == NULL)
+				printf("%s\n", aux->evar);
+				//string compare para el vacio
+			else if (ft_strncmp(aux->eval, "",1) == 0)
+				printf("%s=\"\"", aux->evar);
+			else
+				printf("%s=\"%s\"\n", aux->evar, aux->eval);
+			aux=aux->next;
+		}
 	}
 }
 
