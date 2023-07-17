@@ -6,52 +6,11 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 23:14:07 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:20:56 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	heredoc_read(char *file, int fd[2])
-{
-	char	*line;
-
-	while(42)
-	{
-		line = readline("> ");
-		if (line && strlen(line) > 0)
-		{
-			if (ft_strncmp(line,file,strlen(file)) == 0)
-			{
-				free(line);
-				exit(0);
-			}
-			ft_putstr_fd(line, fd[1]);
-			ft_putchar_fd('\n', fd[1]);
-			free(line);
-		}
-	}
-	close(fd[0]);
-	close(fd[1]);
-	exit(0);
-}
-
-int heredoc_execute(char *file)
-{
-	int	pid;
-	int	fd[2];
-
-	if (pipe(fd) == -1)
-		ft_exit(errno, strerror(errno), NULL);
-	pid = fork();
-	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL);
-	if (pid == 0)
-		heredoc_read(file, fd);
-	close(fd[1]);
-	waitpid(pid, NULL, 0);
-	return(fd[0]);
-}
 
 void ft_open(int type, int fd[2], char *file)
 {
@@ -105,8 +64,6 @@ t_ex	*ft_exlstnew(t_tok *token)
 	if (!lst)
 		return (NULL);
 	lst -> next = NULL;
-	//lst -> fd[0] = NULL;
-	//lst -> fd[1] = NULL;
 	lst -> command = malloc(sizeof(char *) * (ft_lstcmd_count(token) + 1));
 	while (token && token->type != 1)
 	{
@@ -114,7 +71,6 @@ t_ex	*ft_exlstnew(t_tok *token)
 			lst -> command[i++] = ft_strdup(token ->content);
 		if (token->type > 1)
 		{
-			printf("the type is %d\n", token->type);
 			ft_open(token->type, lst->fd, token->next->content);
 			token = token -> next;
 		}
@@ -161,7 +117,7 @@ void	ft_prep_exe(t_ms	*ms)
 	ms->cntcmds = cntcmds;
 	//TODO FREE TOKEN
 
-	/*token only for printing:*/
+	/*start of printing - delete later*/
 	int i = 0;
 	while (aux)
 	{
@@ -174,4 +130,5 @@ void	ft_prep_exe(t_ms	*ms)
 		aux=aux->next;
 	}
 	printf("We have %d commands.\n", cntcmds);
+	/*end of printing*/
 }
