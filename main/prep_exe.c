@@ -6,76 +6,65 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 20:43:00 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:14:07 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*int ft_heredoc(char *file)
+void	heredoc_read(char *file, int fd[2])
+{
+	char	*line;
+
+	while(42)
+	{
+		line = readline("> ");
+		if (line && strlen(line) > 0)
+		{
+			if (ft_strncmp(line,file,strlen(file)) == 0)
+			{
+				free(line);
+				exit(0);
+			}
+			ft_putstr_fd(line, fd[1]);
+			ft_putchar_fd('\n', fd[1]);
+			free(line);
+		}
+	}
+	close(fd[0]);
+	close(fd[1]);
+	exit(0);
+}
+
+int heredoc_execute(char *file)
 {
 	int	pid;
 	int	fd[2];
-	char *ch;
-
-	ch = file;
-	printf("Hi from heredoc\n");
 
 	if (pipe(fd) == -1)
 		ft_exit(errno, strerror(errno), NULL);
-
 	pid = fork();
 	if (pid == -1)
 		ft_exit(errno, strerror(errno), NULL);
-	if (pid == 0) //child
-	{
-		printf("I am in heredoc child\n");
-		//here i read from readline, for now i read from file
-
-		//dup2(fd[1], STDOUT_FILENO);
-		//i send what i read to fd[1]
-		if(write(1, "test\n", 5) == -1)
-			ft_exit(errno, strerror(errno), NULL);
-
-		close(fd[0]);
-		close(fd[1]);
-		exit(0);
-	}
-	else //parent
-	{
-		printf("I am in heredoc parent\n");
-		//dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		//close(fd[1]);
-		waitpid(pid, NULL, 0);
-		return(fd[0]);
-	}
-	return(0);
-}*/
-
+	if (pid == 0)
+		heredoc_read(file, fd);
+	close(fd[1]);
+	waitpid(pid, NULL, 0);
+	return(fd[0]);
+}
 
 void ft_open(int type, int fd[2], char *file)
 {
-	if (type == 2)
+	if (type == 2 || type == 3)
 	{
 		if (fd[0])
 			close(fd[0]);
-		fd[0] = open(file, O_RDONLY, 0666);
+		if (type == 2)
+			fd[0] = open(file, O_RDONLY, 0666);
+		else
+			fd[0] = heredoc_execute(file);
 		if (fd[0] == -1)
 			ft_exit(errno, file, strerror(errno));
-	}
-	else if (type == 3)
-	{
-		if (fd[0])
-			close(fd[0]);
-		fd[0] = open(file, O_RDONLY, 0666);
-		if (fd[0] == -1)
-			ft_exit(errno, file, strerror(errno));
-
-		//fd[0] = ft_heredoc(file);
-		//if (fd[0] == -1)
-		//	ft_exit(errno, file, strerror(errno));
-		//printf("HEREDOC RETURNED THIS FD: %d\n", fd[0]);
 	}
 	else
 	{

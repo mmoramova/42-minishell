@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/17 17:35:06 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:03:37 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv , char *env[])
 	//start parsing
 	while (42)
 	{
-		ms.line = readline("minishell>");
+		ms.line = readline("minishell> ");
 		if (ms.line && strlen(ms.line) > 0)
 		{
 			if (ft_strncmp(ms.line,"exit",4) == 0)
