@@ -3,14 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 17:10:06 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:43:00 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*int ft_heredoc(char *file)
+{
+	int	pid;
+	int	fd[2];
+	char *ch;
+
+	ch = file;
+	printf("Hi from heredoc\n");
+
+	if (pipe(fd) == -1)
+		ft_exit(errno, strerror(errno), NULL);
+
+	pid = fork();
+	if (pid == -1)
+		ft_exit(errno, strerror(errno), NULL);
+	if (pid == 0) //child
+	{
+		printf("I am in heredoc child\n");
+		//here i read from readline, for now i read from file
+
+		//dup2(fd[1], STDOUT_FILENO);
+		//i send what i read to fd[1]
+		if(write(1, "test\n", 5) == -1)
+			ft_exit(errno, strerror(errno), NULL);
+
+		close(fd[0]);
+		close(fd[1]);
+		exit(0);
+	}
+	else //parent
+	{
+		printf("I am in heredoc parent\n");
+		//dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		//close(fd[1]);
+		waitpid(pid, NULL, 0);
+		return(fd[0]);
+	}
+	return(0);
+}*/
+
 
 void ft_open(int type, int fd[2], char *file)
 {
@@ -20,10 +62,20 @@ void ft_open(int type, int fd[2], char *file)
 			close(fd[0]);
 		fd[0] = open(file, O_RDONLY, 0666);
 		if (fd[0] == -1)
-		{
-			ft_putstr_fd(strerror(errno), 2);
-			//exit(errno); //TODO EXIT
-		}
+			ft_exit(errno, file, strerror(errno));
+	}
+	else if (type == 3)
+	{
+		if (fd[0])
+			close(fd[0]);
+		fd[0] = open(file, O_RDONLY, 0666);
+		if (fd[0] == -1)
+			ft_exit(errno, file, strerror(errno));
+
+		//fd[0] = ft_heredoc(file);
+		//if (fd[0] == -1)
+		//	ft_exit(errno, file, strerror(errno));
+		//printf("HEREDOC RETURNED THIS FD: %d\n", fd[0]);
 	}
 	else
 	{
@@ -32,16 +84,9 @@ void ft_open(int type, int fd[2], char *file)
 		if (type == 4)
 			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		else
-		{
-			printf("we are in type 5");
-			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND , 0666); //not working
-			//fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-		}
+			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND , 0666);
 		if (fd[1] == -1)
-		{
-			ft_putstr_fd(strerror(errno), 2);
-			//exit(errno); //TODO EXIT
-		}
+			ft_exit(errno, file, strerror(errno));
 	}
 }
 
@@ -78,8 +123,9 @@ t_ex	*ft_exlstnew(t_tok *token)
 	{
 		if (token->type == 0)
 			lst -> command[i++] = ft_strdup(token ->content);
-		if (token->type > 1 && token->type != 3)
+		if (token->type > 1)
 		{
+			printf("the type is %d\n", token->type);
 			ft_open(token->type, lst->fd, token->next->content);
 			token = token -> next;
 		}
