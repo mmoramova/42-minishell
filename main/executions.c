@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 11:34:48 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:24:03 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void handle_forks(t_ms	*ms, char **env)
 		if (ms->pids[i] == 0) //child i
 		{
 			printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
-			printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
+			//printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
 
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
@@ -143,7 +143,10 @@ void handle_forks(t_ms	*ms, char **env)
 			//if (is_builtin(com->command[0])) //TODO BUILTIN EXE
 			//	execute_builtin(ms->env, com->command);
 			//else
+			if (com->command)
 				execve_prepare(ms, env, com->command);
+			else
+				exit(0);
 		}
 	com = com->next;
 	i++;
@@ -201,8 +204,6 @@ void execute_secondoption(t_ms	*ms, char **env)
 
 void	execute_cmds(t_ms	*ms, char **env)
 {
-	printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
-
 	int version;
 
 	version = 1;

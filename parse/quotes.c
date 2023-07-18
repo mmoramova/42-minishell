@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 16:25:10 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:13:27 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int ft_quotes_nbr(char *line)
 	return (qnbr);
 }
 
-char *ft_quotes_remove(char *s)
+char *ft_quotes_remove(char *s)  //need to repair if the expansion adds one ' / "
 {
 	char *res;
 	int i;

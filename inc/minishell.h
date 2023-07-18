@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 23:18:23 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:04:27 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef	struct s_ms
 	int		cntcmds;
 	int		**pipes;
 	int		*pids;
+	int		heredocfd;
+
 }	t_ms;
 
 //enviroment functions
@@ -101,8 +103,10 @@ char	*ft_strjoinfree(char *s1, char const *s2);
 void	ft_prep_exe(t_ms	*ms);
 
 //heredoc
-int		heredoc_execute(char *file);
-void	heredoc_read(char *file, int fd[2]);
+int		heredoc_fillfd(t_ms *ms, t_tok *tokens);
+int		heredoc_execute(t_ms *ms, char *file);
+void	heredoc_read(t_ms *ms, char *file, int fd[2]);
+
 
 //builts
 int		is_builtin(char *cmd);

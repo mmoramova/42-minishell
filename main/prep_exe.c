@@ -6,13 +6,13 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 23:20:56 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:03:44 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_open(int type, int fd[2], char *file)
+void ft_open(t_ms	*ms, int type, int fd[2], char *file)
 {
 	if (type == 2 || type == 3)
 	{
@@ -21,7 +21,7 @@ void ft_open(int type, int fd[2], char *file)
 		if (type == 2)
 			fd[0] = open(file, O_RDONLY, 0666);
 		else
-			fd[0] = heredoc_execute(file);
+			fd[0] = ms->heredocfd;
 		if (fd[0] == -1)
 			ft_exit(errno, file, strerror(errno));
 	}
@@ -54,7 +54,7 @@ int ft_lstcmd_count(t_tok *token)
 	return(len);
 }
 
-t_ex	*ft_exlstnew(t_tok *token)
+t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 {
 	t_ex	*lst;
 	int		i;
@@ -71,7 +71,7 @@ t_ex	*ft_exlstnew(t_tok *token)
 			lst -> command[i++] = ft_strdup(token ->content);
 		if (token->type > 1)
 		{
-			ft_open(token->type, lst->fd, token->next->content);
+			ft_open(ms, token->type, lst->fd, token->next->content);
 			token = token -> next;
 		}
 		token = token -> next;
@@ -104,9 +104,10 @@ void	ft_prep_exe(t_ms	*ms)
 	aux = NULL;
 	token = ms->start;
 	cntcmds = 0;
+	ms->heredocfd =  heredoc_fillfd(ms, token);
 	while (token)
 	{
-		ft_exlstadd_back(&aux, ft_exlstnew(token));
+		ft_exlstadd_back(&aux, ft_exlstnew(ms, token));
 		while (token && token->type != 1)
 			token = token->next;
 		if (token)
