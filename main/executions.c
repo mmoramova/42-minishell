@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 17:33:03 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:27:56 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,10 @@ void handle_forks(t_ms	*ms, char **env)
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else
+			if (com->command)
 				execve_prepare(ms, env, com->command);
+			else
+				exit(0);
 		}
 		if (is_builtin(com->command[0]) && com->parent == 1)
 			execute_builtin(ms->env,com->command, com->parent);

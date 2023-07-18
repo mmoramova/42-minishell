@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
+#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/18 15:35:28 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/18 20:26:40 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

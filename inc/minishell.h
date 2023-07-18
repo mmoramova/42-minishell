@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 17:15:45 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:26:53 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef	struct s_ms
 	int		cntcmds;
 	int		**pipes;
 	int		*pids;
+	int		heredocfd;
+
 }	t_ms;
 
 //enviroment functions
@@ -103,8 +105,10 @@ void	ft_prep_exe(t_ms	*ms);
 int		ft_parent_exe(char **command);
 
 //heredoc
-int		heredoc_execute(char *file);
-void	heredoc_read(char *file, int fd[2]);
+int		heredoc_fillfd(t_ms *ms, t_tok *tokens);
+int		heredoc_execute(t_ms *ms, char *file);
+void	heredoc_read(t_ms *ms, char *file, int fd[2]);
+
 
 //builts
 int		is_builtin(char *cmd);
