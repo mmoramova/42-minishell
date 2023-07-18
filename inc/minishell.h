@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 23:18:23 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:15:45 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_ex
 {
 	char	**command;
 	int		fd[2];
+	int		parent;
 	struct s_ex	*next;
 	struct s_ex *previous;
 } t_ex;
@@ -99,6 +100,7 @@ char	*ft_strjoinfree(char *s1, char const *s2);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);
+int		ft_parent_exe(char **command);
 
 //heredoc
 int		heredoc_execute(char *file);
@@ -110,11 +112,11 @@ int		b_echo(char **com);
 int		check_n(char *arg);
 int		pwd(t_env *env);
 void	print_env(t_env *env);/*only for test, it will becomes ENV command...*/
-int		env(t_env *env);
+int		enviroment(t_env *env);
 void	print_env_export(t_env *env); //for EXPORT
 int		check_export(char	*nenv);
 int		cd(t_env *env,char **com);
-int		export(t_env *env, char **com);
+int		export(t_env *env, char **com, int	parent);
 
 //free
 void	free_ms(t_ms *ms);
@@ -123,7 +125,7 @@ void	free_line(char *line);
 
 //execution
 void	execute_cmds(t_ms *ms, char **env);
-void	execute_builtin(t_env *env,char **cmd);
+int		execute_builtin(t_env *env,char **cmd, int parent);
 void	execve_prepare(t_ms	*ms, char **env, char **cmd);
 int		**handle_pipes(t_ms *ms);
 void	handle_forks(t_ms *ms, char **env);

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 10:26:18 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:17:59 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ void    print_env_export(t_env *env)
 			aux=aux->next;
 		}
 	}
+	exit(0);
 }
 
-int	export(t_env *env, char **com)
+int	export(t_env *env, char **com, int parent)
 {
 	int		i;
 	t_env	*nenv;
@@ -68,7 +69,10 @@ int	export(t_env *env, char **com)
 			i++;
 		}
 	}
+	if (parent == 1)
+		return(0);
 	return(0);
+
 }
 // EXPANSIONES Y COMILLAS!!!!! (Las haremos antes)
 

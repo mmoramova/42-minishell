@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 11:34:48 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:33:03 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,24 @@ int is_builtin(char *cmd)
 	return(0);
 }
 
-void execute_builtin(t_env *env,char **cmd)
+int	execute_builtin(t_env *env,char **cmd, int	parent)
 {
 	printf("Executing builtin\n");
 	if (!ft_strncmp(cmd[0], "echo", 4))
-		b_echo(cmd);
+		return(b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
-		cd(env, cmd);
+		return(cd(env, cmd));
 	if (!ft_strncmp(cmd[0], "pwd", 3))  //GREAT !!!
-		pwd(env);
+		return(pwd(env));
 	if (!ft_strncmp(cmd[0], "export", 6))
-		export(env, cmd);
-	if (!ft_strncmp(cmd[0], "unset", 5))
-		;
+		return(export(env, cmd, parent));
+	// if (!ft_strncmp(cmd[0], "unset", 5))
+	// 	return(unset(env, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3))  // OLDPWD= ? , its the order ok?
-		print_env(env);
-	if (!ft_strncmp(cmd[0], "exit", 4))
-		;
+		return(enviroment(env));
+	// if (!ft_strncmp(cmd[0], "exit", 4))
+	// 	return(ft_exit());
+	return(0);
 }
 
 int **handle_pipes(t_ms *ms)
@@ -62,7 +63,7 @@ int **handle_pipes(t_ms *ms)
 	l = 0;
 	while (l < ms->cntcmds - 1)
 	{
-		printf("Opening pipe [%d]\n", l);
+		//printf("Opening pipe [%d]\n", l);
 		if (pipe(pipes[l]) == -1)
 			ft_exit(errno, strerror(errno), NULL);
 		l++;
@@ -77,7 +78,7 @@ void	close_pipes(int **pipes)
 	i = -1;
 	while (pipes[++i])
 	{
-		printf("Closing pipe [%d]\n", i);
+		//printf("Closing pipe [%d]\n", i);
 		close(pipes[i][0]);
 		close(pipes[i][1]);
 	}
@@ -90,7 +91,7 @@ void	handle_waitpid(int *pids)
 	i = 0;
 	while (pids[i])
 	{
-		printf("waiting for pid[%d]\n", i);
+		//printf("waiting for pid[%d]\n", i);
 		waitpid(pids[i], NULL, 0);
 		i++;
 	}
@@ -100,12 +101,12 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 {
 	if (ms->pipes && lvl > 0)
 	{
-		printf("------------------------------i = %d, l=%d , dup2 stdin pipe[%d][0]\n", ms->cntcmds, lvl, lvl-1);
+		//printf("------------------------------i = %d, l=%d , dup2 stdin pipe[%d][0]\n", ms->cntcmds, lvl, lvl-1);
 		dup2(ms->pipes[lvl-1][0], STDIN_FILENO);
 	}
 	if (ms->pipes && lvl < ms->cntcmds-1)
 	{
-		printf("-------------------------------i = %d, l=%d , dup2 stdout pipe[%d][1]\n", ms->cntcmds, lvl, lvl);
+		//printf("-------------------------------i = %d, l=%d , dup2 stdout pipe[%d][1]\n", ms->cntcmds, lvl, lvl);
 		dup2(ms->pipes[lvl][1], STDOUT_FILENO);
 	}
 	if (fd[0])
@@ -134,17 +135,24 @@ void handle_forks(t_ms	*ms, char **env)
 			ft_exit(errno, strerror(errno), NULL);
 		if (ms->pids[i] == 0) //child i
 		{
-			printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
-			printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
+			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
+			// printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
 
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 
-			//if (is_builtin(com->command[0])) //TODO BUILTIN EXE
-			//	execute_builtin(ms->env, com->command);
-			//else
+			if (is_builtin(com->command[0]) &&
+			com->parent == 0) //TODO BUILTIN EXE
+				exit(execute_builtin(ms->env, com->command, com->parent));
+			else if(is_builtin(com->command[0]) && com->parent == 1)
+				exit(0);
+			else
 				execve_prepare(ms, env, com->command);
 		}
+		if (is_builtin(com->command[0]) && com->parent == 1)
+			execute_builtin(ms->env,com->command, com->parent);
+
+
 	com = com->next;
 	i++;
 	}
@@ -201,7 +209,7 @@ void execute_secondoption(t_ms	*ms, char **env)
 
 void	execute_cmds(t_ms	*ms, char **env)
 {
-	printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
+	//printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
 
 	int version;
 

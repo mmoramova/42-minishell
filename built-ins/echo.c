@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 08:50:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/10 11:05:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:46:00 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 int	check_n(char *str)
 {
 	int i;
+
 
 	i = 0;
 	if (str[i] == '-')
@@ -47,6 +48,7 @@ int	b_echo(char **com)
 	n = 0;
 	i = 0;
 	m = 0;
+	printf("LALALALALA\n");
 	while (com[++i])
 	{
 		while(check_n(com[i]) == 1 && n == 0)
@@ -64,7 +66,8 @@ int	b_echo(char **com)
 	}
 	if (m == 0)
 		write(1,"\n",1);
-	return (0);
+	printf("Lelelelelele\n");
+	exit (0);
 }
 
 /*

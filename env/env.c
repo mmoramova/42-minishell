@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 11:54:15 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:29:02 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_env	*new_env(char *env)
 // char *getenv(const char *name)
 char    *get_env_value(t_env *env ,char *var)
 {
-	int     size;
 	char    *str;
 	t_env	*aux;
 
@@ -86,11 +85,14 @@ char    *get_env_value(t_env *env ,char *var)
 		return(NULL);
 	aux = env;
 	str = NULL;
-	size = ft_strlen(var);
 	while (aux && aux->next)
 	{
-		if(ft_strncmp (var, aux->evar, size) == 0)
+		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
+		&& ft_strlen(aux->evar) == ft_strlen(var))
+		{
 			str = aux->eval;
+			return (str);
+		}
 		aux = aux->next;
 	}
 	return(str);
@@ -118,15 +120,18 @@ void	change_env(t_env *env, char *var, char *val)
 	t_env		*aux;
 	int			new_size;
 
+
 	aux = env;
-	while (aux->evar != var)
+	while (ft_strncmp(aux->evar, var, -1) != 0)
 		aux = aux->next;
 	if (aux->eval)
 		free (aux->eval);
 	new_size = (int)ft_strlen(val);
-	aux->eval = malloc (new_size * sizeof(char));
+	aux->eval = malloc ((new_size + 1) * sizeof(char));
 	if (!aux->eval)
 		return;
-	aux->eval = val;
+	aux->eval = strdup(val);
+	printf("variable=%s y valor=%s\n", aux->evar, aux->eval);
+	return;
 }
 

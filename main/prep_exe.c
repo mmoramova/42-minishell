@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 23:20:56 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:53:53 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_parent_exe(char **command)
+{
+	if(ft_strncmp(command[0],"cd",2) == 0
+	|| ft_strncmp(command[0],"exit",4) == 0
+	|| ft_strncmp(command[0],"unset",5) == 0
+	|| ((ft_strncmp(command[0],"export",6) == 0) && command[1]))
+		return (1);
+	else
+		return (0);
+}
 
 void ft_open(int type, int fd[2], char *file)
 {
@@ -77,6 +88,8 @@ t_ex	*ft_exlstnew(t_tok *token)
 		token = token -> next;
 	}
 	lst -> command[i] = NULL;
+	lst -> parent = ft_parent_exe(lst -> command);
+	printf("comand=%s y parent=%d\n", lst -> command[0], lst -> parent);
 	return (lst);
 }
 
