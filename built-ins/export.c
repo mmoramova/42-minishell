@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 17:17:59 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:56:31 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    print_env_export(t_env *env)
 				printf("%s\n", aux->evar);
 				//string compare para el vacio
 			else if (ft_strncmp(aux->eval, "",1) == 0)
-				printf("%s=\"\"", aux->evar);
+				printf("%s=\"\"\n", aux->evar);
 			else
 				printf("%s=\"%s\"\n", aux->evar, aux->eval);
 			aux=aux->next;
@@ -47,25 +47,43 @@ void    print_env_export(t_env *env)
 	exit(0);
 }
 
-int	export(t_env *env, char **com, int parent)
+int	export(t_ms *ms, char **com, int parent)
 {
 	int		i;
 	t_env	*nenv;
 
 	// export () imprime las variables
 	if (com[1] == NULL)
-		print_env_export(env);
+		print_env_export(ms->env);
 	else
 	{
 		i = 1;
 		while (com[i])
 		{
-			if (check_export(com[i]) != 0)
+			printf("Adding with export\n");
+			printf("adding=%s\n", com[i]);
+			if (check_export(com[i]) == 1)
 				return(1);
 			nenv = malloc (sizeof(t_env));
 			if (!nenv)
 				return(1);
 			nenv = new_env(com[i]);
+			if(check_env(ms->env, nenv->evar) == 1)
+			{
+				printf("adding enviroment %s var name=%s\n", com[i], nenv->evar);
+				add_env(ms->env,com[i]);
+			}
+			else
+			{
+				printf("changing enviroment %s\n", com[i]);
+				if (ft_strchr(com[i],'=') == 0)
+				{
+					printf("Abort change, no = in export\n");
+					return(0);
+				}
+				printf("variable a cambiar%s y valor%s\n",nenv->evar,nenv->eval);
+				change_env(ms->env, nenv->evar, nenv->eval);
+			}
 			i++;
 		}
 	}
@@ -91,15 +109,22 @@ int	check_export(char	*nenv)
 	int i;
 
 	i = 0;
-	if (ft_isalpha(nenv[0]) == 1 && nenv[0] != '_')
-		return(1);
-	i++;
-	while (nenv[i] != '=')
+	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
 	{
-		if (ft_isalnum(nenv[i]) == 1 && nenv[i] != '_')
+		printf("fallo checkeo primera letra de %s\n", nenv);
+		return(1);
+	}
+	i++;
+	while (nenv[i] != '=' && nenv[i] != '\0')
+	{
+		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
+		{
+			printf("fallo en checkeo formato\n");
 			return(1);
+		}
 		i++;
 	}
+	printf("formato correcto\n");
 	return(0);
 }
 

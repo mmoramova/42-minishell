@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 18:30:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:54:24 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*ft_expand (t_ms *ms, char *s)
 			while (!ft_strchr("\'\" $",s[i]) && s[i])
 			{
 				count++;
+				printf("len var=%d",count);
 				i++;
 			}
 			var = ft_substr(s ,i - count ,count);

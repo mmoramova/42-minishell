@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 17:15:45 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:26:38 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef	struct s_ms
 t_env	*new_env(char *env);
 int		get_env(t_ms *ms, char **env);/*initial version, malloc protetcion and compact*/
 char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
-void	add_env(t_ms *ms, char *newvar); //añade variables, para oldpwd y para export
+void	add_env(t_env *env, char *newvar); //añade variables, para oldpwd y para export
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
 
@@ -116,7 +116,8 @@ int		enviroment(t_env *env);
 void	print_env_export(t_env *env); //for EXPORT
 int		check_export(char	*nenv);
 int		cd(t_env *env,char **com);
-int		export(t_env *env, char **com, int	parent);
+int		export(t_ms *ms, char **com, int parent);
+int		unset(t_ms *ms ,char **com);
 
 //free
 void	free_ms(t_ms *ms);
@@ -125,7 +126,7 @@ void	free_line(char *line);
 
 //execution
 void	execute_cmds(t_ms *ms, char **env);
-int		execute_builtin(t_env *env,char **cmd, int parent);
+int		execute_builtin(t_ms *ms,char **cmd, int parent);
 void	execve_prepare(t_ms	*ms, char **env, char **cmd);
 int		**handle_pipes(t_ms *ms);
 void	handle_forks(t_ms *ms, char **env);

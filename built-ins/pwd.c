@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:30:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/14 19:47:30 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:48:34 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	pwd(t_env *env)
 {
-	printf("%s\n",get_env_value(env ,"PWD"));
-	return(0);
+	if (env)
+		printf("%s\n",getcwd(NULL, PATH_MAX));
+	exit(0);
 }

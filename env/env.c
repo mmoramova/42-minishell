@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 18:29:02 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:49:22 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	get_env(t_ms *ms, char **env)
 	return(1);
 }
 
-void	add_env (t_ms *ms, char *newvar)
+void	add_env (t_env *env, char *newvar)
 {
 	t_env	*aux;
 
-	aux = ms->env;
+	aux = env;
 	while (aux && aux->next)
 		aux = aux->next;
 	aux->next = new_env(newvar);
@@ -106,32 +106,37 @@ int	check_env (t_env *env, char *var)
 		return(1);
 	aux = env;
 
-	while (aux && aux->next)
+	while (aux)
 	{
+
 		if(ft_strncmp (var, aux->evar, ft_strlen(aux->evar)) == 0)
+		{
+			printf("Variable env=%s existe con valor%s\n", aux->evar, aux->eval);
 			return(0);
+		}
 		aux = aux->next;
 	}
+	printf("la variable %s NO EXISTE EN EL ENVIROMENT\n", var);
 	return(1);
 }
 
 void	change_env(t_env *env, char *var, char *val)
 {
 	t_env		*aux;
-	int			new_size;
-
 
 	aux = env;
-	while (ft_strncmp(aux->evar, var, -1) != 0)
+
+	while (aux && ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) != 0)
 		aux = aux->next;
+	printf("variable=%s y valor antes del cambio=%s\n", aux->evar, aux->eval);
 	if (aux->eval)
 		free (aux->eval);
-	new_size = (int)ft_strlen(val);
-	aux->eval = malloc ((new_size + 1) * sizeof(char));
-	if (!aux->eval)
-		return;
-	aux->eval = strdup(val);
-	printf("variable=%s y valor=%s\n", aux->evar, aux->eval);
+	if (val)
+		aux->eval = strdup(val);
+	else
+		aux->eval =strdup("");
+	printf("variable=%s y valor despues del cambio=%s\n", aux->evar, aux->eval);
+
 	return;
 }
 

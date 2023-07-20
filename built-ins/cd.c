@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:59:46 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 18:13:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 10:57:14 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int cd (t_env *env,char **com)
 	char	*str;
 
 	i = 1;
-	printf("comand=%s  tag=%s", com[0], com[1]);
+	change_env(env, "OLDPWD",getcwd(NULL, PATH_MAX));
 	if (com[i] == NULL)
 	{
 		if(chdir (get_env_value(env,"HOME")) != 0)
@@ -31,16 +31,28 @@ int cd (t_env *env,char **com)
 			perror("chdir() error()");
 			return(1);
 		}
+		if (check_env(env,"PWD"))
+		{
+			str = ft_strjoinfree("PWD=",getcwd(NULL,PATH_MAX));
+			add_env(env,str);
+		}
+		str = getcwd(NULL, PATH_MAX);
+		if (!str)
+			return(2);
+		else
+			change_env(env, "PWD", str);
 		//setear el valor de oldpwd del enviroment:oldpwd = pwd del enviroment io
 		if (check_env(env, "OLDPWD") == 0)
 		{
-			change_env(env, "OLDPWD",get_env_value(env, "PWD"));
+			change_env(env, "OLDPWD",getcwd(NULL, PATH_MAX));
 			str = getcwd(NULL, PATH_MAX);
 			if (!str)
 				return(2);
 			else
 				change_env(env, "PWD", str);
 		}
+
+
 		return(0);
 	}
 	else

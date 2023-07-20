@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 17:33:03 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:26:25 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ int is_builtin(char *cmd)
 	return(0);
 }
 
-int	execute_builtin(t_env *env,char **cmd, int	parent)
+int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 {
 	printf("Executing builtin\n");
 	if (!ft_strncmp(cmd[0], "echo", 4))
 		return(b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
-		return(cd(env, cmd));
+		return(cd(ms->env, cmd));
 	if (!ft_strncmp(cmd[0], "pwd", 3))  //GREAT !!!
-		return(pwd(env));
+		return(pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
-		return(export(env, cmd, parent));
-	// if (!ft_strncmp(cmd[0], "unset", 5))
-	// 	return(unset(env, cmd));
+		return(export(ms, cmd, parent));
+	if (!ft_strncmp(cmd[0], "unset", 5))
+		return(unset(ms, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3))  // OLDPWD= ? , its the order ok?
-		return(enviroment(env));
+		return(enviroment(ms->env));
 	// if (!ft_strncmp(cmd[0], "exit", 4))
 	// 	return(ft_exit());
 	return(0);
@@ -143,14 +143,14 @@ void handle_forks(t_ms	*ms, char **env)
 
 			if (is_builtin(com->command[0]) &&
 			com->parent == 0) //TODO BUILTIN EXE
-				exit(execute_builtin(ms->env, com->command, com->parent));
+				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else
 				execve_prepare(ms, env, com->command);
 		}
 		if (is_builtin(com->command[0]) && com->parent == 1)
-			execute_builtin(ms->env,com->command, com->parent);
+			execute_builtin(ms,com->command, com->parent);
 
 
 	com = com->next;
