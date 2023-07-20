@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/20 12:01:13 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/20 16:23:07 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MAKE_READLINE = make -C readline --no-print-directory
 MAIN = main freems prep_exe execution_utils executions heredoc
 ENV = env
 PARSE = quotes split_tokens expand
-BUILT = echo envcomand pwd cd export unset
+BUILT = echo envcomand pwd  export unset #cd
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \
@@ -56,7 +56,7 @@ dir:
 $(F_OBJ)%.o: %.c
 	$(CC) $(C_FLAGS) -I ./inc -c -D READLINE_LIBRARY=1 $< -o $@
 
-$(NAME):: $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
+$(NAME): $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
 	$(CC) $(C_FLAGS) $(^) -ltermcap -o $(NAME)
 	@echo "$(BLUE)Everything has been compilated.$(BLACK)"
 

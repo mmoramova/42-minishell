@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:59:46 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 10:57:14 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:33:30 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,40 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-int cd (t_env *env,char **com)
+int cd (t_ms *ms, char **com)
 {
 	int 	i;
 	char	*str;
 
 	i = 1;
-	change_env(env, "OLDPWD",getcwd(NULL, PATH_MAX));
+
 	if (com[i] == NULL)
 	{
-		if(chdir (get_env_value(env,"HOME")) != 0)
+		if(chdir (get_env_value(ms->env,"HOME")) != 0)
 		{
 			perror("chdir() error()");
 			return(1);
 		}
-		if (check_env(env,"PWD"))
+		if (check_env(ms->env,"PWD") == 1)
 		{
-			str = ft_strjoinfree("PWD=",getcwd(NULL,PATH_MAX));
-			add_env(env,str);
+			write(1,"mama\n",5);
+			str = getcwd(NULL,PATH_MAX);
+			add_env(ms->env, "PWD", str);
 		}
 		str = getcwd(NULL, PATH_MAX);
 		if (!str)
 			return(2);
 		else
-			change_env(env, "PWD", str);
+			change_env(ms->env, "PWD", str);
 		//setear el valor de oldpwd del enviroment:oldpwd = pwd del enviroment io
-		if (check_env(env, "OLDPWD") == 0)
+		if (check_env(ms->env, "OLDPWD") == 0)
 		{
-			change_env(env, "OLDPWD",getcwd(NULL, PATH_MAX));
+			change_env(ms->env, "OLDPWD",getcwd(NULL, PATH_MAX));
 			str = getcwd(NULL, PATH_MAX);
 			if (!str)
 				return(2);
 			else
-				change_env(env, "PWD", str);
+				change_env(ms->env, "PWD", str);
 		}
 
 
@@ -63,7 +64,7 @@ int cd (t_env *env,char **com)
 			return(1);
 		}
 		//setear el valor de oldpwd del enviroment:oldpwd = pwd del enviroment propio
-		if (check_env(env, "OLDPWD") == 0)
+		if (check_env(ms->env, "OLDPWD") == 0)
 		{
 
 			change_env(env, "OLDPWD",get_env_value(env, "PWD"));
@@ -73,6 +74,8 @@ int cd (t_env *env,char **com)
 				return(2);
 			change_env(env, "PWD", str);
 		}
+		else
+
 		return(0);
 	}
 }

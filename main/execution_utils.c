@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/16 01:35:42 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:51:40 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,20 @@ void	execve_prepare(t_ms	*ms, char **env, char **cmd)
 	i = 0;
 	// if (argv[0] == '.' && argv[1] == '/' && ft_strchr(argv, 32))
 	// 	ft_exit(127, cmd[0], "No such file or directory");
-	while (cmd[i])
+	/*while (cmd[i])
 	{
 		if (cmd[i][0] == '\'')
 			cmd[i] = ft_strtrim(cmd[i], "\'");
 		else if (cmd[i][0] == '\"')
 			cmd[i] = ft_strtrim(cmd[i], "\"");
 		i++;
-	}
+	}*/
+
 	if (ft_strchr(cmd[0], '/'))
+	{
 		ft_execve(cmd[0], cmd, env);
+		ft_exit(127, cmd[0], "No such file or directory");
+	}
 	paths = ft_get_paths(get_env_value(ms->env ,"PATH"));
 	i = 0;
 	while (paths[i])

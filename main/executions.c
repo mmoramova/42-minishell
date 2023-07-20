@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 12:26:25 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:23:14 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 	printf("Executing builtin\n");
 	if (!ft_strncmp(cmd[0], "echo", 4))
 		return(b_echo(cmd));
-	if (!ft_strncmp(cmd[0], "cd", 2))
-		return(cd(ms->env, cmd));
+	// if (!ft_strncmp(cmd[0], "cd", 2))
+	// 	return(cd(ms, cmd));
 	if (!ft_strncmp(cmd[0], "pwd", 3))  //GREAT !!!
 		return(pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
@@ -147,7 +147,10 @@ void handle_forks(t_ms	*ms, char **env)
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else
+			if (com->command)
 				execve_prepare(ms, env, com->command);
+			else
+				exit(0);
 		}
 		if (is_builtin(com->command[0]) && com->parent == 1)
 			execute_builtin(ms,com->command, com->parent);

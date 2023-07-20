@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 11:56:31 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:24:32 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	export(t_ms *ms, char **com, int parent)
 			if(check_env(ms->env, nenv->evar) == 1)
 			{
 				printf("adding enviroment %s var name=%s\n", com[i], nenv->evar);
-				add_env(ms->env,com[i]);
+				add_env(ms->env, nenv->evar, nenv->eval);
 			}
 			else
 			{

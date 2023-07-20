@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 12:26:38 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:46:51 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,15 @@ typedef	struct s_ms
 	int		cntcmds;
 	int		**pipes;
 	int		*pids;
+	int		heredocfd;
+
 }	t_ms;
 
 //enviroment functions
 t_env	*new_env(char *env);
 int		get_env(t_ms *ms, char **env);/*initial version, malloc protetcion and compact*/
 char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
-void	add_env(t_env *env, char *newvar); //añade variables, para oldpwd y para export
+void	add_env(t_env *env, char *val, char *var); //añade variables, para oldpwd y para export
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
 
@@ -103,8 +105,10 @@ void	ft_prep_exe(t_ms	*ms);
 int		ft_parent_exe(char **command);
 
 //heredoc
-int		heredoc_execute(char *file);
-void	heredoc_read(char *file, int fd[2]);
+int		heredoc_fillfd(t_ms *ms, t_tok *tokens);
+int		heredoc_execute(t_ms *ms, char *file);
+void	heredoc_read(t_ms *ms, char *file, int fd[2]);
+
 
 //builts
 int		is_builtin(char *cmd);
@@ -115,7 +119,7 @@ void	print_env(t_env *env);/*only for test, it will becomes ENV command...*/
 int		enviroment(t_env *env);
 void	print_env_export(t_env *env); //for EXPORT
 int		check_export(char	*nenv);
-int		cd(t_env *env,char **com);
+int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com, int parent);
 int		unset(t_ms *ms ,char **com);
 

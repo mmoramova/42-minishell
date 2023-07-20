@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/20 10:54:48 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:18:10 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv , char *env[])
 		return (0);
 	//adding (plusing!!) oldpwd for cd porpose
 	if (check_env (ms.env, "OLDPWD") == 1)
-		add_env (ms.env, "OLDPWD");
+		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
 	//start parsing
 	while (42)
 	{
