@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
+#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/20 16:23:07 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/20 20:29:07 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC_HISTORY = readline/libhistory.a
 MAKE_READLINE = make -C readline --no-print-directory
 
 #------------------------------SOURCES-----------------------------------------#
-MAIN = main freems prep_exe execution_utils executions heredoc
+MAIN = main freems prep_exe execution_utils executions heredoc executionsv2
 ENV = env
 PARSE = quotes split_tokens expand
 BUILT = echo envcomand pwd  export unset #cd

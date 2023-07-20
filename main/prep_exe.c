@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/18 20:29:53 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:03:13 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void ft_open(t_ms	*ms, int type, int fd[2], char *file)
 		else
 			fd[0] = ms->heredocfd;
 		if (fd[0] == -1)
-			ft_exit(errno, file, strerror(errno));
+		{
+			ft_exit(1, file, strerror(errno), NULL);
+			exit(1);
+		}
 	}
 	else
 	{
@@ -45,7 +48,10 @@ void ft_open(t_ms	*ms, int type, int fd[2], char *file)
 		else
 			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND , 0666);
 		if (fd[1] == -1)
-			ft_exit(errno, file, strerror(errno));
+		{
+			ft_exit(1, file, strerror(errno), NULL);
+			exit(1);
+		}
 	}
 }
 

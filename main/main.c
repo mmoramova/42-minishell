@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/20 13:18:10 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:27:49 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char **argv , char *env[])
 			//print_env(ms.env);
 
 			execute_cmds(&ms, env);
+			printf("main: Exit status after execution is %d\n", g_exitstatus);
 			add_history(ms.line);
 			free(ms.line);
 		}

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/18 18:11:21 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:39:44 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	heredoc_execute(t_ms *ms, char *file)
 	int	fd[2];
 
 	if (pipe(fd) == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_exit(errno, strerror(errno), NULL, NULL);
 	pid = fork();
 	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_exit(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 		heredoc_read(ms, file, fd);
 	close(fd[1]);
@@ -78,7 +78,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 			fd = heredoc_execute(ms, token->next->content);
 			token = token->next;
 			if (fd == -1)
-				ft_exit(errno, token->next->content, strerror(errno));
+				ft_exit(errno, token->next->content, strerror(errno), NULL);
 		}
 		if (token)
 			token = token->next;

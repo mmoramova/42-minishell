@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 16:23:14 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:20:41 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 		return(b_echo(cmd));
 	// if (!ft_strncmp(cmd[0], "cd", 2))
 	// 	return(cd(ms, cmd));
-	if (!ft_strncmp(cmd[0], "pwd", 3))  //GREAT !!!
+	if (!ft_strncmp(cmd[0], "pwd", 3))
 		return(pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
 		return(export(ms, cmd, parent));
 	if (!ft_strncmp(cmd[0], "unset", 5))
 		return(unset(ms, cmd));
-	if (!ft_strncmp(cmd[0], "env", 3))  // OLDPWD= ? , its the order ok?
+	if (!ft_strncmp(cmd[0], "env", 3))
 		return(enviroment(ms->env));
 	// if (!ft_strncmp(cmd[0], "exit", 4))
 	// 	return(ft_exit());
@@ -65,7 +65,7 @@ int **handle_pipes(t_ms *ms)
 	{
 		//printf("Opening pipe [%d]\n", l);
 		if (pipe(pipes[l]) == -1)
-			ft_exit(errno, strerror(errno), NULL);
+			ft_exit(errno, strerror(errno), NULL, NULL);
 		l++;
 	}
 	return (pipes);
@@ -125,6 +125,7 @@ void handle_forks(t_ms	*ms, char **env)
 {
 	int		i;
 	t_ex	*com;
+	int		status;
 
 	i = 0;
 	com = ms->exe;
@@ -132,7 +133,7 @@ void handle_forks(t_ms	*ms, char **env)
 	{
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
-			ft_exit(errno, strerror(errno), NULL);
+			ft_exit(errno, strerror(errno), NULL, NULL);
 		if (ms->pids[i] == 0) //child i
 		{
 			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
@@ -142,7 +143,7 @@ void handle_forks(t_ms	*ms, char **env)
 			close_pipes(ms->pipes);
 
 			if (is_builtin(com->command[0]) &&
-			com->parent == 0) //TODO BUILTIN EXE
+			com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
@@ -152,16 +153,28 @@ void handle_forks(t_ms	*ms, char **env)
 			else
 				exit(0);
 		}
-		if (is_builtin(com->command[0]) && com->parent == 1)
-			execute_builtin(ms,com->command, com->parent);
 
+		waitpid(ms->pids[i], &status, 0);
+
+		if (is_builtin(com->command[0]) && com->parent == 1)
+		{
+			g_exitstatus = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
+			printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exitstatus);
+		}
+		else{
+			if (WIFEXITED(status))
+			{
+				g_exitstatus = WEXITSTATUS(status);
+				printf("Exit status for children %d is %d\n", ms->pids[i], g_exitstatus);
+			}
+		}
 
 	com = com->next;
 	i++;
 	}
 }
 
-void execute_secondoption(t_ms	*ms, char **env)
+void execute_secondoption2(t_ms	*ms, char **env)
 {
 	int		i;
 	t_ex	*com;
@@ -177,12 +190,12 @@ void execute_secondoption(t_ms	*ms, char **env)
 		if (i < ms->cntcmds - 1)
 		{
 			if (pipe(onepipe) == -1)
-				ft_exit(errno, strerror(errno), NULL);
+				ft_exit(errno, strerror(errno), NULL, NULL);
 		}
 
 		pid = fork();
 		if (pid == -1)
-			ft_exit(errno, strerror(errno), NULL);
+			ft_exit(errno, strerror(errno), NULL, NULL);
 		if (pid == 0) //child i
 		{
 
@@ -216,7 +229,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 
 	int version;
 
-	version = 1;
+	version = 2;
 	// first version
 	if (version == 1)
 	{
@@ -226,7 +239,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 		handle_forks(ms, env);
 		//parent
 		close_pipes(ms->pipes);
-		handle_waitpid(ms->pids);
+		//handle_waitpid(ms->pids);
 	}
 	else //second with one pipe
 		execute_secondoption(ms, env);
