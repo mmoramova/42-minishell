@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 20:26:30 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:14:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ int		unset(t_ms *ms ,char **com);
 void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
 void	free_line(char *line);
+void	free_ex(t_ex *ex);
+void	free_tok(t_tok *tok);
 
 //execution
 void	execute_cmds(t_ms *ms, char **env);
