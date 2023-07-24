@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 16:24:32 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:20:51 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void    print_env_export(t_env *env)
 			aux=aux->next;
 		}
 	}
-	exit(0);
+	//exit(0);
+
 }
 
 int	export(t_ms *ms, char **com, int parent)
@@ -60,7 +61,6 @@ int	export(t_ms *ms, char **com, int parent)
 		i = 1;
 		while (com[i])
 		{
-			printf("Adding with export\n");
 			printf("adding=%s\n", com[i]);
 			if (check_export(com[i]) == 1)
 				return(1);
@@ -79,7 +79,7 @@ int	export(t_ms *ms, char **com, int parent)
 				if (ft_strchr(com[i],'=') == 0)
 				{
 					printf("Abort change, no = in export\n");
-					return(0);
+					return(1);
 				}
 				printf("variable a cambiar%s y valor%s\n",nenv->evar,nenv->eval);
 				change_env(ms->env, nenv->evar, nenv->eval);

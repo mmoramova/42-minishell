@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 13:16:52 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:43:11 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,17 @@ int	get_env(t_ms *ms, char **env)
 void	add_env (t_env *env, char *var, char *val)
 {
 	t_env	*aux;
+	t_env	*new;
 
+	new= malloc(sizeof(t_env));
 	aux = env;
 	while (aux && aux->next)
 		aux = aux->next;
+	aux->next = new;
+	aux = new;
 	aux->evar = strdup(var);
 	aux->eval = strdup(val);
+	aux->next = NULL;
 }
 
 t_env	*new_env(char *env)

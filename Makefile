@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/20 16:23:07 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/24 12:21:51 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MAKE_READLINE = make -C readline --no-print-directory
 MAIN = main freems prep_exe execution_utils executions heredoc
 ENV = env
 PARSE = quotes split_tokens expand
-BUILT = echo envcomand pwd  export unset #cd
+BUILT = echo envcomand pwd  export unset newcd
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \
