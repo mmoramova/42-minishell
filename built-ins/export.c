@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/24 15:20:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:49:58 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	check_export(char	*nenv)
 	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
 	{
 		printf("fallo checkeo primera letra de %s\n", nenv);
+		ft_exit(1, "export", nenv, "not a valid identifier");
+		//exit prepaped
 		return(1);
 	}
 	i++;
@@ -120,6 +122,8 @@ int	check_export(char	*nenv)
 		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
 		{
 			printf("fallo en checkeo formato\n");
+			ft_exit(1, "export", nenv, "not a valid identifier");
+			//now it makes exit, if you need just uncomment
 			return(1);
 		}
 		i++;
@@ -127,8 +131,3 @@ int	check_export(char	*nenv)
 	printf("formato correcto\n");
 	return(0);
 }
-
-
-
-
-

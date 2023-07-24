@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 17:46:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:14:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include "../libs/libft/libft.h"
 # include <limits.h>
 
-
 # define ARG 0
 # define PIPE 1
 # define INFILE 2
@@ -48,7 +47,6 @@ typedef struct s_ex
 	struct s_ex	*next;
 	struct s_ex *previous;
 } t_ex;
-
 
 //struct for storage the enviroment
 typedef	struct s_tok
@@ -79,6 +77,9 @@ typedef	struct s_ms
 	int		heredocfd;
 
 }	t_ms;
+
+//global variable
+int	g_exitstatus;
 
 //enviroment functions
 t_env	*new_env(char *env);
@@ -127,6 +128,8 @@ int		unset(t_ms *ms ,char **com);
 void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
 void	free_line(char *line);
+void	free_ex(t_ex *ex);
+void	free_tok(t_tok *tok);
 
 //execution
 void	execute_cmds(t_ms *ms, char **env);
@@ -138,7 +141,12 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl);
 void	handle_waitpid(int *pids);
 void	close_pipes(int **pipes);
 
+//execution second option, i created file executionsV2
+void execute_secondoption(t_ms	*ms, char **env);
+void execute_secondoption2(t_ms	*ms, char **env);
+
+
 //exit
-void	ft_exit(int exitnumber, char *txt, char *txt2);
+void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3);
 
 #endif

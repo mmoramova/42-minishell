@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/24 12:27:55 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:49:34 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 		return(export(ms, cmd, parent));
 	if (!ft_strncmp(cmd[0], "unset", 5))
 		return(unset(ms, cmd));
-	if (!ft_strncmp(cmd[0], "env", 3))  // OLDPWD= ? , its the order ok?
+	if (!ft_strncmp(cmd[0], "env", 3))
 		return(enviroment(ms->env));
 	// if (!ft_strncmp(cmd[0], "exit", 4))
 	// 	return(ft_exit());
@@ -63,9 +63,8 @@ int **handle_pipes(t_ms *ms)
 	l = 0;
 	while (l < ms->cntcmds - 1)
 	{
-		//printf("Opening pipe [%d]\n", l);
 		if (pipe(pipes[l]) == -1)
-			ft_exit(errno, strerror(errno), NULL);
+			ft_exit(errno, strerror(errno), NULL, NULL);
 		l++;
 	}
 	return (pipes);
@@ -78,7 +77,6 @@ void	close_pipes(int **pipes)
 	i = -1;
 	while (pipes[++i])
 	{
-		//printf("Closing pipe [%d]\n", i);
 		close(pipes[i][0]);
 		close(pipes[i][1]);
 	}
@@ -91,7 +89,6 @@ void	handle_waitpid(int *pids)
 	i = 0;
 	while (pids[i])
 	{
-		//printf("waiting for pid[%d]\n", i);
 		waitpid(pids[i], NULL, 0);
 		i++;
 	}
@@ -100,15 +97,9 @@ void	handle_waitpid(int *pids)
 void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 {
 	if (ms->pipes && lvl > 0)
-	{
-		//printf("------------------------------i = %d, l=%d , dup2 stdin pipe[%d][0]\n", ms->cntcmds, lvl, lvl-1);
 		dup2(ms->pipes[lvl-1][0], STDIN_FILENO);
-	}
 	if (ms->pipes && lvl < ms->cntcmds-1)
-	{
-		//printf("-------------------------------i = %d, l=%d , dup2 stdout pipe[%d][1]\n", ms->cntcmds, lvl, lvl);
 		dup2(ms->pipes[lvl][1], STDOUT_FILENO);
-	}
 	if (fd[0])
 	{
 		dup2(fd[0] ,STDIN_FILENO);
@@ -125,6 +116,7 @@ void handle_forks(t_ms	*ms, char **env)
 {
 	int		i;
 	t_ex	*com;
+	int		status;
 
 	i = 0;
 	com = ms->exe;
@@ -132,7 +124,7 @@ void handle_forks(t_ms	*ms, char **env)
 	{
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
-			ft_exit(errno, strerror(errno), NULL);
+			ft_exit(errno, strerror(errno), NULL, NULL);
 		if (ms->pids[i] == 0) //child i
 		{
 			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
@@ -142,69 +134,28 @@ void handle_forks(t_ms	*ms, char **env)
 			close_pipes(ms->pipes);
 
 			if (is_builtin(com->command[0]) &&
-			com->parent == 0) //TODO BUILTIN EXE
+			com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
-			else
-			if (com->command)
+			else if (com->command)
 				execve_prepare(ms, env, com->command);
-			else
-				exit(0);
+			exit(0);
 		}
+		waitpid(ms->pids[i], &status, 0);
 		if (is_builtin(com->command[0]) && com->parent == 1)
-			execute_builtin(ms,com->command, com->parent);
-
-
-	com = com->next;
-	i++;
-	}
-}
-
-void execute_secondoption(t_ms	*ms, char **env)
-{
-	int		i;
-	t_ex	*com;
-	int		onepipe[2];
-	int		inredir;
-	int		pid;
-
-	i = 0;
-	inredir = 0;
-	com = ms->exe;
-	while (i < ms->cntcmds)
-	{
-		if (i < ms->cntcmds - 1)
 		{
-			if (pipe(onepipe) == -1)
-				ft_exit(errno, strerror(errno), NULL);
+			if (!com -> next) //i want exit status only from the last one
+				g_exitstatus = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
+			else
+				execute_builtin(ms,com->command, com->parent);
+			printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exitstatus);
 		}
-
-		pid = fork();
-		if (pid == -1)
-			ft_exit(errno, strerror(errno), NULL);
-		if (pid == 0) //child i
+		else if (!com->next && WIFEXITED(status))
 		{
-
-			if (inredir)
-			{
-				dup2(inredir, STDIN_FILENO);
-				close(inredir);
-			}
-
-			if (onepipe[1] && i < ms->cntcmds-2) //??
-			{
-				dup2(onepipe[1], STDOUT_FILENO);
-				close(onepipe[1]);
-			}
-
-			//if (is_builtin(com->command[0])) //TODO BUILTIN EXE
-			//	execute_builtin(ms->env, com->command);
-			//else
-			execve_prepare(ms, env, com->command);
+			g_exitstatus = WEXITSTATUS(status);
+			printf("Exit status for children %d is %d\n", ms->pids[i], g_exitstatus);
 		}
-	close(onepipe[1]);
-	inredir = onepipe[0];
 	com = com->next;
 	i++;
 	}
@@ -226,7 +177,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 		handle_forks(ms, env);
 		//parent
 		close_pipes(ms->pipes);
-		handle_waitpid(ms->pids);
+		//handle_waitpid(ms->pids);
 	}
 	else //second with one pipe
 		execute_secondoption(ms, env);

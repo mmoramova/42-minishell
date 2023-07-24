@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/20 13:18:10 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:16:09 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,18 @@ int	main(int argc, char **argv , char *env[])
 	//adding (plusing!!) oldpwd for cd porpose
 	if (check_env (ms.env, "OLDPWD") == 1)
 		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
-	//start parsing
 	while (42)
 	{
 		ms.line = readline("minishell> ");
 		if (ms.line && strlen(ms.line) > 0)
 		{
+			g_exitstatus = 0;
 			if (ft_strncmp(ms.line,"exit",4) == 0)
 			{
 				free_env(ms.env);
 				exit(0);
 			}
-
 			ft_parse(&ms);
-
 			ft_prep_exe(&ms);
 
 			//print ms exe
@@ -76,7 +74,7 @@ int	main(int argc, char **argv , char *env[])
 
 			execute_cmds(&ms, env);
 			add_history(ms.line);
-			free(ms.line);
+			free_line(ms.line);
 		}
 	}
 	//clean_history();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 09:54:24 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:35:24 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	*ft_expand (t_ms *ms, char *s)
 	aux = ft_substr(s,0,i);
 	while (s[i])
 	{
+		//here we need to do if its $? then change it for global variable
+
 		if (s[i] == '$' && (open_quotes(s,i) != 2))
 		{
 			i++;
@@ -73,8 +75,6 @@ char	*ft_expand (t_ms *ms, char *s)
 				//res = malloc(ft_strlen(s) - ft_strlen(var) + ft_strlen(val));
 				//printf("Before join aux=%s var=%s       val=%s\n", aux, var, val);
 				aux = ft_strjoinfree(aux,val);
-
-
 			}
 			else
 				aux = ft_strjoinfree(aux,"");
