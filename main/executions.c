@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/24 15:49:34 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:25:56 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,7 @@ void handle_forks(t_ms	*ms, char **env)
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 
-			if (is_builtin(com->command[0]) &&
-			com->parent == 0)
+			if (is_builtin(com->command[0]) && com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
@@ -142,6 +141,8 @@ void handle_forks(t_ms	*ms, char **env)
 				execve_prepare(ms, env, com->command);
 			exit(0);
 		}
+		//THIS WAITPID MAKE THE  CAT | LS PROBLEM
+		//blocker comands (needs input) don't have to stop the execution of the rest of the pipes/commands
 		waitpid(ms->pids[i], &status, 0);
 		if (is_builtin(com->command[0]) && com->parent == 1)
 		{
