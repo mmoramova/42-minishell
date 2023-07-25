@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/25 18:44:56 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:41:13 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int argc, char **argv , char *env[])
 	if (check_env (ms.env, "OLDPWD") == 1)
 		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
 
+	g_exitstatus = 0;
 	while (42)
 	{
 		signal(SIGINT,handle_sigint);
@@ -67,7 +68,7 @@ int	main(int argc, char **argv , char *env[])
 		}
 		if (ms.line && strlen(ms.line) > 0)
 		{
-			g_exitstatus = 0;
+
 			if (ft_strncmp(ms.line,"exit",4) == 0)
 			{
 				free_env(ms.env);
@@ -81,7 +82,7 @@ int	main(int argc, char **argv , char *env[])
 			//print_env(ms.env);
 
 			execute_cmds(&ms, env);
-			//printf("ft_exit: Exit status from main is %d\n", g_exitstatus);
+			printf("ft_exit: Exit status from main is %d\n", g_exitstatus);
 
 			add_history(ms.line);
 			free_line(ms.line);

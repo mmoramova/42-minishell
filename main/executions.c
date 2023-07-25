@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/25 18:00:25 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:48:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 		return(b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
 		return(cd(ms, cmd));
-	if (!ft_strncmp(cmd[0], "pwd", 3))  //GREAT !!!
+	if (!ft_strncmp(cmd[0], "pwd", 3))
 		return(pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
 		return(export(ms, cmd, parent));
@@ -121,7 +121,6 @@ int	handle_forks(t_ms	*ms, char **env)
 {
 	int		i;
 	t_ex	*com;
-	//int		status;
 
 	i = 0;
 	com = ms->exe;
@@ -137,35 +136,24 @@ int	handle_forks(t_ms	*ms, char **env)
 
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
-
 			if (is_builtin(com->command[0]) && com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else if (com->command)
 				execve_prepare(ms, env, com->command);
-
 			exit(0);
 		}
-		//THIS WAITPID MAKE THE  CAT | LS PROBLEM
-		//blocker comands (needs input) don't have to stop the execution of the rest of the pipes/commands
 		if (is_builtin(com->command[0]) && com->parent == 1)
 		{
-			if (!com -> next) //i want exit status only from the last one
+			if (!com -> next)
 			{
-				g_exitstatus = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
+				g_exitstatus = execute_builtin(ms,com->command, com->parent);
 				return(1);
 			}
 			else
 				execute_builtin(ms,com->command, com->parent);
-			//printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exitstatus);
 		}
-		//else if (!com->next && WIFEXITED(status))
-		//{
-		//	g_exitstatus = WEXITSTATUS(status);
-		//	printf("Exit status for children %d is %d\n", ms->pids[i], g_exitstatus);
-		//}
-
 	com = com->next;
 	i++;
 	}
