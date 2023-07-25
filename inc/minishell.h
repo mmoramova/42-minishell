@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/22 20:14:05 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:32:49 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include "../readline/readline.h"
+# include "../readline/history.h"
+# include <signal.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -136,9 +136,9 @@ void	execute_cmds(t_ms *ms, char **env);
 int		execute_builtin(t_ms *ms,char **cmd, int parent);
 void	execve_prepare(t_ms	*ms, char **env, char **cmd);
 int		**handle_pipes(t_ms *ms);
-void	handle_forks(t_ms *ms, char **env);
+int		handle_forks(t_ms *ms, char **env);
 void	handle_redirections(t_ms *ms, int fd[2], int lvl);
-void	handle_waitpid(int *pids);
+void	handle_waitpid(int *pids, int is_parent);
 void	close_pipes(int **pipes);
 
 //execution second option, i created file executionsV2
@@ -146,7 +146,8 @@ void execute_secondoption(t_ms	*ms, char **env);
 void execute_secondoption2(t_ms	*ms, char **env);
 
 
-//exit
+//exit and signal
 void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3);
+void	handle_sigint(int sig);
 
 #endif

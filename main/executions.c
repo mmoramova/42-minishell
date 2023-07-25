@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/24 17:25:56 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:00:25 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	close_pipes(int **pipes)
 {
 	int	i;
 
+
 	i = -1;
 	while (pipes[++i])
 	{
@@ -82,16 +83,20 @@ void	close_pipes(int **pipes)
 	}
 }
 
-void	handle_waitpid(int *pids)
+void	handle_waitpid(int *pids, int is_parent)
 {
 	int	i;
+	int		status;
 
 	i = 0;
-	while (pids[i])
+	while (pids[i] && pids[i+1])
 	{
 		waitpid(pids[i], NULL, 0);
 		i++;
 	}
+	waitpid(pids[i], &status, 0);
+	if (is_parent == 0 && WIFEXITED(status))
+		g_exitstatus = WEXITSTATUS(status);
 }
 
 void	handle_redirections(t_ms *ms, int fd[2], int lvl)
@@ -112,11 +117,11 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 	}
 }
 
-void handle_forks(t_ms	*ms, char **env)
+int	handle_forks(t_ms	*ms, char **env)
 {
 	int		i;
 	t_ex	*com;
-	int		status;
+	//int		status;
 
 	i = 0;
 	com = ms->exe;
@@ -139,27 +144,32 @@ void handle_forks(t_ms	*ms, char **env)
 				exit(0);
 			else if (com->command)
 				execve_prepare(ms, env, com->command);
+
 			exit(0);
 		}
 		//THIS WAITPID MAKE THE  CAT | LS PROBLEM
 		//blocker comands (needs input) don't have to stop the execution of the rest of the pipes/commands
-		waitpid(ms->pids[i], &status, 0);
 		if (is_builtin(com->command[0]) && com->parent == 1)
 		{
 			if (!com -> next) //i want exit status only from the last one
+			{
 				g_exitstatus = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
+				return(1);
+			}
 			else
 				execute_builtin(ms,com->command, com->parent);
-			printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exitstatus);
+			//printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exitstatus);
 		}
-		else if (!com->next && WIFEXITED(status))
-		{
-			g_exitstatus = WEXITSTATUS(status);
-			printf("Exit status for children %d is %d\n", ms->pids[i], g_exitstatus);
-		}
+		//else if (!com->next && WIFEXITED(status))
+		//{
+		//	g_exitstatus = WEXITSTATUS(status);
+		//	printf("Exit status for children %d is %d\n", ms->pids[i], g_exitstatus);
+		//}
+
 	com = com->next;
 	i++;
 	}
+	return(0);
 }
 
 void	execute_cmds(t_ms	*ms, char **env)
@@ -167,6 +177,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 	//printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
 
 	int version;
+	int	is_parent;
 
 	version = 1;
 	// first version
@@ -175,10 +186,10 @@ void	execute_cmds(t_ms	*ms, char **env)
 		ms->pipes = handle_pipes(ms);
 		ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
 		//children
-		handle_forks(ms, env);
+		is_parent = handle_forks(ms, env);
 		//parent
 		close_pipes(ms->pipes);
-		//handle_waitpid(ms->pids);
+		handle_waitpid(ms->pids, is_parent);
 	}
 	else //second with one pipe
 		execute_secondoption(ms, env);

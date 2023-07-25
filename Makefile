@@ -6,7 +6,7 @@
 #    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/24 15:50:18 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/25 17:51:20 by josorteg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC_HISTORY = readline/libhistory.a
 MAKE_READLINE = make -C readline --no-print-directory
 
 #------------------------------SOURCES-----------------------------------------#
-MAIN = main freems prep_exe execution_utils executions heredoc executionsv2
+MAIN = main freems prep_exe execution_utils signal executions heredoc executionsv2
 ENV = env
 PARSE = quotes split_tokens expand
 BUILT = echo envcomand pwd  export unset newcd
@@ -57,8 +57,10 @@ $(F_OBJ)%.o: %.c
 	$(CC) $(C_FLAGS) -I ./inc -c -D READLINE_LIBRARY=1 $< -o $@
 
 $(NAME): $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
-	$(CC) $(C_FLAGS) $(^) -ltermcap -o $(NAME)
+	$(CC) $(C_FLAGS) $(^)  -ltermcap -lreadline -o $(NAME)
 	@echo "$(BLUE)Everything has been compilated.$(BLACK)"
+
+#-L /readline/lib -I /readline/include -L /readline/lib -I /readline/include  -lreadline
 
 .PHONY: all clean fclean re
 

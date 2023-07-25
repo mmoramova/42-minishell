@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/18 17:43:32 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:44:04 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 		lst->content = ft_quotes_remove(content);
 	else
 	{
-		printf("---before expand:%s\n",content);
+		//printf("---before expand:%s\n",content);
 		str = ft_expand(ms, content);
-		printf("---after expand :%s\n",str);
+		//printf("---after expand :%s\n",str);
 		lst -> content = ft_quotes_remove(str);
-		printf("---after expand + quotes:%s\n",lst -> content);
+		//printf("---after expand + quotes:%s\n",lst -> content);
 	}
 	lst -> next = NULL;
 	lst -> type = ft_tok_addtype(content);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 20:03:13 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:46:16 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 	}
 	lst -> command[i] = NULL;
 	lst -> parent = ft_parent_exe(lst -> command);
-	printf("comand=%s y parent=%d\n", lst -> command[0], lst -> parent);
+	//printf("comand=%s y parent=%d\n", lst -> command[0], lst -> parent);
 	return (lst);
 }
 
@@ -138,17 +138,17 @@ void	ft_prep_exe(t_ms	*ms)
 	//TODO FREE TOKEN
 
 	/*start of printing - delete later*/
-	int i = 0;
-	while (aux)
-	{
-		i = 0;
-		printf("Command is: ");
-		while (aux->command[i])
-			printf("%s ", aux->command[i++]);
-		printf("\n");
-		printf("fd[0]=%d || fd[1]=%d\n",aux->fd[0],aux->fd[1]);
-		aux=aux->next;
-	}
-	printf("We have %d commands.\n", cntcmds);
+	// int i = 0;
+	// while (aux)
+	// {
+	// 	i = 0;
+	// 	printf("Command is: ");
+	// 	while (aux->command[i])
+	// 		printf("%s ", aux->command[i++]);
+	// 	printf("\n");
+	// 	printf("fd[0]=%d || fd[1]=%d\n",aux->fd[0],aux->fd[1]);
+	// 	aux=aux->next;
+	// }
+	// printf("We have %d commands.\n", cntcmds);
 	/*end of printing*/
 }

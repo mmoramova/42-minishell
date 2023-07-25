@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/24 15:49:58 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:44:00 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,24 @@ int	export(t_ms *ms, char **com, int parent)
 		i = 1;
 		while (com[i])
 		{
-			printf("adding=%s\n", com[i]);
 			if (check_export(com[i]) == 1)
 				return(1);
+
 			nenv = malloc (sizeof(t_env));
+
 			if (!nenv)
 				return(1);
+
 			nenv = new_env(com[i]);
+
 			if(check_env(ms->env, nenv->evar) == 1)
 			{
-				printf("adding enviroment %s var name=%s\n", com[i], nenv->evar);
+
 				add_env(ms->env, nenv->evar, nenv->eval);
+
 			}
-			else
-			{
-				printf("changing enviroment %s\n", com[i]);
-				if (ft_strchr(com[i],'=') == 0)
-				{
-					printf("Abort change, no = in export\n");
-					return(1);
-				}
-				printf("variable a cambiar%s y valor%s\n",nenv->evar,nenv->eval);
+			else if (ft_strchr(com[i],'=') != 0)
 				change_env(ms->env, nenv->evar, nenv->eval);
-			}
 			i++;
 		}
 	}

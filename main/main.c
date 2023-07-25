@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/22 20:16:09 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:44:56 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int ft_checkinput(t_ms ms)
 
 void ft_parse(t_ms	*ms)
 {
-	t_tok *tokens;
+	//t_tok *tokens;
 
 	if (ft_checkinput(*ms) == 1)
 	{
@@ -32,13 +32,13 @@ void ft_parse(t_ms	*ms)
 
 
 	/*token only for printing:*/
-	tokens = ms->start;
-	while (tokens)
-	{
-		printf("%s || ", tokens->content);
-		printf("%d\n", tokens->type);
-		tokens=tokens->next;
-	}
+	// tokens = ms->start;
+	// while (tokens)
+	// {
+	// 	printf("%s || ", tokens->content);
+	// 	printf("%d\n", tokens->type);
+	// 	tokens=tokens->next;
+	// }
 }
 
 int	main(int argc, char **argv , char *env[])
@@ -54,9 +54,17 @@ int	main(int argc, char **argv , char *env[])
 	//adding (plusing!!) oldpwd for cd porpose
 	if (check_env (ms.env, "OLDPWD") == 1)
 		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
+
 	while (42)
 	{
+		signal(SIGINT,handle_sigint);
+		signal(SIGQUIT,SIG_IGN);
 		ms.line = readline("minishell> ");
+		if (!ms.line)
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		if (ms.line && strlen(ms.line) > 0)
 		{
 			g_exitstatus = 0;
@@ -73,6 +81,8 @@ int	main(int argc, char **argv , char *env[])
 			//print_env(ms.env);
 
 			execute_cmds(&ms, env);
+			//printf("ft_exit: Exit status from main is %d\n", g_exitstatus);
+
 			add_history(ms.line);
 			free_line(ms.line);
 		}

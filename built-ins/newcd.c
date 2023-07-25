@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/24 15:44:06 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:54:53 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int cd (t_ms *ms, char **com)
 		com[i] = get_env_value(ms->env,"HOME");
 	if(chdir (com[i]) != 0)
 	{
-		perror("chdir() error()");
+		//perror("");
+		ft_exit(1, "cd", com[1], strerror(errno));
 		return(1);
 	}
 	else

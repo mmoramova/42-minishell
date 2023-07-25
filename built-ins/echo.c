@@ -61,7 +61,6 @@ int	b_echo(char **com)
 			n = 1;
 			write (1,&com[i][j++],1);
 		}
-		write(1," ",1);
 	}
 	if (m == 0)
 		write(1,"\n",1);
