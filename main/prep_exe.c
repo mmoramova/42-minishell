@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:30:47 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:54:40 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	ft_prep_exe(t_ms	*ms)
 	}
 	ms->exe = aux;
 	ms->cntcmds = cntcmds;
+
 	//TODO FREE TOKEN
 
 	/*start of printing - delete later*/

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:33:41 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:54:36 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 		return(unset(ms, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3))
 		return(enviroment(ms->env));
-	// if (!ft_strncmp(cmd[0], "exit", 4))
-	// 	return(ft_exit());
+	if (!ft_strncmp(cmd[0], "exit", 4))
+		return(b_exit());
 	return(0);
 }
 

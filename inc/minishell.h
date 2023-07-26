@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 16:34:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:45:08 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int		check_export(char	*nenv);
 int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com, int parent);
 int		unset(t_ms *ms ,char **com);
+void	b_exit(void);
 
 //free
 void	free_ms(t_ms *ms);
