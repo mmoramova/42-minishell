@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:30:59 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:39:44 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,24 @@ char	*ft_expand (t_ms *ms, char *s)
 	aux = ft_substr(s,0,i);
 	while (s[i])
 	{
-		//here we need to do if its $? then change it for global variable
-
 		if (s[i] == '$' && (open_quotes(s,i) != 2))
 		{
 			i++;
 			count = 0;
 
-			while (!ft_strchr("\'\" $",s[i]) && s[i])
+			while (s[i] && (!ft_strchr("\'\" $",s[i])))
 			{
 				count++;
 				//printf("len var=%d",count);
-				i++;
+				//i++;
+				if (s[i++] == '?')
+					break;
 			}
 			var = ft_substr(s ,i - count ,count);
-			//printf("Before join aux=%s var=%s\n", aux, var);
-			if (check_env(ms->env, var) == 0)
+			printf("Before join aux=%s var=%s\n", aux, var);
+			if (var[0] == '?')
+				aux = ft_strjoinfree(aux,ft_itoa(g_exit.status));
+			else if (check_env(ms->env, var) == 0)
 			{
 				val = get_env_value (ms->env,var);
 				//printf("\nvariable:%s valor:%s\n\n",var, val);
