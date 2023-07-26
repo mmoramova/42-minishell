@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/25 17:32:49 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:34:51 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <termios.h>
 # include "../libs/libft/libft.h"
 # include <limits.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 
 # define ARG 0
 # define PIPE 1
@@ -79,7 +81,16 @@ typedef	struct s_ms
 }	t_ms;
 
 //global variable
-int	g_exitstatus;
+
+typedef struct s_exit
+{
+	int	status;
+	int	proces;
+}	t_exit;
+
+t_exit	g_exit;
+
+
 
 //enviroment functions
 t_env	*new_env(char *env);

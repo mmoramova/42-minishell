@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/25 18:44:49 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:30:11 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3)
 	}
 	ft_putstr_fd("\n", 2);
 
-	g_exitstatus = exitnumber;
-	//printf("ft_exit: Exit status is %d\n", g_exitstatus);
-	//exit(exitnumber);
+	g_exit.status = exitnumber;
+	//printf("ft_exit: Exit status is %d\n", g_exit.status);
+	exit(g_exit.status);
 }
 
 char	**ft_get_paths(char *env)

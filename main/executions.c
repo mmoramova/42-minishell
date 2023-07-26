@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/25 18:00:25 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:59:43 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int is_builtin(char *cmd)
 
 int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 {
-	printf("Executing builtin\n");
+	//printf("Executing builtin\n");
 	if (!ft_strncmp(cmd[0], "echo", 4))
 		return(b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
@@ -96,7 +96,7 @@ void	handle_waitpid(int *pids, int is_parent)
 	}
 	waitpid(pids[i], &status, 0);
 	if (is_parent == 0 && WIFEXITED(status))
-		g_exitstatus = WEXITSTATUS(status);
+		g_exit.status = WEXITSTATUS(status);
 }
 
 void	handle_redirections(t_ms *ms, int fd[2], int lvl)
@@ -127,6 +127,8 @@ int	handle_forks(t_ms	*ms, char **env)
 	com = ms->exe;
 	while (i < ms->cntcmds)
 	{
+		signal(SIGINT,handle_sigint);
+		signal(SIGQUIT,handle_sigint);
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
 			ft_exit(errno, strerror(errno), NULL, NULL);
@@ -153,17 +155,17 @@ int	handle_forks(t_ms	*ms, char **env)
 		{
 			if (!com -> next) //i want exit status only from the last one
 			{
-				g_exitstatus = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
+				g_exit.status = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
 				return(1);
 			}
 			else
 				execute_builtin(ms,com->command, com->parent);
-			//printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exitstatus);
+			//printf("Exit status for builtin parent %d is %d\n", ms->pids[i], g_exit.status);
 		}
 		//else if (!com->next && WIFEXITED(status))
 		//{
-		//	g_exitstatus = WEXITSTATUS(status);
-		//	printf("Exit status for children %d is %d\n", ms->pids[i], g_exitstatus);
+		//	g_exit.status = WEXITSTATUS(status);
+		//	printf("Exit status for children %d is %d\n", ms->pids[i], g_exit.status);
 		//}
 
 	com = com->next;
@@ -181,6 +183,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 
 	version = 1;
 	// first version
+	g_exit.proces = 2;
 	if (version == 1)
 	{
 		ms->pipes = handle_pipes(ms);
@@ -193,4 +196,5 @@ void	execute_cmds(t_ms	*ms, char **env)
 	}
 	else //second with one pipe
 		execute_secondoption(ms, env);
+	g_exit.proces = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executionsv2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:25:11 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/22 18:42:16 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:30:21 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	execute_secondoption(t_ms	*ms, char **env)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		g_exitstatus = WEXITSTATUS(status);
-		printf("Exit status for children 1 is %d\n", g_exitstatus);
+		g_exit.status = WEXITSTATUS(status);
+		printf("Exit status for children 1 is %d\n", g_exit.status);
 	}
 
 	if (pipe(fd) == -1)
@@ -127,8 +127,8 @@ void	execute_secondoption(t_ms	*ms, char **env)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		g_exitstatus = WEXITSTATUS(status);
-		printf("Exit status for children 2 is %d\n", g_exitstatus);
+		g_exit.status = WEXITSTATUS(status);
+		printf("Exit status for children 2 is %d\n", g_exit.status);
 	}
 
 	pid = fork();
@@ -163,7 +163,7 @@ void	execute_secondoption(t_ms	*ms, char **env)
 
 	if (WIFEXITED(status))
 	{
-		g_exitstatus = WEXITSTATUS(status);
-		printf("Exit status for children 3 is %d\n", g_exitstatus);
+		g_exit.status = WEXITSTATUS(status);
+		printf("Exit status for children 3 is %d\n", g_exit.status);
 	}
 }

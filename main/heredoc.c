@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/22 18:55:38 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:25:09 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,16 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 	filewq = ft_quotes_remove(file);
 	while (42)
 	{
+		signal(SIGQUIT,SIG_IGN);
+
+		if (signal(SIGINT,handle_sigint) == 0)
+			exit(1);
 		line = readline("> ");
+		if(!line)
+		{
+			rl_replace_line("", 0);
+			exit(0);
+		}
 		if (line)
 		{
 			if (ft_strlen(line) == ft_strlen(filewq)
@@ -52,9 +61,11 @@ int	heredoc_execute(t_ms *ms, char *file)
 		ft_exit(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 	{
+		g_exit.proces = 1;
 		heredoc_read(ms, file, fd);
 		close(fd[0]);
 		close(fd[1]);
+		g_exit.proces = 0;
 		exit(0);
 	}
 	close(fd[1]);

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/25 18:44:56 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:30:49 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ void ft_parse(t_ms	*ms)
 	// }
 }
 
+void term_init()
+{
+    struct termios term;
+
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag &= ~ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 int	main(int argc, char **argv , char *env[])
 {
 	t_ms	ms;
@@ -54,20 +63,35 @@ int	main(int argc, char **argv , char *env[])
 	//adding (plusing!!) oldpwd for cd porpose
 	if (check_env (ms.env, "OLDPWD") == 1)
 		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
-
+	term_init();
+	g_exit.proces = 0;
+	signal(SIGQUIT,SIG_IGN);
 	while (42)
 	{
+		g_exit.proces = 0;
 		signal(SIGINT,handle_sigint);
-		signal(SIGQUIT,SIG_IGN);
+		// if(signal(EOF,handle_sigint)) //control d
+		// {
+		// 	perror("exit");
+		// 	exit(g_exit.status);
+		// }
 		ms.line = readline("minishell> ");
 		if (!ms.line)
 		{
-			printf("exit\n");
-			exit(0);
+			printf("exit");
+			exit(g_exit.status);
 		}
+		signal(SIGINT,handle_sigint);
+
+		g_exit.proces = 0;
+		// if (!ms.line)
+		// {
+		// 	free(ms.env);
+		// 	perror("exit\n");
+		// 	exit(g_exit.status);
+		// }
 		if (ms.line && strlen(ms.line) > 0)
 		{
-			g_exitstatus = 0;
 			if (ft_strncmp(ms.line,"exit",4) == 0)
 			{
 				free_env(ms.env);
@@ -81,7 +105,8 @@ int	main(int argc, char **argv , char *env[])
 			//print_env(ms.env);
 
 			execute_cmds(&ms, env);
-			//printf("ft_exit: Exit status from main is %d\n", g_exitstatus);
+			signal(SIGQUIT,SIG_IGN); //ignore after execution
+			//printf("ft_exit: Exit status from main is %d\n", g_exit.status);
 
 			add_history(ms.line);
 			free_line(ms.line);
