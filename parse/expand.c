@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 19:39:44 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/27 00:29:43 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_expand (t_ms *ms, char *s)
 					break;
 			}
 			var = ft_substr(s ,i - count ,count);
-			printf("Before join aux=%s var=%s\n", aux, var);
+			//printf("Before join aux=%s var=%s\n", aux, var);
 			if (var[0] == '?')
 				aux = ft_strjoinfree(aux,ft_itoa(g_exit.status));
 			else if (check_env(ms->env, var) == 0)

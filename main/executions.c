@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 18:42:10 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/27 00:15:12 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 		dup2(fd[0] ,STDIN_FILENO);
 		close(fd[0]);
 	}
-	if (fd[1] && fd[1] == -1)
+	if (fd[1] && fd[1] != -1)
 	{
 		dup2(fd[1] ,STDOUT_FILENO);
 		close(fd[1]);
