@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:54:38 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:11:31 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
-int	b_exit(t_ms *ms)
+void	b_exit(void)
 {
-	return(0);
+	exit(0);
 }

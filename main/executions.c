@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:54:36 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:42:10 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 	if (!ft_strncmp(cmd[0], "env", 3))
 		return(enviroment(ms->env));
 	if (!ft_strncmp(cmd[0], "exit", 4))
-		return(b_exit());
+		b_exit();
 	return(0);
 }
 
@@ -105,12 +105,12 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 		dup2(ms->pipes[lvl-1][0], STDIN_FILENO);
 	if (ms->pipes && lvl < ms->cntcmds-1)
 		dup2(ms->pipes[lvl][1], STDOUT_FILENO);
-	if (fd[0])
+	if (fd[0] && fd[0] != -1)
 	{
 		dup2(fd[0] ,STDIN_FILENO);
 		close(fd[0]);
 	}
-	if (fd[1])
+	if (fd[1] && fd[1] == -1)
 	{
 		dup2(fd[1] ,STDOUT_FILENO);
 		close(fd[1]);
@@ -138,6 +138,8 @@ int	handle_forks(t_ms	*ms, char **env)
 
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
+			if (com->fd[0] == -1 || com->fd[1] == -1)
+				exit(1);
 			if (is_builtin(com->command[0]) && com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
@@ -150,7 +152,7 @@ int	handle_forks(t_ms	*ms, char **env)
 		{
 			if (!com -> next)
 			{
-				g_exit.status = execute_builtin(ms,com->command, com->parent); //here on inside lets decide
+				g_exit.status = execute_builtin(ms,com->command, com->parent);
 				return(1);
 			}
 			else

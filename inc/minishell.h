@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:45:08 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:08:43 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*ft_strjoinfree(char *s1, char const *s2);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);
-int		ft_parent_exe(char **command);
+int		ft_parent_exe(t_ms	*ms, char **command);
 
 //heredoc
 int		heredoc_fillfd(t_ms *ms, t_tok *tokens);

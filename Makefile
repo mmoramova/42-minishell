@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
+#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/07/25 17:51:20 by josorteg         ###   ########.fr        #
+#    Updated: 2023/07/26 18:10:55 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MAKE_READLINE = make -C readline --no-print-directory
 MAIN = main freems prep_exe execution_utils signal executions heredoc executionsv2
 ENV = env
 PARSE = quotes split_tokens expand
-BUILT = echo envcomand pwd  export unset newcd
+BUILT = echo envcomand pwd export unset newcd exit
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \

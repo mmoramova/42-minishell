@@ -3,19 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:54:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:46:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_parent_exe(char **command)
+int ft_count_types (t_tok *token, int type)
 {
-	if(ft_strncmp(command[0],"cd",2) == 0
-	|| ft_strncmp(command[0],"exit",4) == 0
+	int	len;
+
+	len = 0;
+	while(token)
+	{
+		if (token->type == type)
+			len++;
+		token = token -> next;
+	}
+	return(len);
+}
+
+int	ft_parent_exe(t_ms	*ms, char **command)
+{
+	if (ft_strncmp(command[0],"cd",2) == 0
+	|| (ft_strncmp(command[0],"exit",4) == 0
+			&& ft_count_types(ms->start, 1) == 0)
 	|| ft_strncmp(command[0],"unset",5) == 0
 	|| ((ft_strncmp(command[0],"export",6) == 0) && command[1]))
 		return (1);
@@ -23,7 +38,7 @@ int	ft_parent_exe(char **command)
 		return (0);
 }
 
-void ft_open(t_ms	*ms, int type, int fd[2], char *file)
+int	ft_open(t_ms *ms, int type, int fd[2], char *file)
 {
 	if (type == 2 || type == 3)
 	{
@@ -31,12 +46,12 @@ void ft_open(t_ms	*ms, int type, int fd[2], char *file)
 			close(fd[0]);
 		if (type == 2)
 			fd[0] = open(file, O_RDONLY, 0666);
-		else
+		else if (type == 3)
 			fd[0] = ms->heredocfd;
 		if (fd[0] == -1)
 		{
 			ft_exit(1, file, strerror(errno), NULL);
-			exit(1);
+			return(1);
 		}
 	}
 	else
@@ -45,14 +60,15 @@ void ft_open(t_ms	*ms, int type, int fd[2], char *file)
 			close(fd[1]);
 		if (type == 4)
 			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-		else
+		else if (type == 5)
 			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND , 0666);
 		if (fd[1] == -1)
 		{
 			ft_exit(1, file, strerror(errno), NULL);
-			exit(1);
+			return(1);
 		}
 	}
+	return(0);
 }
 
 int ft_lstcmd_count(t_tok *token)
@@ -75,8 +91,10 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 {
 	t_ex	*lst;
 	int		i;
+	int		res;
 
 	i = 0;
+	res = 0;
 	lst = (t_ex *) malloc(sizeof(t_ex));
 	if (!lst)
 		return (NULL);
@@ -86,15 +104,15 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 	{
 		if (token->type == 0)
 			lst -> command[i++] = ft_strdup(token ->content);
-		if (token->type > 1)
+		if (token->type > 1 && res != 1)
 		{
-			ft_open(ms, token->type, lst->fd, token->next->content);
+			res = ft_open(ms, token->type, lst->fd, token->next->content);
 			token = token -> next;
 		}
 		token = token -> next;
 	}
 	lst -> command[i] = NULL;
-	lst -> parent = ft_parent_exe(lst -> command);
+	lst -> parent = ft_parent_exe(ms, lst -> command);
 	//printf("comand=%s y parent=%d\n", lst -> command[0], lst -> parent);
 	return (lst);
 }
@@ -118,11 +136,10 @@ void	ft_prep_exe(t_ms	*ms)
 {
 	t_ex	*aux;
 	t_tok	*token;
-	int		cntcmds;
 
 	aux = NULL;
 	token = ms->start;
-	cntcmds = 0;
+	ms->cntcmds = 0;
 	ms->heredocfd =  heredoc_fillfd(ms, token);
 	while (token)
 	{
@@ -131,10 +148,9 @@ void	ft_prep_exe(t_ms	*ms)
 			token = token->next;
 		if (token)
 			token = token->next;
-		cntcmds++;
+		ms->cntcmds++;
 	}
 	ms->exe = aux;
-	ms->cntcmds = cntcmds;
 
 	//TODO FREE TOKEN
 
