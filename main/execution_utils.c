@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:30:11 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:36:35 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3)
 		ft_putstr_fd(txt3, 2);
 	}
 	ft_putstr_fd("\n", 2);
-
 	g_exit.status = exitnumber;
-	//printf("ft_exit: Exit status is %d\n", g_exit.status);
-	exit(g_exit.status);
+	//printf("ft_exit: Exit status is %d\n", g_exitstatus);
+	//exit(g_exit.status);
 }
 
 char	**ft_get_paths(char *env)
@@ -74,7 +73,7 @@ void	execve_prepare(t_ms	*ms, char **env, char **cmd)
 		ft_execve(cmd[0], cmd, env);
 		ft_exit(127, cmd[0], "No such file or directory", NULL);
 	}
-	paths = ft_get_paths(get_env_value(ms->env ,"PATH"));
+	paths = ft_get_paths(get_env_value(ms->env, "PATH"));
 	i = 0;
 	while (paths[i])
 		ft_execve(ft_strjoin(ft_strjoin(paths[i++], "/"),

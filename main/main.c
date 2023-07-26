@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/26 17:30:49 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:35:01 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int argc, char **argv , char *env[])
 	term_init();
 	g_exit.proces = 0;
 	signal(SIGQUIT,SIG_IGN);
+	g_exit.status = 0;
 	while (42)
 	{
 		g_exit.proces = 0;
@@ -92,6 +93,7 @@ int	main(int argc, char **argv , char *env[])
 		// }
 		if (ms.line && strlen(ms.line) > 0)
 		{
+
 			if (ft_strncmp(ms.line,"exit",4) == 0)
 			{
 				free_env(ms.env);
