@@ -14,15 +14,15 @@ $HOMEdskjhfkdshfsd
 
 $DONTEXIST
 
-echo hola <<<< bonjour
 
-cd.. | echo "hola"
-and then look at pwd
 
-cd / | echo "hola"
-and then look at pwd
 
-cd .. | pwd
-and then look at pwd
+
+manage signals in heredog
 
 ./minishell -> SHLVL +1
+
+buildints all to lowercase
+
+check open quotes, | or redireccionts without argm....
+	error message
