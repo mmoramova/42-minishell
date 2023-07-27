@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:30:43 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/27 17:42:48 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ void	process_1(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		exit(1);
+		b_exit(0);
+	}
+	if (sig == SIGQUIT)
+	{
+		;
 	}
 }
 
@@ -44,7 +48,7 @@ void	process_2(int sig)
 {
 	if (sig == SIGINT) //control d
 	{
-		printf("\n");
+		printf("^C\n");
 		g_exit.status = 130;
 	}
 	if (sig == SIGQUIT) //control

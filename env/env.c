@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 12:05:42 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:19:33 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ int	check_env (t_env *env, char *var)
 	while (aux)
 	{
 
-		if(ft_strncmp (var, aux->evar, ft_strlen(aux->evar)) == 0)
+		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
+		&& ft_strlen(var) == ft_strlen(aux->evar))
 		{
 			return(0);
 		}
@@ -136,17 +137,15 @@ void	change_env(t_env *env, char *var, char *val)
 
 	aux = env;
 
-	while (aux && ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) != 0)
+	while (aux &&  !(ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) == 0
+		&& ft_strlen(aux->evar) == ft_strlen(var)))
 		aux = aux->next;
-	//printf("variable=%s y valor antes del cambio=%s\n", aux->evar, aux->eval);
 	if (aux->eval)
 		free (aux->eval);
 	if (val)
 		aux->eval = strdup(val);
 	else
 		aux->eval =strdup("");
-	//printf("variable=%s y valor despues del cambio=%s\n", aux->evar, aux->eval);
-
 	return;
 }
 

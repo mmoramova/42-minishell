@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 18:08:43 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:34:46 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		check_export(char	*nenv);
 int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com, int parent);
 int		unset(t_ms *ms ,char **com);
-void	b_exit(void);
+void	b_exit(int parent);
 
 //free
 void	free_ms(t_ms *ms);

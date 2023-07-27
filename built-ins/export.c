@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:29:14 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:08:53 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,16 @@ int	export(t_ms *ms, char **com, int parent)
 
 			if(check_env(ms->env, nenv->evar) == 1)
 			{
-
+				write(1,"AA\n",4);
 				add_env(ms->env, nenv->evar, nenv->eval);
 
 			}
 			else if (ft_strchr(com[i],'=') != 0)
+			{
+				write(1,"BCH\n",4);
+				printf("com[i]=%s",com[i]);
 				change_env(ms->env, nenv->evar, nenv->eval);
+			}
 			i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 17:36:35 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:35:28 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,15 @@ void	ft_execve(char *path, char **cmd, char **env)
 	if (access(path, F_OK) == 0)
 	{
 		if (access(path, X_OK) != 0)
+		{
 			ft_exit(126, cmd[0], strerror(errno), NULL);
+			exit(126);
+		}
 		if (execve(path, cmd, env) == -1)
+		{
 			ft_exit(errno, strerror(errno), NULL, NULL);
+			exit(errno);
+		}
 	}
 }
 
@@ -72,6 +78,7 @@ void	execve_prepare(t_ms	*ms, char **env, char **cmd)
 	{
 		ft_execve(cmd[0], cmd, env);
 		ft_exit(127, cmd[0], "No such file or directory", NULL);
+		exit(127);
 	}
 	paths = ft_get_paths(get_env_value(ms->env, "PATH"));
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 18:46:05 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:23:31 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int ft_count_types (t_tok *token, int type)
 
 int	ft_parent_exe(t_ms	*ms, char **command)
 {
-	if (ft_strncmp(command[0],"cd",2) == 0
-	|| (ft_strncmp(command[0],"exit",4) == 0
-			&& ft_count_types(ms->start, 1) == 0)
+	if ((ft_strncmp(command[0],"cd",2) == 0
+	|| ft_strncmp(command[0],"exit",4) == 0
 	|| ft_strncmp(command[0],"unset",5) == 0
 	|| ((ft_strncmp(command[0],"export",6) == 0) && command[1]))
+	&& (ft_count_types(ms->start, 1) == 0))
 		return (1);
 	else
 		return (0);

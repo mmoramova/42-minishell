@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/27 00:15:12 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:12:59 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int is_builtin(char *cmd)
 	  || (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
 	  || (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
 	  || (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-	  || (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
-	  )
+	  || (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4))
 		return (1);
 	return(0);
 }
@@ -33,17 +32,18 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 		return(b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
 		return(cd(ms, cmd));
-	if (!ft_strncmp(cmd[0], "pwd", 3))
+	if (!ft_strncmp(cmd[0], "pwd", 3) && cmd[1] == NULL)
 		return(pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
 		return(export(ms, cmd, parent));
 	if (!ft_strncmp(cmd[0], "unset", 5))
 		return(unset(ms, cmd));
-	if (!ft_strncmp(cmd[0], "env", 3))
+	if (!ft_strncmp(cmd[0], "env", 3) && cmd[1] == NULL)
 		return(enviroment(ms->env));
-	if (!ft_strncmp(cmd[0], "exit", 4))
-		b_exit();
-	return(0);
+	if (!ft_strncmp(cmd[0], "exit", 4) && cmd[1] == NULL)
+		b_exit(parent);
+	ft_exit(1,cmd[0],cmd[1],"opcion no valida");
+	return(1);
 }
 
 int **handle_pipes(t_ms *ms)
