@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/27 19:31:50 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/29 10:29:56 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ char	*ft_expand (t_ms *ms, char *s)
 		}
 		aux = ft_strjoinfree(aux,ft_substr(s,i - count,count));
 	}
-	printf("at the end aux=%s var=%s\n", aux, var);
+	//printf("at the end aux=%s var=%s\n", aux, var);
 	return (aux);
 }

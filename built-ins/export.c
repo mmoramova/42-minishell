@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/27 14:08:53 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/29 10:56:50 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ int	export(t_ms *ms, char **com, int parent)
 
 			if(check_env(ms->env, nenv->evar) == 1)
 			{
-				write(1,"AA\n",4);
+				//write(1,"AA\n",4);
 				add_env(ms->env, nenv->evar, nenv->eval);
 
 			}
 			else if (ft_strchr(com[i],'=') != 0)
 			{
-				write(1,"BCH\n",4);
-				printf("com[i]=%s",com[i]);
+				//write(1,"BCH\n",4);
+				//printf("com[i]=%s",com[i]);
 				change_env(ms->env, nenv->evar, nenv->eval);
 			}
 			i++;
@@ -110,7 +110,7 @@ int	check_export(char	*nenv)
 	i = 0;
 	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
 	{
-		printf("fallo checkeo primera letra de %s\n", nenv);
+		//printf("fallo checkeo primera letra de %s\n", nenv);
 		ft_exit(1, "export", nenv, "not a valid identifier");
 		//exit prepaped
 		return(1);
@@ -120,13 +120,13 @@ int	check_export(char	*nenv)
 	{
 		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
 		{
-			printf("fallo en checkeo formato\n");
+			//("fallo en checkeo formato\n");
 			ft_exit(1, "export", nenv, "not a valid identifier");
 			//now it makes exit, if you need just uncomment
 			return(1);
 		}
 		i++;
 	}
-	printf("formato correcto\n");
+	//printf("formato correcto\n");
 	return(0);
 }
