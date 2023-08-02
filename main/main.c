@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/27 17:08:28 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:44:10 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,19 @@ int	main(int argc, char **argv , char *env[])
 		// 	perror("exit");
 		// 	exit(g_exit.status);
 		// }
+
+//NEW PROACH WITH ISATTY
+		// if (isatty(fileno(stdin)))
+		// 	ms.line = readline("minishell >");
+		// else
+		// {
+		// 	printf("exit");
+		// 	exit(1);
+		// }
+
+
+		//old readline
+
 		ms.line = readline("minishell> ");
 		if (!ms.line)
 		{
@@ -86,26 +99,11 @@ int	main(int argc, char **argv , char *env[])
 		signal(SIGINT,handle_sigint);
 
 		g_exit.proces = 0;
-		// if (!ms.line)
-		// {
-		// 	free(ms.env);
-		// 	perror("exit\n");
-		// 	exit(g_exit.status);
-		// }
+
 		if (ms.line && strlen(ms.line) > 0)
 		{
-
-			//if (ft_strncmp(ms.line,"exit",4) == 0 && ft_strlen(ms.line) == 4)
-			//{
-			//	free_env(ms.env);
-			//	exit(0);
-			//}
 			ft_parse(&ms);
 			ft_prep_exe(&ms);
-
-			//print ms exe
-			//print env
-			//print_env(ms.env);
 
 			execute_cmds(&ms, env);
 			signal(SIGQUIT,SIG_IGN); //ignore after execution

@@ -4,9 +4,9 @@ TODO:
 
 $
 
-$HOME
+$HOME (permission denied its from command )
 
-$HOMEdskjhfkdshfsd
+"$HOMEdskjhfkdshfsd"
 
 "$HOMEdskjhfkdshfsd"
 

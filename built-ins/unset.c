@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:00:39 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:30:06 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/31 20:41:03 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,15 @@ int	unset(t_ms *ms ,char **com)
 {
 	int		i;
 
-	if (com[1] == NULL || check_env(ms->env, com[1]))
+
+	if (com[1] == NULL)
 		return(0);
 	i = 1;
+
 	while (com[i])
 	{
+		if (check_export(com[i]) == 1)
+				return(1);
 		if (check_env (ms->env, com[i]) == 1)
 			i++;
 		else

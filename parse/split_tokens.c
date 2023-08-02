@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/26 11:31:06 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:53:05 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	t_tok	*lst;
 	char	*str;
 
+	(void)ms;
 	lst = (t_tok *) malloc(sizeof(t_tok));
 	if (!lst)
 		return (NULL);
@@ -100,6 +101,8 @@ void	ft_tok_checks(t_tok *lst)
 {
 	t_tok	*previous;
 
+	if (!lst)
+		return;
 	previous = lst;
 	if (lst->type == 1)
 	{
@@ -129,7 +132,8 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 	t_tok	*lst;
 	char	*s;
 
-	s = ms->line;
+	s = ft_expand(ms,ms->line);
+
 	lst = NULL;
 	while (*s)
 	{
