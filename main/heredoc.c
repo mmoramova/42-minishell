@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/27 18:46:55 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:54:12 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	heredoc_execute(t_ms *ms, char *file)
 {
 	int	pid;
 	int	fd[2];
+	int	proces_status;
 
-	g_exit.proces = 1;
-	signal(SIGQUIT,handle_sigint);
-	signal(SIGINT,handle_sigint);
+
+	g_exit.proces = 2;
 	if (pipe(fd) == -1)
 		ft_exit(errno, strerror(errno), NULL, NULL);
 
@@ -61,15 +61,21 @@ int	heredoc_execute(t_ms *ms, char *file)
 		ft_exit(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 	{
-
+		signal(SIGINT,handle_sigint);
 		heredoc_read(ms, file, fd);
 		close(fd[0]);
 		close(fd[1]);
-		g_exit.proces = 0;
 		exit(0);
 	}
 	close(fd[1]);
-	waitpid(pid, NULL, 0);
+	/// this is for know the exit code, if 1 i change process to 4 and cancel executions
+	//if 0 we continue with heredoc and executions
+	waitpid(pid, &proces_status, 0);
+	if (WIFEXITED(proces_status))
+	{
+		if(WEXITSTATUS(proces_status) == 1)
+			g_exit.proces = 4;
+	}
 	return (fd[0]);
 }
 
@@ -79,7 +85,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	t_tok	*token;
 
 	token = tokens;
-	while (token)
+	while (token && g_exit.proces != 4)
 	{
 		if (token->type == 3)
 		{

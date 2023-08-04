@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/27 14:34:46 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:36:37 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@
 
 typedef struct s_ex
 {
-	char	**command;
-	int		fd[2];
-	int		parent;
+	char		**command;
+	int			fd[2];
+	int			parent;
 	struct s_ex	*next;
 	struct s_ex *previous;
 } t_ex;
@@ -53,8 +53,8 @@ typedef struct s_ex
 //struct for storage the enviroment
 typedef	struct s_tok
 {
-	char	*content;
-	int		type;
+	char			*content;
+	int				type;
 	struct	s_tok	*previous;
 	struct	s_tok	*next;
 
@@ -111,6 +111,11 @@ t_tok	*ft_split_tok(t_ms *ms, char c);
 //expand
 char	*ft_expand (t_ms *ms, char *s);
 char	*ft_strjoinfree(char *s1, char const *s2);
+t_tok	*ft_expand_token(char *str);
+int		ft_wordlen_wq(char const *s, char c);
+int		ft_tok_addtype(char *s);
+void	ft_toklstadd_back(t_tok **lst, t_tok *new);
+t_tok	*ft_toklstlast(t_tok *lst);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);

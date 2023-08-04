@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/27 19:12:59 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:51:47 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,9 @@ void	execute_cmds(t_ms	*ms, char **env)
 
 	version = 1;
 	// first version
-	g_exit.proces = 2;
+	if (g_exit.proces == 4)
+		return;
+	g_exit.proces = 1;
 	if (version == 1)
 	{
 		ms->pipes = handle_pipes(ms);

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/02 16:53:05 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:31:51 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,20 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	if (!lst)
 		return (NULL);
 	lst -> previous = ft_toklstlast(tokens);
-	//after << i dont expand and dont delete quotes
+	lst -> type = ft_tok_addtype(content);
+	lst -> next = NULL;
 	if ((lst -> previous && lst -> previous -> type == 3))
 		lst->content = content;
 	else if (ft_strchrn (content,'$') == - 1)
 		lst->content = ft_quotes_remove(content);
 	else
 	{
-		//printf("---before expand:%s\n",content);
+		free(lst);
 		str = ft_expand(ms, content);
-		//printf("---after expand :%s\n",str);
-		lst -> content = ft_quotes_remove(str);
-		//printf("---after expand + quotes:%s\n",lst -> content);
+		lst = ft_expand_token(str);
+		if (lst)
+			lst -> previous = ft_toklstlast(tokens);
 	}
-	lst -> next = NULL;
-	lst -> type = ft_tok_addtype(content);
 	return (lst);
 }
 
@@ -132,8 +131,8 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 	t_tok	*lst;
 	char	*s;
 
-	s = ft_expand(ms,ms->line);
-
+	//s = ft_expand(ms,ms->line);
+	s = ms->line;
 	lst = NULL;
 	while (*s)
 	{
@@ -141,6 +140,7 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		{
 			//printf("WORDLEN IS: %d\n", ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, ft_substr(s, 0, ft_wordlen_wq(s, c))));
+			//malloc protection in this line...
 			s += ft_wordlen_wq(s, c) - 1;
 		}
 		s++;
@@ -148,7 +148,6 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 	ft_tok_checks(lst);
 	return (lst);
 }
-
 
 /*
 int main(void)

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:31:01 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:20:50 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ char *ft_quotes_remove(char *s)  //need to repair if the expansion adds one ' / 
 	i = 0;
 	j = 0;
 	res = malloc(sizeof(char) * (ft_strlen(s) - ft_quotes_nbr(s) + 1));
+
 	if (!res)
 		return (NULL);
+
 	while (s[i])
 	{
 		if ((open_quotes(s, i) != open_quotes(s, i-1)))
@@ -70,6 +72,7 @@ char *ft_quotes_remove(char *s)  //need to repair if the expansion adds one ' / 
 		res[j++] = s[i++];
 	}
 	res[j] = '\0';
+
 	return(res);
 }
 /*

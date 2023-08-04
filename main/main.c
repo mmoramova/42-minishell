@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/02 16:44:10 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:43:34 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void term_init()
     struct termios term;
 
     tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag &= ~ECHOCTL;
+    term.c_lflag &= ~ECHOCTL; //activa
+	//term.c_lflag |= ECHOCTL; //desactiva
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
@@ -64,13 +65,11 @@ int	main(int argc, char **argv , char *env[])
 	if (check_env (ms.env, "OLDPWD") == 1)
 		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
 	term_init();
-	g_exit.proces = 0;
-	signal(SIGQUIT,SIG_IGN);
-	g_exit.status = 0;
 	while (42)
 	{
 		g_exit.proces = 0;
 		signal(SIGINT,handle_sigint);
+		signal(SIGQUIT,SIG_IGN);
 		// if(signal(EOF,handle_sigint)) //control d
 		// {
 		// 	perror("exit");
@@ -82,8 +81,10 @@ int	main(int argc, char **argv , char *env[])
 		// 	ms.line = readline("minishell >");
 		// else
 		// {
-		// 	printf("exit");
-		// 	exit(1);
+		// 	char *line;
+		// 	line = get_next_line(fileno(stdin));
+		// 	ms.line = ft_strtrim(line, "\n");
+		// 	free(line);
 		// }
 
 
@@ -93,20 +94,16 @@ int	main(int argc, char **argv , char *env[])
 		if (!ms.line)
 		{
 			printf("exit");
-
-			exit(g_exit.status);
+			b_exit(g_exit.status);
 		}
-		signal(SIGINT,handle_sigint);
-
-		g_exit.proces = 0;
-
 		if (ms.line && strlen(ms.line) > 0)
 		{
+			signal(SIGINT,SIG_IGN);
 			ft_parse(&ms);
 			ft_prep_exe(&ms);
 
 			execute_cmds(&ms, env);
-			signal(SIGQUIT,SIG_IGN); //ignore after execution
+			//ignore after execution
 			//printf("ft_exit: Exit status from main is %d\n", g_exit.status);
 
 			add_history(ms.line);
@@ -115,6 +112,6 @@ int	main(int argc, char **argv , char *env[])
 	}
 	//clean_history();
 	free_env(ms.env);
-	return (0);
+	return (g_exit.status);
 }
 

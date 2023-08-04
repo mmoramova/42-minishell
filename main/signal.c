@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/02 16:44:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:50:19 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,20 @@ void process_0(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-		exit(1);
+
 }
 
-void	process_1(int sig)
+void	process_2(int sig) //heredoc
 {
 	if (sig == SIGINT)
 	{
-		g_exit.status = 1;
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		b_exit(0);
+		printf("\n");
+		exit(1);
 	}
-	if (sig == SIGQUIT)
-	{
-		;
-	}
+
 }
 
-void	process_2(int sig)
+void	process_1(int sig) //execution
 {
 	if (sig == SIGINT) //control d
 	{
@@ -64,10 +57,11 @@ void	handle_sigint(int sig)
 {
 	if (g_exit.proces == 0)
 		process_0(sig);
-	else if (g_exit.proces == 1) //heredoc
+	else if (g_exit.proces == 1) //execution
 		process_1(sig);
-	else if (g_exit.proces == 2) //execution
+	else if (g_exit.proces == 2) //heredoc hijo
 		process_2(sig);
+
 }
 
 
