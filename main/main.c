@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/04 11:43:34 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:44:05 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void ft_parse(t_ms	*ms)
 		exit(1);
 	}
 	ms->start = ft_split_tok(ms, ' ');
+
 
 
 	/*token only for printing:*/
@@ -77,20 +78,20 @@ int	main(int argc, char **argv , char *env[])
 		// }
 
 //NEW PROACH WITH ISATTY
-		// if (isatty(fileno(stdin)))
-		// 	ms.line = readline("minishell >");
-		// else
-		// {
-		// 	char *line;
-		// 	line = get_next_line(fileno(stdin));
-		// 	ms.line = ft_strtrim(line, "\n");
-		// 	free(line);
-		// }
+		if (isatty(fileno(stdin)))
+			ms.line = readline("minishell >");
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			ms.line = ft_strtrim(line, "\n");
+			free(line);
+		}
 
 
 		//old readline
 
-		ms.line = readline("minishell> ");
+		// ms.line = readline("minishell> ");
 		if (!ms.line)
 		{
 			printf("exit");

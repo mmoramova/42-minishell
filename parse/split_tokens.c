@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/04 13:31:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:34:20 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,9 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 			//printf("WORDLEN IS: %d\n", ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, ft_substr(s, 0, ft_wordlen_wq(s, c))));
 			//malloc protection in this line...
+
 			s += ft_wordlen_wq(s, c) - 1;
+
 		}
 		s++;
 	}

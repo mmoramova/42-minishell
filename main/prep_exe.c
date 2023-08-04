@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/02 17:34:36 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:33:47 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,11 @@ void	ft_prep_exe(t_ms	*ms)
 	t_tok	*token;
 
 	aux = NULL;
+
 	token = ms->start;
 	ms->cntcmds = 0;
 	ms->heredocfd =  heredoc_fillfd(ms, token);
-	while (token)
+	while (token && token->content[0])
 	{
 		ft_exlstadd_back(&aux, ft_exlstnew(ms, token));
 		while (token && token->type != 1)
