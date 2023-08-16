@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/04 11:54:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:56:48 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,20 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 	filewq = ft_quotes_remove(file);
 	while (42)
 	{
+
+		//start for tester
+		if (isatty(fileno(stdin)))
 		line = readline("> ");
-		if(!line)
+		else
+		{
+			char *line2;
+			line2 = get_next_line(fileno(stdin));
+			line = ft_strtrim(line2, "\n");
+			free(line2);
+		}
+		//end for tester, uncomment line below
+		//line = readline("> ");
+		if (!line)
 		{
 			rl_replace_line("", 0);
 			exit(0);
@@ -51,17 +63,15 @@ int	heredoc_execute(t_ms *ms, char *file)
 	int	fd[2];
 	int	proces_status;
 
-
-	g_exit.proces = 2;
+	g_exit.process = 2;
 	if (pipe(fd) == -1)
 		ft_exit(errno, strerror(errno), NULL, NULL);
-
 	pid = fork();
 	if (pid == -1)
 		ft_exit(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 	{
-		signal(SIGINT,handle_sigint);
+		signal(SIGINT, handle_sigint);
 		heredoc_read(ms, file, fd);
 		close(fd[0]);
 		close(fd[1]);
@@ -73,8 +83,8 @@ int	heredoc_execute(t_ms *ms, char *file)
 	waitpid(pid, &proces_status, 0);
 	if (WIFEXITED(proces_status))
 	{
-		if(WEXITSTATUS(proces_status) == 1)
-			g_exit.proces = 4;
+		if (WEXITSTATUS(proces_status) == 1)
+			g_exit.process = 4;
 	}
 	return (fd[0]);
 }
@@ -85,19 +95,17 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	t_tok	*token;
 
 	token = tokens;
-	while (token && g_exit.proces != 4)
+	while (token && g_exit.process != 4)
 	{
 		if (token->type == 3)
 		{
 			if (fd)
 				close(fd);
 			fd = heredoc_execute(ms, token->next->content);
-			//printf("fdheredoc=%d\n",fd);
 			token = token->next;
 			if (fd == -1)
 			//no me va bien en la ejecucion del control D y control C
 				ft_exit(errno, token->next->content, strerror(errno), NULL);
-
 		}
 		if (token)
 			token = token->next;

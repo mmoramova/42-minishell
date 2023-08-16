@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 11:50:19 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:05:36 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void	process_1(int sig) //execution
 
 void	handle_sigint(int sig)
 {
-	if (g_exit.proces == 0)
+	if (g_exit.process == 0)
 		process_0(sig);
-	else if (g_exit.proces == 1) //execution
+	else if (g_exit.process == 1) //execution
 		process_1(sig);
-	else if (g_exit.proces == 2) //heredoc hijo
+	else if (g_exit.process == 2) //heredoc hijo
 		process_2(sig);
 
 }

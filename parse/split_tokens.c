@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/04 15:34:20 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:20:10 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,34 +96,41 @@ void	ft_toklstadd_back(t_tok **lst, t_tok *new)
 		*lst = new;
 }
 
-void	ft_tok_checks(t_tok *lst)
+int	ft_tok_checks(t_tok *lst)
 {
 	t_tok	*previous;
 
 	if (!lst)
-		return;
+		return (1);
 	previous = lst;
 	if (lst->type == 1)
 	{
-		exit(1);
-		//TODO ERROR PIPE
+		ft_exit2(258, "syntax error near unexpected token `", lst->content, "\'");
+		return (1);
+	}
+	if (lst->type > 1 && !lst->next)
+	{
+		ft_exit2(258, "syntax error near unexpected token `", "newline", "\'");
+		return (1);
 	}
 	lst = lst -> next;
-
 	while (lst)
 	{
-		//ERRORS IN TOKENS
 		if ((previous->type > 1 && (lst->type != 0))
-			|| (previous->type == 1 && lst->type == 1)
-			|| (lst->type > 0 && !lst->next))
+			|| (previous->type == 1 && lst->type == 1))
 		{
-			//TODO ERROR
-			exit(1);
+			ft_exit2(258, "syntax error near unexpected token `", lst->content, "\'");
+			return (1);
+		}
+		if ((lst->type > 0 && !lst->next))
+		{
+			ft_exit2(258, "syntax error near unexpected token `", "newline", "\'");
+			return (1);
 		}
 		previous = lst;
 		lst = lst -> next;
 	}
-
+	return (0);
 }
 
 t_tok	*ft_split_tok(t_ms *ms, char c)
@@ -147,7 +154,8 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		}
 		s++;
 	}
-	ft_tok_checks(lst);
+	if (ft_tok_checks(lst) == 1)
+		lst = NULL;
 	return (lst);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/04 15:44:05 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:19:44 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,23 @@
 int ft_checkinput(t_ms ms)
 {
 	if (open_quotes(ms.line,strlen(ms.line)) != 0)
+	{
+		ft_exit(1, "syntax error","odd number of quotes", NULL);
 		return(1);
+	}
+	//if (ft_strchr(ms.line, ''))
+	// here i will check if in command is not \ ; or &
 	return(0);
 }
 
-void ft_parse(t_ms	*ms)
+int ft_parse(t_ms	*ms)
 {
-	//t_tok *tokens;
-
 	if (ft_checkinput(*ms) == 1)
-	{
-		//TODO ERROR
-		exit(1);
-	}
+		return(1);
 	ms->start = ft_split_tok(ms, ' ');
-
-
-
-	/*token only for printing:*/
-	// tokens = ms->start;
-	// while (tokens)
-	// {
-	// 	printf("%s || ", tokens->content);
-	// 	printf("%d\n", tokens->type);
-	// 	tokens=tokens->next;
-	// }
+	if (ms->start == NULL)
+		return (1);
+	return(0);
 }
 
 void term_init()
@@ -50,6 +42,18 @@ void term_init()
     term.c_lflag &= ~ECHOCTL; //activa
 	//term.c_lflag |= ECHOCTL; //desactiva
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void handle_line(t_ms *ms, char **env)
+{
+	signal(SIGINT,SIG_IGN);
+	if (ft_parse(ms) == 0)
+	{
+		ft_prep_exe(ms);
+		execute_cmds(ms, env);
+	}
+	add_history(ms->line);
+	free_line(ms->line);
 }
 
 int	main(int argc, char **argv , char *env[])
@@ -68,7 +72,7 @@ int	main(int argc, char **argv , char *env[])
 	term_init();
 	while (42)
 	{
-		g_exit.proces = 0;
+		g_exit.process = 0;
 		signal(SIGINT,handle_sigint);
 		signal(SIGQUIT,SIG_IGN);
 		// if(signal(EOF,handle_sigint)) //control d
@@ -77,9 +81,9 @@ int	main(int argc, char **argv , char *env[])
 		// 	exit(g_exit.status);
 		// }
 
-//NEW PROACH WITH ISATTY
+		//NEW PROACH WITH ISATTY
 		if (isatty(fileno(stdin)))
-			ms.line = readline("minishell >");
+			ms.line = readline("minishell> ");
 		else
 		{
 			char *line;
@@ -88,28 +92,12 @@ int	main(int argc, char **argv , char *env[])
 			free(line);
 		}
 
-
 		//old readline
-
 		// ms.line = readline("minishell> ");
 		if (!ms.line)
-		{
-			printf("exit");
-			b_exit(g_exit.status);
-		}
+			b_exit(1);
 		if (ms.line && strlen(ms.line) > 0)
-		{
-			signal(SIGINT,SIG_IGN);
-			ft_parse(&ms);
-			ft_prep_exe(&ms);
-
-			execute_cmds(&ms, env);
-			//ignore after execution
-			//printf("ft_exit: Exit status from main is %d\n", g_exit.status);
-
-			add_history(ms.line);
-			free_line(ms.line);
-		}
+			handle_line(&ms, env);
 	}
 	//clean_history();
 	free_env(ms.env);

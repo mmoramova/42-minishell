@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/27 19:35:28 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:20:17 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(txt, 2);
+	if(txt)
+		ft_putstr_fd(txt, 2);
 	if (txt2 && ft_strlen(txt2) > 0)
 	{
-		ft_putstr_fd(": ", 2);
+			ft_putstr_fd(": ", 2);
 		if (txt3 && !ft_strncmp(txt3, "not a valid identifier", 23))
 			ft_putchar_fd('`', 2);
 		ft_putstr_fd(txt2, 2);
@@ -33,7 +34,20 @@ void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3)
 	ft_putstr_fd("\n", 2);
 	g_exit.status = exitnumber;
 	//printf("ft_exit: Exit status is %d\n", g_exitstatus);
-	//exit(g_exit.status);
+}
+
+void	ft_exit2(int exitnumber, char *txt, char *txt2, char *txt3)  //i will change the function name
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (txt)
+		ft_putstr_fd(txt, 2);
+	if (txt2)
+		ft_putstr_fd(txt2, 2);
+	if (txt3)
+		ft_putstr_fd(txt3, 2);
+	ft_putstr_fd("\n", 2);
+	g_exit.status = exitnumber;
+	//printf("ft_exit: Exit status is %d\n", g_exitstatus);
 }
 
 char	**ft_get_paths(char *env)

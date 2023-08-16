@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 12:36:37 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:18:44 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,13 @@ typedef	struct s_ms
 }	t_ms;
 
 //global variable
-
 typedef struct s_exit
 {
 	int	status;
-	int	proces;
+	int	process;
 }	t_exit;
 
 t_exit	g_exit;
-
-
 
 //enviroment functions
 t_env	*new_env(char *env);
@@ -162,9 +159,10 @@ void	close_pipes(int **pipes);
 void execute_secondoption(t_ms	*ms, char **env);
 void execute_secondoption2(t_ms	*ms, char **env);
 
-
 //exit and signal
 void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3);
+void	ft_exit2(int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
 
+void	handle_line(t_ms *ms, char **env);
 #endif

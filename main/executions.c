@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 15:33:55 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:31:51 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,9 @@ void	execute_cmds(t_ms	*ms, char **env)
 
 	version = 1;
 	// first version
-	if (g_exit.proces == 4)
+	if (g_exit.process == 4)
 		return;
-	g_exit.proces = 1;
+	g_exit.process = 1;
 	if (version == 1)
 	{
 		ms->pipes = handle_pipes(ms);
@@ -188,5 +188,5 @@ void	execute_cmds(t_ms	*ms, char **env)
 	}
 	else //second with one pipe
 		execute_secondoption(ms, env);
-	g_exit.proces = 0;
+	g_exit.process = 0;
 }
