@@ -1,0 +1,3 @@
+       2
+int	ft_child_process(char **argv, char **env, int *fd)
+int	ft_parent_process(char **argv, char **env, int *fd)

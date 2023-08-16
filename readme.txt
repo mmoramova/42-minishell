@@ -1,28 +1,39 @@
-int	ft_child_process(char **argv, char **env, int *fd)
-{
-	int	file;
+TODO:
 
-	file = open(argv[1], O_RDONLY, 0666);
-	if (file == -1)
-		ft_exit(errno, argv[1], strerror(errno));
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(file, STDIN_FILENO);
-	ft_close(fd, file);
-	ft_execve_prepare(argv[2], env);
-	return (0);
-}
+?$HOME
 
-int	ft_parent_process(char **argv, char **env, int *fd)
-{
-	int	file;
+$
 
-	file = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0666);
-	//open(token->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-	if (file == -1)
-		ft_exit(1, argv[4], strerror(errno));
-	dup2(fd[0], STDIN_FILENO);
-	dup2(file, STDOUT_FILENO);
-	ft_close(fd, file);
-	ft_execve_prepare(argv[3], env);
-	return (0);
-}
+$HOME (permission denied its from command )
+
+"$HOMEdskjhfkdshfsd"
+
+"$HOMEdskjhfkdshfsd"
+
+'$HOMEdskjhfkdshfsd' --good
+
+$DONTEXIST
+
+
+
+
+
+manage signals in heredog
+
+./minishell -> SHLVL +1
+
+buildints all to lowercase
+
+check open quotes, | or redireccionts without argm....
+	error message
+
+
+Jose can you check this:
+1. export X="  A  B  "
+/bin/echo "1"$X'2'
+
+2. echo $HOME$NOTHING$USER$
+3. echo $ (the same problem)
+
+4. echo $PWD/random_folder - it looks like expansion also can end by slash
+

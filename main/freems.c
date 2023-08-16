@@ -3,14 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/12 17:36:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:40:12 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+void	free_ex(t_ex *ex)
+{
+	t_ex	*a;
+	t_ex	*b;
+
+	if (!ex)
+		return ;
+	a = ex;
+	while (a->next)
+	{
+		if (a->command)
+			free(a->command);
+		b = a->next;
+		free (a);
+		a = b;
+	}
+}
+
+void	free_tok(t_tok *tok)
+{
+	t_tok	*a;
+	t_tok	*b;
+
+	if (!tok)
+		return ;
+	a = tok;
+	while (a->next)
+	{
+		if (a->content)
+			free(a->content);
+		b = a->next;
+		free (a);
+		a = b;
+	}
+}
 
 void	free_env(t_env *env)
 {

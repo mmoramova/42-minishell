@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 13:30:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 09:48:34 by josorteg         ###   ########.fr       */
+/*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
+/*   Updated: 2023/07/27 14:35:24 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
-int	pwd(t_env *env)
+void	b_exit(int parent)
 {
-	if (env)
-		printf("%s\n",getcwd(NULL, PATH_MAX));
+	if (parent == 1)
+		printf("exit\n");
 	exit(0);
 }

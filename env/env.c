@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/17 11:54:15 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:19:33 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,25 @@ int	get_env(t_ms *ms, char **env)
 	return(1);
 }
 
-void	add_env (t_ms *ms, char *newvar)
+void	add_env (t_env *env, char *var, char *val)
 {
 	t_env	*aux;
+	t_env	*new;
 
-	aux = ms->env;
+	new= malloc(sizeof(t_env));
+	aux = env;
 	while (aux && aux->next)
 		aux = aux->next;
-	aux->next = new_env(newvar);
+	aux->next = new;
+	aux = new;
+	aux->evar = strdup(var);
+
+	if (val)
+		aux->eval = strdup(val);
+	else
+		aux->eval = NULL;
+
+	aux->next = NULL;
 }
 
 t_env	*new_env(char *env)
@@ -78,7 +89,6 @@ t_env	*new_env(char *env)
 // char *getenv(const char *name)
 char    *get_env_value(t_env *env ,char *var)
 {
-	int     size;
 	char    *str;
 	t_env	*aux;
 
@@ -86,11 +96,14 @@ char    *get_env_value(t_env *env ,char *var)
 		return(NULL);
 	aux = env;
 	str = NULL;
-	size = ft_strlen(var);
-	while (aux && aux->next)
+	while (aux)
 	{
-		if(ft_strncmp (var, aux->evar, size) == 0)
+		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
+		&& ft_strlen(aux->evar) == ft_strlen(var))
+		{
 			str = aux->eval;
+			return (str);
+		}
 		aux = aux->next;
 	}
 	return(str);
@@ -104,29 +117,35 @@ int	check_env (t_env *env, char *var)
 		return(1);
 	aux = env;
 
-	while (aux && aux->next)
+	while (aux)
 	{
-		if(ft_strncmp (var, aux->evar, ft_strlen(aux->evar)) == 0)
+
+		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
+		&& ft_strlen(var) == ft_strlen(aux->evar))
+		{
 			return(0);
+		}
 		aux = aux->next;
 	}
+	//printf("la variable %s NO EXISTE EN EL ENVIROMENT\n", var);
 	return(1);
 }
 
 void	change_env(t_env *env, char *var, char *val)
 {
 	t_env		*aux;
-	int			new_size;
 
 	aux = env;
-	while (aux->evar != var)
+
+	while (aux &&  !(ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) == 0
+		&& ft_strlen(aux->evar) == ft_strlen(var)))
 		aux = aux->next;
 	if (aux->eval)
 		free (aux->eval);
-	new_size = (int)ft_strlen(val);
-	aux->eval = malloc (new_size * sizeof(char));
-	if (!aux->eval)
-		return;
-	aux->eval = val;
+	if (val)
+		aux->eval = strdup(val);
+	else
+		aux->eval =strdup("");
+	return;
 }
 

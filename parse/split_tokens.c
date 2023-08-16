@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/17 18:30:39 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:34:20 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,36 +54,37 @@ int ft_tok_addtype(char *s)
 	return (0);
 }
 
-
-t_tok	*ft_toklstnew(t_ms *ms, char *content)
-{
-	t_tok	*lst;
-	char	*str;
-
-	lst = (t_tok *) malloc(sizeof(t_tok));
-	if (!lst)
-		return (NULL);
-
-	if (ft_strchrn (content,'$') == - 1)
-		lst->content = ft_quotes_remove(content);
-	else
-	{
-		printf("---before expand:%s\n",content);
-		str = ft_expand(ms, content);
-		printf("---after expand :%s\n",str);
-		lst -> content = ft_quotes_remove(str);
-		printf("---after expand + quotes:%s\n",lst -> content);
-	}
-	lst -> next = NULL;
-	lst -> previous = NULL;
-	lst -> type = ft_tok_addtype(content);
-	return (lst);
-}
-
 t_tok	*ft_toklstlast(t_tok *lst)
 {
 	while (lst && lst -> next)
 		lst = lst -> next;
+	return (lst);
+}
+
+t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
+{
+	t_tok	*lst;
+	char	*str;
+
+	(void)ms;
+	lst = (t_tok *) malloc(sizeof(t_tok));
+	if (!lst)
+		return (NULL);
+	lst -> previous = ft_toklstlast(tokens);
+	lst -> type = ft_tok_addtype(content);
+	lst -> next = NULL;
+	if ((lst -> previous && lst -> previous -> type == 3))
+		lst->content = content;
+	else if (ft_strchrn (content,'$') == - 1)
+		lst->content = ft_quotes_remove(content);
+	else
+	{
+		free(lst);
+		str = ft_expand(ms, content);
+		lst = ft_expand_token(str);
+		if (lst)
+			lst -> previous = ft_toklstlast(tokens);
+	}
 	return (lst);
 }
 
@@ -95,24 +96,12 @@ void	ft_toklstadd_back(t_tok **lst, t_tok *new)
 		*lst = new;
 }
 
-void	ft_toklstadd_previous(t_tok *lst)
-{
-	t_tok	*previous;
-
-	previous = lst;
-	lst = lst -> next;
-	while (lst)
-	{
-		lst -> previous = previous;
-		previous = lst;
-		lst = lst -> next;
-	}
-}
-
 void	ft_tok_checks(t_tok *lst)
 {
 	t_tok	*previous;
 
+	if (!lst)
+		return;
 	previous = lst;
 	if (lst->type == 1)
 	{
@@ -142,6 +131,7 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 	t_tok	*lst;
 	char	*s;
 
+	//s = ft_expand(ms,ms->line);
 	s = ms->line;
 	lst = NULL;
 	while (*s)
@@ -149,18 +139,17 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		if (*s != c)
 		{
 			//printf("WORDLEN IS: %d\n", ft_wordlen_wq(s, c));
-			ft_toklstadd_back(&lst, ft_toklstnew(ms, ft_substr(s, 0, ft_wordlen_wq(s, c))));
+			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, ft_substr(s, 0, ft_wordlen_wq(s, c))));
+			//malloc protection in this line...
+
 			s += ft_wordlen_wq(s, c) - 1;
 
 		}
 		s++;
 	}
-	ft_toklstadd_previous(lst);
 	ft_tok_checks(lst);
-
 	return (lst);
 }
-
 
 /*
 int main(void)

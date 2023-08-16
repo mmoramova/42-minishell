@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   aux_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 15:36:18 by josorteg         ###   ########.fr       */
+/*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
+/*   Updated: 2023/07/31 16:42:12 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include"minishell.h"
 
@@ -63,10 +64,7 @@ char	*ft_exp_quotes(char *str, int	quot)
 	j = 0;
 	result = NULL;
 	if (quot == 1)
-	{
-		//printf("resultado1 = %s\n",str);
 		return (str);
-	}
 	else if (quot == 0)
 	{
 		result = malloc (ft_one_space(str)*sizeof(char));
@@ -81,82 +79,49 @@ char	*ft_exp_quotes(char *str, int	quot)
 
     }
     result[j] = '\0';
-	//printf("resultado2 = %s\n",result);
     return (result);
 }
 
-char	*ft_expand (t_ms *ms, char *s)
+char	*ft_expand2(t_ms *ms, char *s)
 {
 	int		i;
-	char	*aux;
+	char 	*aux;
 	int		count;
+	char	*val;
 	char	*var;
 
 	i = 0;
 	aux = NULL;
-	while (s[i] !='$' && s[i] != '\0')
-		i++;
-	aux = ft_substr(s,0,i);
+	//printf("cadena : %s\n",s);
 	while (s[i])
 	{
-		if (s[i] == '$' && (open_quotes(s,i) != 2))
-		{
-			i++;
-			count = 0;
-			while (s[i] && (!ft_strchr("\'\" /$",s[i])))
-			{
-				count++;
-				if (s[i++] == '?')
-					break;
-			}
-			var = ft_substr(s ,i - count ,count);
-			if (var[0] == '?')
-				aux = ft_strjoinfree(aux,ft_itoa(g_exit.status));
-			else if (check_env(ms->env, var) == 0)
-				aux = ft_strjoinfree(aux,ft_exp_quotes(get_env_value (ms->env,var),open_quotes(s,i - 1)));
-			else if ((s[i] == '\"' || s[i] == '\'') && open_quotes(s,i - 1) == 0)
-				aux = ft_strjoinfree(aux, "");
-			else if (var[0] == '\0')
-				aux = ft_strjoin(aux,"$");
-			else
-				aux = ft_strjoinfree(aux,"");
-		}
 		count = 0;
-		while ((s[i] !='$' || (s[i] == '$' &&  (open_quotes(s,i) == 2))) && s[i] != '\0')
+		while (s[i] != '$' && s[i] != '\0')
+			count++;
+		i = i + count;
+		aux = ft_strjoinfree(aux,ft_substr(s,i - count,count));
+		//printf("i:%d count:%d variable1 : %s\n", i, count, aux);
+		i++;
+		count = 0;
+		while (s[i] && (!ft_strchr("\'\" $",s[i])))
 		{
 			count++;
-			i++;
+			if (s[i++] == '?')
+				break;
 		}
-		aux = ft_strjoinfree(aux,ft_substr(s ,i - count  ,count ));
-	}
-	return (aux);
-}
-
-t_tok	*ft_expand_token(char *str)
-{
-	t_tok	*lst;
-	t_tok	*tmp;
-	char	c;
-
-	c = ' ';
-	lst = NULL;
-	if (!str)
-		return(NULL);
-	while (*str)
-	{
-		if (*str != c)
+		var = ft_substr(s ,i - count ,count);
+		if (var[0] == '?')
+			aux = ft_strjoinfree(aux,ft_itoa(g_exit.status));
+		else if (check_env(ms->env, var) == 0)
 		{
-			tmp = (t_tok *) malloc(sizeof(t_tok));
-			if (!tmp)
-				return (NULL);
-			tmp -> content = ft_quotes_remove(ft_substr(str, 0, ft_wordlen_wq(str, c)));
-			tmp -> previous = ft_toklstlast(lst);
-			tmp -> type = ft_tok_addtype(tmp->content);
-			tmp-> next = NULL;
-			ft_toklstadd_back(&lst, tmp);
-			str += ft_wordlen_wq(str, c) - 1;
+			val = get_env_value (ms->env,var);
+			printf("valor : %s\n",val);
+			aux = ft_strjoinfree(aux,ft_exp_quotes(val,open_quotes(s,i)));
+			printf("valor2 : %s\n",aux);
 		}
-		str++;
+		else
+			aux = ft_strjoinfree(aux,"");
 	}
-	return(lst);
+
+	return(aux);
 }
