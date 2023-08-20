@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/20 16:48:10 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:41:26 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv , char *env[])
 	t_ms	ms;
 
 	ms.start = NULL;
+	ms.exitstatus = 0;
 	if (argc != 1 && argv[0])
 		return(1);
 	//print enviroment (like env, only for test, OK no bus error!!!)
@@ -104,8 +105,9 @@ int	main(int argc, char **argv , char *env[])
 		if (!ms.line)
 			b_exit(&ms, NULL, 1);
 
+
 		//2nd tester https://github.com/ChewyToast/mpanic (55 errors 1 seg fault)
-		/*ms.line = readline("minishell $");
+		/*ms.line = readline("minishell> ");
 		if (!ms.line)
 		{
 			if (isatty(STDIN_FILENO))
