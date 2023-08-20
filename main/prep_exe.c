@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 15:33:47 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:11:13 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int ft_count_types (t_tok *token, int type)
 
 int	ft_parent_exe(t_ms	*ms, char **command)
 {
-	if ((ft_strncmp(command[0],"cd",2) == 0
+	if (command[0] && ((ft_strncmp(command[0],"cd",2) == 0
 	|| ft_strncmp(command[0],"exit",4) == 0
 	|| ft_strncmp(command[0],"unset",5) == 0
-	|| ((ft_strncmp(command[0],"export",6) == 0) && command[1]))
+	|| ((ft_strncmp(command[0],"export",6) == 0) && command[1])))
 	&& (ft_count_types(ms->start, 1) == 0))
 		return (1);
 	else
@@ -100,6 +100,7 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 		return (NULL);
 	lst -> next = NULL;
 	lst -> command = malloc(sizeof(char *) * (ft_lstcmd_count(token) + 1));
+
 	while (token && token->type != 1)
 	{
 		if (token->type == 0)
@@ -111,6 +112,7 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 		}
 		token = token -> next;
 	}
+
 	lst -> command[i] = NULL;
 	lst -> parent = ft_parent_exe(ms, lst -> command);
 	//printf("comand=%s y parent=%d\n", lst -> command[0], lst -> parent);
@@ -139,9 +141,11 @@ void	ft_prep_exe(t_ms	*ms)
 
 	aux = NULL;
 
+
 	token = ms->start;
 	ms->cntcmds = 0;
 	ms->heredocfd =  heredoc_fillfd(ms, token);
+
 	while (token && token->content[0])
 	{
 		ft_exlstadd_back(&aux, ft_exlstnew(ms, token));
@@ -151,6 +155,7 @@ void	ft_prep_exe(t_ms	*ms)
 			token = token->next;
 		ms->cntcmds++;
 	}
+
 	ms->exe = aux;
 
 	//TODO FREE TOKEN

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/15 18:31:51 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:12:50 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int is_builtin(char *cmd)
 {
-	if ((!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
+	if (cmd && ((!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
 	  || (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
 	  || (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
 	  || (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
 	  || (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
 	  || (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-	  || (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4))
+	  || (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)))
 		return (1);
 	return(0);
 }
@@ -136,6 +136,8 @@ int	handle_forks(t_ms	*ms, char **env)
 			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
 			// printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
 
+
+
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
@@ -181,6 +183,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 		ms->pipes = handle_pipes(ms);
 		ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
 		//children
+
 		is_parent = handle_forks(ms, env);
 		//parent
 		close_pipes(ms->pipes);
