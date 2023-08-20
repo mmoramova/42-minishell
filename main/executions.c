@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:53:59 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:38:08 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	execute_builtin(t_ms *ms,char **cmd, int parent)
 		return(unset(ms, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3) && cmd[1] == NULL)
 		return(enviroment(ms->env));
-	if (!ft_strncmp(cmd[0], "exit", 4) && cmd[1] == NULL)
-		b_exit(parent);
+	if (!ft_strncmp(cmd[0], "exit", 4))
+		return(b_exit(ms, cmd, parent));
 	ft_error(ms, 1,cmd[0],cmd[1],"opcion no valida");
 	return(1);
 }

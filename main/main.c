@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/20 13:52:24 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:48:10 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ int	main(int argc, char **argv , char *env[])
 		// 	exit(ms.exitstatus);
 		// }
 
+		//old readline
+		// ms.line = readline("minishell> ");
+
+		//1st tester (54 stdout, 42 stderr)
 		//NEW PROACH WITH ISATTY
 		if (isatty(fileno(stdin)))
 			ms.line = readline("minishell> ");
@@ -97,11 +101,18 @@ int	main(int argc, char **argv , char *env[])
 			ms.line = ft_strtrim(line, "\n");
 			free(line);
 		}
-
-		//old readline
-		// ms.line = readline("minishell> ");
 		if (!ms.line)
-			b_exit(1);
+			b_exit(&ms, NULL, 1);
+
+		//2nd tester https://github.com/ChewyToast/mpanic (55 errors 1 seg fault)
+		/*ms.line = readline("minishell $");
+		if (!ms.line)
+		{
+			if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 6);
+    		exit (ms.exitstatus);
+		}*/
+
 		if (ms.line && strlen(ms.line) > 0)
 			handle_line(&ms, env);
 	}

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 14:12:28 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:20:54 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		check_export(t_ms *ms, char *nenv);
 int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com, int parent);
 int		unset(t_ms *ms ,char **com);
-void	b_exit(int parent);
+int		b_exit(t_ms *ms, char **com, int parent);
 
 //free
 void	free_ms(t_ms *ms);
