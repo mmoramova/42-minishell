@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 15:36:18 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:42:30 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*ft_expand (t_ms *ms, char *s)
 			}
 			var = ft_substr(s ,i - count ,count);
 			if (var[0] == '?')
-				aux = ft_strjoinfree(aux,ft_itoa(g_exit.status));
+				aux = ft_strjoinfree(aux,ft_itoa(ms->exitstatus));
 			else if (check_env(ms->env, var) == 0)
 				aux = ft_strjoinfree(aux,ft_exp_quotes(get_env_value (ms->env,var),open_quotes(s,i - 1)));
 			else if ((s[i] == '\"' || s[i] == '\'') && open_quotes(s,i - 1) == 0)

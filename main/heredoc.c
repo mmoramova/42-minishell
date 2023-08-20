@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:48:34 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int	heredoc_execute(t_ms *ms, char *file)
 	int	fd[2];
 	int	proces_status;
 
-	g_exit.process = 2;
+	g_process = 2;
 	if (pipe(fd) == -1)
-		ft_error(errno, strerror(errno), NULL, NULL);
+		ft_error(ms, errno, strerror(errno), NULL, NULL);
 	pid = fork();
 	if (pid == -1)
-		ft_error(errno, strerror(errno), NULL, NULL);
+		ft_error(ms, errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 	{
 		signal(SIGINT, handle_sigint);
@@ -84,7 +84,7 @@ int	heredoc_execute(t_ms *ms, char *file)
 	if (WIFEXITED(proces_status))
 	{
 		if (WEXITSTATUS(proces_status) == 1)
-			g_exit.process = 4;
+			g_process = 4;
 	}
 	return (fd[0]);
 }
@@ -95,7 +95,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	t_tok	*token;
 
 	token = tokens;
-	while (token && g_exit.process != 4)
+	while (token && g_process != 4)
 	{
 		if (token->type == 3)
 		{
@@ -105,7 +105,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 			token = token->next;
 			if (fd == -1)
 			//no me va bien en la ejecucion del control D y control C
-				ft_error(errno, token->next->content, strerror(errno), NULL);
+				ft_error(ms, errno, token->next->content, strerror(errno), NULL);
 		}
 		if (token)
 			token = token->next;

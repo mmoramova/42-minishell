@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/31 16:42:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:42:23 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*ft_expand2(t_ms *ms, char *s)
 		}
 		var = ft_substr(s ,i - count ,count);
 		if (var[0] == '?')
-			aux = ft_strjoinfree(aux,ft_itoa(g_exit.status));
+			aux = ft_strjoinfree(aux,ft_itoa(ms->exitstatus));
 		else if (check_env(ms->env, var) == 0)
 		{
 			val = get_env_value (ms->env,var);

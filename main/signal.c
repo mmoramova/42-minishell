@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/15 19:05:36 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:45:29 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	process_1(int sig) //execution
 	if (sig == SIGINT) //control d
 	{
 		printf("^C\n");
-		g_exit.status = 130;
+		//ms->exitstatus = 130; Jose we cant use exit global variable, how can i put here ms?
 	}
 	if (sig == SIGQUIT) //control
 	{
 		printf("^\\Quit 3\n");
-		g_exit.status = 131;
+		//ms->exitstatus = 131; here is the same problem
 	}
 }
 
@@ -55,11 +55,11 @@ void	process_1(int sig) //execution
 
 void	handle_sigint(int sig)
 {
-	if (g_exit.process == 0)
+	if (g_process == 0)
 		process_0(sig);
-	else if (g_exit.process == 1) //execution
+	else if (g_process == 1) //execution
 		process_1(sig);
-	else if (g_exit.process == 2) //heredoc hijo
+	else if (g_process == 2) //heredoc hijo
 		process_2(sig);
 
 }

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:55:10 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,12 @@ typedef	struct s_ms
 	int		**pipes;
 	int		*pids;
 	int		heredocfd;
+	int		exitstatus;
 
 }	t_ms;
 
 //global variable
-typedef struct s_exit
-{
-	int	status;
-	int	process;
-}	t_exit;
-
-t_exit	g_exit;
+int	g_process;
 
 //enviroment functions
 t_env	*new_env(char *env);
@@ -149,19 +144,16 @@ void	free_tok(t_tok *tok);
 void	execute_cmds(t_ms *ms, char **env);
 int		execute_builtin(t_ms *ms,char **cmd, int parent);
 void	execve_prepare(t_ms	*ms, char **env, char **cmd);
+void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env);
 int		**handle_pipes(t_ms *ms);
 int		handle_forks(t_ms *ms, char **env);
 void	handle_redirections(t_ms *ms, int fd[2], int lvl);
-void	handle_waitpid(int *pids, int is_parent);
+void	handle_waitpid(t_ms *ms, int is_parent);
 void	close_pipes(int **pipes);
 
-//execution second option, i created file executionsV2
-void execute_secondoption(t_ms	*ms, char **env);
-void execute_secondoption2(t_ms	*ms, char **env);
-
 //exit and signal
-void	ft_error(int exitnumber, char *txt, char *txt2, char *txt3);
-void	ft_error2(int exitnumber, char *txt, char *txt2, char *txt3);
+void	ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
+void	ft_error2(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
 
 void	handle_line(t_ms *ms, char **env);

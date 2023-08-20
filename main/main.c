@@ -6,17 +6,17 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/20 13:21:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:52:24 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int ft_checkinput(t_ms ms)
+int ft_checkinput(t_ms *ms)
 {
-	if (open_quotes(ms.line,strlen(ms.line)) != 0)
+	if (open_quotes(ms->line,strlen(ms->line)) != 0)
 	{
-		ft_error(1, "syntax error","odd number of quotes", NULL);
+		ft_error(ms, 1, "syntax error","odd number of quotes", NULL);
 		return(1);
 	}
 	//if (ft_strchr(ms.line, ''))
@@ -24,7 +24,7 @@ int ft_checkinput(t_ms ms)
 	/*if (ft_strchr(ms.line, '&') || ft_strchr(ms.line, '\\') ||
 		ft_strchr(ms.line, ';'))
 	{
-		ft_error(1, "syntax error","incorrect symbol used", NULL);
+		ft_error(ms, 1, "syntax error","incorrect symbol used", NULL);
 		return(1);
 	}*/
 	return(0);
@@ -32,7 +32,7 @@ int ft_checkinput(t_ms ms)
 
 int ft_parse(t_ms	*ms)
 {
-	if (ft_checkinput(*ms) == 1)
+	if (ft_checkinput(ms) == 1)
 		return(1);
 	ms->start = ft_split_tok(ms, ' ');
 	if (ms->start == NULL)
@@ -78,13 +78,13 @@ int	main(int argc, char **argv , char *env[])
 	term_init();
 	while (42)
 	{
-		g_exit.process = 0;
+		g_process = 0;
 		signal(SIGINT,handle_sigint);
 		signal(SIGQUIT,SIG_IGN);
 		// if(signal(EOF,handle_sigint)) //control d
 		// {
 		// 	perror("exit");
-		// 	exit(g_exit.status);
+		// 	exit(ms.exitstatus);
 		// }
 
 		//NEW PROACH WITH ISATTY
@@ -107,6 +107,6 @@ int	main(int argc, char **argv , char *env[])
 	}
 	//clean_history();
 	free_env(ms.env);
-	return (g_exit.status);
+	return (ms.exitstatus);
 }
 
