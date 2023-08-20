@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/29 10:56:50 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	check_export(char	*nenv)
 	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
 	{
 		//printf("fallo checkeo primera letra de %s\n", nenv);
-		ft_exit(1, "export", nenv, "not a valid identifier");
+		ft_error(1, "export", nenv, "not a valid identifier");
 		//exit prepaped
 		return(1);
 	}
@@ -121,7 +121,7 @@ int	check_export(char	*nenv)
 		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
 		{
 			//("fallo en checkeo formato\n");
-			ft_exit(1, "export", nenv, "not a valid identifier");
+			ft_error(1, "export", nenv, "not a valid identifier");
 			//now it makes exit, if you need just uncomment
 			return(1);
 		}

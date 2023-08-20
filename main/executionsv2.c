@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executionsv2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:25:11 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/07/26 11:30:21 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int execute_child(int fd[2], t_ex *com, t_ms *ms, char **env)
 
 
 	if (pipe(fd) == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	pid = fork();
 	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 		//heredoc_read(ms, file, fd[0]);
 	{
@@ -59,10 +59,10 @@ void	execute_secondoption(t_ms	*ms, char **env)
 	com = ms->exe;
 
 	if (pipe(fd) == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	pid = fork();
 	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 		//heredoc_read(ms, file, fd);
 	{
@@ -94,10 +94,10 @@ void	execute_secondoption(t_ms	*ms, char **env)
 	}
 
 	if (pipe(fd) == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	pid = fork();
 	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 		//heredoc_read(ms, file, fd[0]);
 	{
@@ -133,7 +133,7 @@ void	execute_secondoption(t_ms	*ms, char **env)
 
 	pid = fork();
 	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL, NULL);
+		ft_error(errno, strerror(errno), NULL, NULL);
 	if (pid == 0)
 		//heredoc_read(ms, file, fd[0]);
 	{

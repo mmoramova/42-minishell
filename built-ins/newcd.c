@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   newcd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:29:13 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int cd (t_ms *ms, char **com)
 	if(chdir (com[i]) != 0)
 	{
 		//perror("");
-		ft_exit(1, "cd", com[1], strerror(errno));
+		ft_error(1, "cd", com[1], strerror(errno));
 		return(1);
 	}
 	else

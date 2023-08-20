@@ -8,7 +8,7 @@ void	ft_singlecommand(t_ms *ms,char **env)
 
 	pid = fork();
 	if (pid == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pid == 0) //child
 	{
 		if (ms->exe->fd[0])
@@ -35,11 +35,11 @@ int	ft_doublecommand(t_ms *ms,char **env)
 
 	printf("Hi from doublecommand\n");
 	if (pipe(pipes) == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 
 	pids[0] = fork();
 	if (pids[0] == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pids[0] == 0) //child 1
 	{
 		printf("I am in child 1\n");
@@ -65,7 +65,7 @@ int	ft_doublecommand(t_ms *ms,char **env)
 
 	// >> is not working
 	if (pids[1] == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pids[1] == 0) //child 2
 	{
 		printf("I am in child 2\n");
@@ -103,13 +103,13 @@ int	ft_tripplecommand(t_ms *ms,char **env)
 
 	printf("Hi from tripplecommand\n");
 	if (pipe(pipes[0]) == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pipe(pipes[1]) == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 
 	pids[0] = fork();
 	if (pids[0] == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pids[0] == 0) //child 1
 	{
 		printf("I am in child 1\n");
@@ -135,7 +135,7 @@ int	ft_tripplecommand(t_ms *ms,char **env)
 
 	pids[1] = fork(); //with second child i need to call the other file descriptor
 	if (pids[1] == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pids[1] == 0) //child 2
 	{
 		printf("I am in child 2\n");
@@ -163,7 +163,7 @@ int	ft_tripplecommand(t_ms *ms,char **env)
 
 	pids[2] = fork(); //with second child i need to call the other file descriptor
 	if (pids[2] == -1)
-		ft_exit(errno, strerror(errno), NULL);
+		ft_error(errno, strerror(errno), NULL);
 	if (pids[2] == 0) //child 3
 	{
 		printf("I am in child 3\n");

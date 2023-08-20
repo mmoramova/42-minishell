@@ -6,13 +6,13 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/16 19:20:17 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3)
+void	ft_error(int exitnumber, char *txt, char *txt2, char *txt3)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if(txt)
@@ -33,10 +33,10 @@ void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3)
 	}
 	ft_putstr_fd("\n", 2);
 	g_exit.status = exitnumber;
-	//printf("ft_exit: Exit status is %d\n", g_exitstatus);
+	//printf("ft_error: Exit status is %d\n", g_exitstatus);
 }
 
-void	ft_exit2(int exitnumber, char *txt, char *txt2, char *txt3)  //i will change the function name
+void	ft_error2(int exitnumber, char *txt, char *txt2, char *txt3)  //i will change the function name
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (txt)
@@ -47,7 +47,7 @@ void	ft_exit2(int exitnumber, char *txt, char *txt2, char *txt3)  //i will chang
 		ft_putstr_fd(txt3, 2);
 	ft_putstr_fd("\n", 2);
 	g_exit.status = exitnumber;
-	//printf("ft_exit: Exit status is %d\n", g_exitstatus);
+	//printf("ft_error: Exit status is %d\n", g_exitstatus);
 }
 
 char	**ft_get_paths(char *env)
@@ -69,12 +69,12 @@ void	ft_execve(char *path, char **cmd, char **env)
 	{
 		if (access(path, X_OK) != 0)
 		{
-			ft_exit(126, cmd[0], strerror(errno), NULL);
+			ft_error(126, cmd[0], strerror(errno), NULL);
 			exit(126);
 		}
 		if (execve(path, cmd, env) == -1)
 		{
-			ft_exit(errno, strerror(errno), NULL, NULL);
+			ft_error(errno, strerror(errno), NULL, NULL);
 			exit(errno);
 		}
 	}
@@ -87,11 +87,11 @@ void	execve_prepare(t_ms	*ms, char **env, char **cmd)
 
 	i = 0;
 	// if (argv[0] == '.' && argv[1] == '/' && ft_strchr(argv, 32))
-	// 	ft_exit(127, cmd[0], "No such file or directory", NULL);
+	// 	ft_error(127, cmd[0], "No such file or directory", NULL);
 	if (ft_strchr(cmd[0], '/'))
 	{
 		ft_execve(cmd[0], cmd, env);
-		ft_exit(127, cmd[0], "No such file or directory", NULL);
+		ft_error(127, cmd[0], "No such file or directory", NULL);
 		exit(127);
 	}
 	paths = ft_get_paths(get_env_value(ms->env, "PATH"));
@@ -99,6 +99,6 @@ void	execve_prepare(t_ms	*ms, char **env, char **cmd)
 	while (paths[i])
 		ft_execve(ft_strjoin(ft_strjoin(paths[i++], "/"),
 				cmd[0]), cmd, env);
-	ft_exit(127, cmd[0], "command not found", NULL);
+	ft_error(127, cmd[0], "command not found", NULL);
 	exit(127);
 }

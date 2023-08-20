@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/16 19:19:44 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:21:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ int ft_checkinput(t_ms ms)
 {
 	if (open_quotes(ms.line,strlen(ms.line)) != 0)
 	{
-		ft_exit(1, "syntax error","odd number of quotes", NULL);
+		ft_error(1, "syntax error","odd number of quotes", NULL);
 		return(1);
 	}
 	//if (ft_strchr(ms.line, ''))
 	// here i will check if in command is not \ ; or &
+	/*if (ft_strchr(ms.line, '&') || ft_strchr(ms.line, '\\') ||
+		ft_strchr(ms.line, ';'))
+	{
+		ft_error(1, "syntax error","incorrect symbol used", NULL);
+		return(1);
+	}*/
 	return(0);
 }
 

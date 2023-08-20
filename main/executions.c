@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:12:50 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	execute_builtin(t_ms *ms,char **cmd, int	parent)
 		return(enviroment(ms->env));
 	if (!ft_strncmp(cmd[0], "exit", 4) && cmd[1] == NULL)
 		b_exit(parent);
-	ft_exit(1,cmd[0],cmd[1],"opcion no valida");
+	ft_error(1,cmd[0],cmd[1],"opcion no valida");
 	return(1);
 }
 
@@ -64,7 +64,7 @@ int **handle_pipes(t_ms *ms)
 	while (l < ms->cntcmds - 1)
 	{
 		if (pipe(pipes[l]) == -1)
-			ft_exit(errno, strerror(errno), NULL, NULL);
+			ft_error(errno, strerror(errno), NULL, NULL);
 		l++;
 	}
 	return (pipes);
@@ -130,7 +130,7 @@ int	handle_forks(t_ms	*ms, char **env)
 		signal(SIGQUIT,handle_sigint);
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
-			ft_exit(errno, strerror(errno), NULL, NULL);
+			ft_error(errno, strerror(errno), NULL, NULL);
 		if (ms->pids[i] == 0) //child i
 		{
 			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]

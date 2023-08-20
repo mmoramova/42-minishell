@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/16 19:18:44 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ void execute_secondoption(t_ms	*ms, char **env);
 void execute_secondoption2(t_ms	*ms, char **env);
 
 //exit and signal
-void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3);
-void	ft_exit2(int exitnumber, char *txt, char *txt2, char *txt3);
+void	ft_error(int exitnumber, char *txt, char *txt2, char *txt3);
+void	ft_error2(int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
 
 void	handle_line(t_ms *ms, char **env);
