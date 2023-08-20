@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:23:17 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:25:53 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,27 +169,17 @@ int	handle_forks(t_ms	*ms, char **env)
 void	execute_cmds(t_ms	*ms, char **env)
 {
 	//printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
-
-	int version;
 	int	is_parent;
 
-	version = 1;
-	// first version
 	if (g_exit.process == 4)
 		return;
 	g_exit.process = 1;
-	if (version == 1)
-	{
-		ms->pipes = handle_pipes(ms);
-		ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
-		//children
-
-		is_parent = handle_forks(ms, env);
-		//parent
-		close_pipes(ms->pipes);
-		handle_waitpid(ms->pids, is_parent);
-	}
-	else //second with one pipe
-		execute_secondoption(ms, env);
+	ms->pipes = handle_pipes(ms);
+	ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
+	//children
+	is_parent = handle_forks(ms, env);
+	//parent
+	close_pipes(ms->pipes);
+	handle_waitpid(ms->pids, is_parent);
 	g_exit.process = 0;
 }
