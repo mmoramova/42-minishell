@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 16:49:19 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:36:38 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ int	b_exit(t_ms *ms, char **com, int parent)
 		exitstatus = ms->exitstatus;
 	if (parent == 1)
 		parent = 1;
-	//	printf("exit\n"); //this i commented for tests, i will show you later
+		//ft_putstr_fd("exit\n", 2);
+		//printf("exit\n"); //this i commented for tests, i will show you later
+
 	exit(exitstatus);
 	return (exitstatus);
 }

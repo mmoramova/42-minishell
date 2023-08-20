@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:59:46 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 18:33:30 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:59:19 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int cd (t_ms *ms, char **com)
 		}
 		if (check_env(ms->env,"PWD") == 1)
 		{
-			write(1,"mama\n",5);
 			str = getcwd(NULL,PATH_MAX);
 			add_env(ms->env, "PWD", str);
 		}
@@ -67,12 +66,12 @@ int cd (t_ms *ms, char **com)
 		if (check_env(ms->env, "OLDPWD") == 0)
 		{
 
-			change_env(env, "OLDPWD",get_env_value(env, "PWD"));
+			change_env(ms->env, "OLDPWD",get_env_value(ms->env, "PWD"));
 			str = getcwd(NULL, PATH_MAX);
 
 			if (!str)
 				return(2);
-			change_env(env, "PWD", str);
+			change_env(ms->env, "PWD", str);
 		}
 		else
 

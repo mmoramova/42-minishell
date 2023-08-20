@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:00:39 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 14:12:54 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:28:25 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ int	unset(t_ms *ms ,char **com)
 
 	while (com[i])
 	{
-		if (check_export(ms, com[i]) == 1)
-				return(1);
+		if (check_export(com[i]) == 1)
+		{
+			ft_error(ms, 1, com[0], com[i], "not a valid identifier");
+			return(1);
+		}
+
 		if (check_env (ms->env, com[i]) == 1)
 			i++;
 		else
