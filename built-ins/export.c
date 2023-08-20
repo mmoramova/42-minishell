@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:19:32 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:12:38 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	export(t_ms *ms, char **com, int parent)
 		i = 1;
 		while (com[i])
 		{
-			if (check_export(com[i]) == 1)
+			if (check_export(ms, com[i]) == 1)
 				return(1);
 
 			nenv = malloc (sizeof(t_env));
@@ -103,15 +103,15 @@ int	export(t_ms *ms, char **com, int parent)
 // 	-puede ir entre comillas.
 // 	-ninguna regla especial.
 
-int	check_export(char	*nenv)
+int	check_export(t_ms *ms, char *nenv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
 	{
 		//printf("fallo checkeo primera letra de %s\n", nenv);
-		ft_error(1, "export", nenv, "not a valid identifier");
+		ft_error(ms, 1, "export", nenv, "not a valid identifier");
 		//exit prepaped
 		return(1);
 	}
@@ -121,7 +121,7 @@ int	check_export(char	*nenv)
 		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
 		{
 			//("fallo en checkeo formato\n");
-			ft_error(1, "export", nenv, "not a valid identifier");
+			ft_error(ms, 1, "export", nenv, "not a valid identifier");
 			//now it makes exit, if you need just uncomment
 			return(1);
 		}
