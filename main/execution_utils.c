@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:53:02 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:22:42 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env)
 	}
 }
 
-void	execve_prepare(t_ms	*ms, char **env, char **cmd)
+void	execve_prepare(t_ms	*ms, char **cmd)
 {
 	int		i;
 	char	**paths;
+	char	**env;
 
 	i = 0;
+	env = env_toarray(ms);
 	// if (argv[0] == '.' && argv[1] == '/' && ft_strchr(argv, 32))
 	// 	ft_error(ms, 127, cmd[0], "No such file or directory", NULL);
 	if (ft_strchr(cmd[0], '/'))

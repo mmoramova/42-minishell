@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 22:40:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:05:15 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,25 @@ void shlvl_add(t_ms *ms) //its not finished, i will finish it
 	int shlvl;
 	char *val;
 
-	val = get_env_value(ms->env, "SHLVL");
-	if (val == NULL)
-		shlvl = 1;
-	else
+	if (check_env(ms->env,"SHLVL") == 1)
+		add_env(ms->env, "SHLVL", "1");
+	else{
+		val = get_env_value(ms->env, "SHLVL");
+		//printf("shlvl is %s", val);
 		shlvl = ft_atoi(val) + 1;
-	//printf("shlvl is %d", shlvl);
-	if (shlvl < 0)
-		shlvl = 0;
-	if (shlvl > 1000)
-	{
-		ft_putstr_fd("warning: shell level (", 2);
-		ft_putstr_fd(ft_itoa(shlvl), 2);
-		ft_putstr_fd(") too high, resetting to 1", 2);
-		ft_putstr_fd("\n", 2);
-		shlvl = 1;
+		//printf("shlvl is %d", shlvl);
+		if (shlvl < 0)
+			shlvl = 0;
+		if (shlvl > 1000)
+		{
+			ft_putstr_fd("warning: shell level (", 2);
+			ft_putstr_fd(ft_itoa(shlvl), 2);
+			ft_putstr_fd(") too high, resetting to 1", 2);
+			ft_putstr_fd("\n", 2);
+			shlvl = 1;
+		}
+		change_env(ms->env, "SHLVL", ft_itoa(shlvl));
 	}
-	change_env(ms->env, "SHLVL", ft_itoa(shlvl));
 }
 
 int	get_env(t_ms *ms, char **env)

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/20 22:41:26 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:06:07 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void term_init()
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void handle_line(t_ms *ms, char **env)
+void handle_line(t_ms *ms)
 {
 	signal(SIGINT,SIG_IGN);
 	if (ft_parse(ms) == 0)
 	{
 		ft_prep_exe(ms);
-		execute_cmds(ms, env);
+		execute_cmds(ms);
 	}
 	add_history(ms->line);
 	free_line(ms->line);
@@ -68,6 +68,7 @@ int	main(int argc, char **argv , char *env[])
 
 	ms.start = NULL;
 	ms.exitstatus = 0;
+
 	if (argc != 1 && argv[0])
 		return(1);
 	//print enviroment (like env, only for test, OK no bus error!!!)
@@ -93,7 +94,7 @@ int	main(int argc, char **argv , char *env[])
 
 		//1st tester (54 stdout, 42 stderr)
 		//NEW PROACH WITH ISATTY
-		if (isatty(fileno(stdin)))
+		/*if (isatty(fileno(stdin)))
 			ms.line = readline("minishell> ");
 		else
 		{
@@ -104,19 +105,19 @@ int	main(int argc, char **argv , char *env[])
 		}
 		if (!ms.line)
 			b_exit(&ms, NULL, 1);
-
+*/
 
 		//2nd tester https://github.com/ChewyToast/mpanic (55 errors 1 seg fault)
-		/*ms.line = readline("minishell> ");
+		ms.line = readline("minishell> ");
 		if (!ms.line)
 		{
 			if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
     		exit (ms.exitstatus);
-		}*/
+		}
 
 		if (ms.line && strlen(ms.line) > 0)
-			handle_line(&ms, env);
+			handle_line(&ms);
 	}
 	//clean_history();
 	free_env(ms.env);

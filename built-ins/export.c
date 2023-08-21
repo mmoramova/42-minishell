@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 21:30:02 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:11:00 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    print_env_export(t_env *env)
 	{
 		if (ft_strncmp(aux->evar,"-",2))
 		{
-			printf("declare\t-x\t");
+			printf("declare -x ");
 			if (aux->eval == NULL)
 				printf("%s\n", aux->evar);
 				//string compare para el vacio

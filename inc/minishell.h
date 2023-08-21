@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 21:26:25 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:24:34 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
 void	add_env(t_env *env, char *val, char *var); //añade variables, para oldpwd y para export
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
+char	**env_toarray(t_ms *ms);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);
@@ -141,12 +142,12 @@ void	free_ex(t_ex *ex);
 void	free_tok(t_tok *tok);
 
 //execution
-void	execute_cmds(t_ms *ms, char **env);
+void	execute_cmds(t_ms *ms);
 int		execute_builtin(t_ms *ms,char **cmd, int parent);
-void	execve_prepare(t_ms	*ms, char **env, char **cmd);
+void	execve_prepare(t_ms	*ms, char **cmd);
 void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env);
 int		**handle_pipes(t_ms *ms);
-int		handle_forks(t_ms *ms, char **env);
+int		handle_forks(t_ms *ms);
 void	handle_redirections(t_ms *ms, int fd[2], int lvl);
 void	handle_waitpid(t_ms *ms, int is_parent);
 void	close_pipes(int **pipes);
@@ -156,5 +157,5 @@ void	ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
 void	ft_error2(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
 
-void	handle_line(t_ms *ms, char **env);
+void	handle_line(t_ms *ms);
 #endif

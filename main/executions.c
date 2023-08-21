@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 14:38:08 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:25:27 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int is_builtin(char *cmd)
 
 int	execute_builtin(t_ms *ms,char **cmd, int parent)
 {
-	//printf("Executing builtin\n");
 	if (!ft_strncmp(cmd[0], "echo", 4))
 		return(b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
@@ -119,7 +118,7 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 	}
 }
 
-int	handle_forks(t_ms	*ms, char **env)
+int	handle_forks(t_ms *ms)
 {
 	int		i;
 	t_ex	*com;
@@ -147,7 +146,7 @@ int	handle_forks(t_ms	*ms, char **env)
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else if (com->command)
-				execve_prepare(ms, env, com->command);
+				execve_prepare(ms, com->command);
 			exit(0);
 		}
 		if (is_builtin(com->command[0]) && com->parent == 1)
@@ -166,7 +165,7 @@ int	handle_forks(t_ms	*ms, char **env)
 	return(0);
 }
 
-void	execute_cmds(t_ms	*ms, char **env)
+void	execute_cmds(t_ms *ms)
 {
 	//printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
 	int	is_parent;
@@ -177,7 +176,7 @@ void	execute_cmds(t_ms	*ms, char **env)
 	ms->pipes = handle_pipes(ms);
 	ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
 	//children
-	is_parent = handle_forks(ms, env);
+	is_parent = handle_forks(ms);
 	//parent
 	close_pipes(ms->pipes);
 	handle_waitpid(ms, is_parent);
