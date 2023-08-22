@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/22 18:06:08 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:19:57 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,17 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 	int		i;
 	char	**paths;
 	char	**env;
+	DIR		*dir;
 
 	i = 0;
 	env = env_toarray(ms);
 	// if (argv[0] == '.' && argv[1] == '/' && ft_strchr(argv, 32))
 	// 	ft_error(ms, 127, cmd[0], "No such file or directory", NULL);
+	if (ft_strchr(cmd[0], '/') && (dir = opendir(cmd[0])))
+	{
+		ft_error(ms, 126, cmd[0], "is a directory", NULL);
+		exit(126);
+	}
 	paths = ft_get_paths(get_env_value(ms->env, "PATH"));
 	if (ft_strchr(cmd[0], '/') || paths == NULL)
 	{
@@ -98,7 +104,6 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 		ft_error(ms, 127, cmd[0], "No such file or directory", NULL);
 		exit(127);
 	}
-
 	i = 0;
 	while (paths[i])
 		ft_execve(ms, ft_strjoin(ft_strjoin(paths[i++], "/"),
