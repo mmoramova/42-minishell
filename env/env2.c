@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:53:44 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/21 17:27:50 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:40:40 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	env_lstsize(t_env *lst)
 	int	len;
 
 	len = 0;
-	while (lst)
+	while (lst && lst->eval)
 	{
 		len++;
 		lst = lst -> next;
@@ -38,7 +38,8 @@ char	**env_toarray(t_ms *ms)
 		return (NULL);
 	while (env)
 	{
-		p[i] = ft_strjoin(ft_strjoin(env->evar, "="), env->eval);
+		if(env->eval)
+			p[i] = ft_strjoin(ft_strjoin(env->evar, "="), env->eval);
 		/*if (!p[i])
 			{
 				ft_free(p, i);

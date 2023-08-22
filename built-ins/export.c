@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/21 18:11:00 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:55:01 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ void    print_env_export(t_env *env)
 int	export(t_ms *ms, char **com, int parent)
 {
 	int		i;
+	int		error;
 	t_env	*nenv;
 
-	// export () imprime las variables
+	(void)parent;
+	error = 0;
 	if (com[1] == NULL)
 		print_env_export(ms->env);
 	else
@@ -64,33 +66,23 @@ int	export(t_ms *ms, char **com, int parent)
 			if (check_export(com[i]) == 1)
 			{
 				ft_error(ms, 1, com[0], com[i], "not a valid identifier");
-				return(1);
+				error = 1;
 			}
-			nenv = malloc (sizeof(t_env));
-
-			if (!nenv)
-				return(1);
-
-			nenv = new_env(com[i]);
-
-			if(check_env(ms->env, nenv->evar) == 1)
+			else
 			{
-				//write(1,"AA\n",4);
-				add_env(ms->env, nenv->evar, nenv->eval);
-
-			}
-			else if (ft_strchr(com[i],'=') != 0)
-			{
-				//write(1,"BCH\n",4);
-				//printf("com[i]=%s",com[i]);
-				change_env(ms->env, nenv->evar, nenv->eval);
+				nenv = malloc (sizeof(t_env));
+				if (!nenv)
+					return(1);
+				nenv = new_env(com[i]);
+				if(check_env(ms->env, nenv->evar) == 1)
+					add_env(ms->env, nenv->evar, nenv->eval);
+				else if (ft_strchr(com[i],'=') != 0)
+					change_env(ms->env, nenv->evar, nenv->eval);
 			}
 			i++;
 		}
 	}
-	if (parent == 1)
-		return(0);
-	return(0);
+	return(error);
 
 }
 // EXPANSIONES Y COMILLAS!!!!! (Las haremos antes)

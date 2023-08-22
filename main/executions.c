@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/21 17:25:27 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:59:43 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,13 @@ int	handle_forks(t_ms *ms)
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
 				exit(1);
+
 			if (is_builtin(com->command[0]) && com->parent == 0)
+			{
+
 				exit(execute_builtin(ms, com->command, com->parent));
+
+			}
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else if (com->command)
@@ -157,7 +162,10 @@ int	handle_forks(t_ms *ms)
 				return(1);
 			}
 			else
+			{
+
 				execute_builtin(ms,com->command, com->parent);
+			}
 		}
 	com = com->next;
 	i++;
