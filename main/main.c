@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/23 12:13:25 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:29:36 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char **argv , char *env[])
 	while (42)
 	{
 		//******ya no necesito g_process
-		//g_process = 0;
+		g_process = 0;
 		signal(SIGINT,handle_sigint);
 		signal(SIGQUIT,SIG_IGN);
 		// if(signal(EOF,handle_sigint)) //control d

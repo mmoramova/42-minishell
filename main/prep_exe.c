@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:48:50 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:27:26 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	ft_prep_exe(t_ms	*ms)
 	ms->cntcmds = 0;
 	ms->heredocfd =  heredoc_fillfd(ms, token);
 
-	while (token && token->content[0])
+	while (token && (token->content[0] || token->type == 0) && g_process != 1)
 	{
 		ft_exlstadd_back(&aux, ft_exlstnew(ms, token));
 		while (token && token->type != 1)

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:42:30 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:25:07 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_expand (t_ms *ms, char *s)
 		{
 			i++;
 			count = 0;
-			while (s[i] && (!ft_strchr("\'\" /$",s[i])))
+			while (s[i] && (!ft_strchr("\'\" /$|<>",s[i])))
 			{
 				count++;
 				if (s[i++] == '?')
@@ -151,7 +151,7 @@ t_tok	*ft_expand_token(char *str)
 				return (NULL);
 			tmp -> content = ft_quotes_remove(ft_substr(str, 0, ft_wordlen_wq(str, c)));
 			tmp -> previous = ft_toklstlast(lst);
-			tmp -> type = ft_tok_addtype(tmp->content);
+			tmp -> type = 0;
 			tmp-> next = NULL;
 			ft_toklstadd_back(&lst, tmp);
 			str += ft_wordlen_wq(str, c) - 1;

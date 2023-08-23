@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/23 12:13:21 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:29:21 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	t_tok	*token;
 
 	token = tokens;
-	while (token && g_process != 4)
+	while (token && g_process != 1)
 	{
 		if (token->type == 3)
 		{
