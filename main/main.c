@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/23 17:29:36 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:23:43 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int ft_checkinput(t_ms *ms)
 {
 	if (open_quotes(ms->line,strlen(ms->line)) != 0)
-	{
-		ft_error(ms, 1, "syntax error","odd number of quotes", NULL);
-		return(1);
-	}
+		return(ft_error(ms, 1, "syntax error","odd number of quotes", NULL));
 	//if (ft_strchr(ms.line, ''))
 	// here i will check if in command is not \ ; or &
 	/*if (ft_strchr(ms.line, '&') || ft_strchr(ms.line, '\\') ||
@@ -93,7 +90,7 @@ int	main(int argc, char **argv , char *env[])
 		//old readline
 		// ms.line = readline("minishell> ");
 
-		//1st tester (54 stdout, 42 stderr)
+		//1st tester (57 stdout, 35 stderr)
 		//NEW PROACH WITH ISATTY
 		/*if (isatty(fileno(stdin)))
 			ms.line = readline("minishell> ");
@@ -104,11 +101,13 @@ int	main(int argc, char **argv , char *env[])
 			ms.line = ft_strtrim(line, "\n");
 			free(line);
 		}
+		signal(SIGINT,SIG_IGN);
 		if (!ms.line)
 			b_exit(&ms, NULL, 1);
-*/
+		*/
 
-		//2nd tester https://github.com/ChewyToast/mpanic (55 errors 1 seg fault)
+
+		//2nd tester https://github.com/ChewyToast/mpanic (28 errors 1 seg fault)
 		ms.line = readline("minishell> ");
 		//ignoro el sigint, ahora no hay señales
 		signal(SIGINT,SIG_IGN);

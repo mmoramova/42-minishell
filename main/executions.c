@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/23 12:52:15 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:03:32 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	if (cmd && ((!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
 	  || (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
@@ -41,11 +41,10 @@ int	execute_builtin(t_ms *ms,char **cmd, int parent)
 		return(enviroment(ms->env));
 	if (!ft_strncmp(cmd[0], "exit", 4))
 		return(b_exit(ms, cmd, parent));
-	ft_error(ms, 1,cmd[0],cmd[1],"opcion no valida");
-	return(1);
+	return(ft_error(ms, 1,cmd[0],cmd[1],"not a valid option"));
 }
 
-int **handle_pipes(t_ms *ms)
+int	**handle_pipes(t_ms *ms)
 {
 	int		**pipes;
 	int		l;
@@ -58,7 +57,6 @@ int **handle_pipes(t_ms *ms)
 		l++;
 	}
 	pipes[l] = NULL;
-
 	l = 0;
 	while (l < ms->cntcmds - 1)
 	{
@@ -72,7 +70,6 @@ int **handle_pipes(t_ms *ms)
 void	close_pipes(int **pipes)
 {
 	int	i;
-
 
 	i = -1;
 	while (pipes[++i])
@@ -91,10 +88,7 @@ void	handle_waitpid(t_ms *ms, int is_parent)
 	i = 0;
 	pids = ms->pids;
 	while (pids[i] && pids[i+1])
-	{
-		waitpid(pids[i], NULL, 0);
-		i++;
-	}
+		waitpid(pids[i++], NULL, 0);
 	waitpid(pids[i], &status, 0);
 	if (is_parent == 0 && WIFEXITED(status))
 		ms->exitstatus = WEXITSTATUS(status);
@@ -140,10 +134,8 @@ int	handle_forks(t_ms *ms)
 	com = ms->exe;
 	while (i < ms->cntcmds)
 	{
-
 		signal(SIGINT,SIG_IGN);
 		signal(SIGQUIT,SIG_IGN);
-
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
 			ft_error(ms, errno, strerror(errno), NULL, NULL);
@@ -151,19 +143,12 @@ int	handle_forks(t_ms *ms)
 		{
 			signal(SIGINT,handle_sigintp);
 			signal(SIGQUIT,handle_sigintp);
-			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
-			// printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
 				exit(1);
-
 			if (is_builtin(com->command[0]) && com->parent == 0)
-			{
-
 				exit(execute_builtin(ms, com->command, com->parent));
-
-			}
 			else if(is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else if (com->command)
@@ -188,7 +173,6 @@ int	handle_forks(t_ms *ms)
 
 void	execute_cmds(t_ms *ms)
 {
-	//printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
 	int	is_parent;
 
 	if (g_process == 1)

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/23 17:25:07 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:30:48 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ft_exp_quotes(char *str, int	quot)
 	}
 	else if (quot == 0)
 	{
-		result = malloc (ft_one_space(str)*sizeof(char));
+		result = malloc (ft_one_space(str) * sizeof(char));
 		while(str[i])
 		{
 			if (str[i] == ' ' && (i == 0 || str[i - 1] != ' '))
@@ -122,7 +122,7 @@ char	*ft_expand (t_ms *ms, char *s)
 				aux = ft_strjoinfree(aux,"");
 		}
 		count = 0;
-		while ((s[i] !='$' || (s[i] == '$' &&  (open_quotes(s,i) == 2))) && s[i] != '\0')
+		while ((s[i] !='$' || (s[i] == '$' && (open_quotes(s,i) == 2))) && s[i] != '\0')
 		{
 			count++;
 			i++;

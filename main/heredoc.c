@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/23 17:29:21 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:05:57 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,8 @@ int	heredoc_execute(t_ms *ms, char *file)
 	/// this is for know the exit code, if 1 i change process to 1 and cancel executions
 	//if 0 we continue with heredoc and executions
 	waitpid(pid, &proces_status, 0);
-	if (WIFEXITED(proces_status))
-	{
-		if (WEXITSTATUS(proces_status) == 1)
+	if (WIFEXITED(proces_status) && WEXITSTATUS(proces_status) == 1)
 			g_process = 1;
-	}
 	ms->exitstatus = g_process;
 	return (fd[0]);
 }

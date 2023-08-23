@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 21:36:38 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:56:03 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	b_exit(t_ms *ms, char **com, int parent)
 	if (com[1] && (b_exit_checkinput(com[1]) == 1
 			|| ft_atoi_longchecker(com[1]) == 1))
 	{
-		ft_error(ms, 255, com[0], com[1], "numeric argument required");
+		ft_error2(ms, 255, "exit: " , com[1], ": numeric argument required");
 		exit (255);
 	}
 	else if (com[1] && com[2] != NULL)
@@ -110,9 +110,7 @@ int	b_exit(t_ms *ms, char **com, int parent)
 		return (1);
 	}
 	else if (com[1])
-	{
 		exitstatus = ft_atoi_long(com[1]);
-	}
 	else
 		exitstatus = ms->exitstatus;
 	if (parent == 1)

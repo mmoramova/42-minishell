@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/23 12:43:54 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:08:23 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void handle_sigint(int sig)
 {
 	//rl_catch_signals = 0;
 
-    if (sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
 		printf("\n");
@@ -31,7 +31,6 @@ void	handle_siginth(int sig) //heredoc
 {
 	if (sig == SIGINT)
 	{
-
 		printf("\n");
 		exit(1);
 	}
