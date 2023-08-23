@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:59:46 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 21:59:19 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:31:24 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ int cd (t_ms *ms, char **com)
 	char	*str;
 
 	i = 1;
-
 	if (com[i] == NULL)
 	{
 		if(chdir (get_env_value(ms->env,"HOME")) != 0)
 		{
-			perror("chdir() error()");
+			//error
 			return(1);
 		}
 		if (check_env(ms->env,"PWD") == 1)
@@ -59,7 +58,7 @@ int cd (t_ms *ms, char **com)
 	{
 		if (chdir (com[i]) != 0)
 		{
-			perror("chdir() error()");
+			//error
 			return(1);
 		}
 		//setear el valor de oldpwd del enviroment:oldpwd = pwd del enviroment propio
@@ -77,6 +76,7 @@ int cd (t_ms *ms, char **com)
 
 		return(0);
 	}
+	return(0);
 }
 //gcc -Wall -Wextra -Werror cd.c
 

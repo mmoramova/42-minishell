@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/20 13:45:29 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:43:54 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void process_0(int sig)
+void handle_sigint(int sig)
 {
 	//rl_catch_signals = 0;
 
@@ -27,42 +27,46 @@ void process_0(int sig)
 
 }
 
-void	process_2(int sig) //heredoc
+void	handle_siginth(int sig) //heredoc
 {
 	if (sig == SIGINT)
 	{
+
 		printf("\n");
 		exit(1);
 	}
 
 }
 
-void	process_1(int sig) //execution
+void	handle_sigintp(int sig) //execution
 {
-	if (sig == SIGINT) //control d
+	write(2,"a",1);
+	if (sig == SIGINT) //control c
 	{
+
 		printf("^C\n");
-		//ms->exitstatus = 130; Jose we cant use exit global variable, how can i put here ms?
+		exit(130);
 	}
-	if (sig == SIGQUIT) //control
+
+	if (sig == SIGQUIT) //control contrabarra
 	{
 		printf("^\\Quit 3\n");
-		//ms->exitstatus = 131; here is the same problem
+		exit(131);
 	}
 }
 
 
 
-void	handle_sigint(int sig)
-{
-	if (g_process == 0)
-		process_0(sig);
-	else if (g_process == 1) //execution
-		process_1(sig);
-	else if (g_process == 2) //heredoc hijo
-		process_2(sig);
+// void	handle_sigint(int sig)
+// {
+// 	if (g_process == 0)
+// 		process_0(sig);
+// 	else if (g_process == 1) //execution
+// 		process_1(sig);
+// 	else if (g_process == 2) //heredoc hijo
+// 		process_2(sig);
 
-}
+// }
 
 
 

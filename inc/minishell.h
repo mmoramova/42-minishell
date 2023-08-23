@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/21 17:24:34 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:13:17 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ void	close_pipes(int **pipes);
 void	ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
 void	ft_error2(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
+void	handle_siginth(int sig);
+void	handle_sigintp(int sig);
 
 void	handle_line(t_ms *ms);
 #endif

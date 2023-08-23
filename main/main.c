@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/21 18:06:07 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:13:25 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int	main(int argc, char **argv , char *env[])
 	term_init();
 	while (42)
 	{
-		g_process = 0;
+		//******ya no necesito g_process
+		//g_process = 0;
 		signal(SIGINT,handle_sigint);
 		signal(SIGQUIT,SIG_IGN);
 		// if(signal(EOF,handle_sigint)) //control d
@@ -109,6 +110,8 @@ int	main(int argc, char **argv , char *env[])
 
 		//2nd tester https://github.com/ChewyToast/mpanic (55 errors 1 seg fault)
 		ms.line = readline("minishell> ");
+		//ignoro el sigint, ahora no hay señales
+		signal(SIGINT,SIG_IGN);
 		if (!ms.line)
 		{
 			if (isatty(STDIN_FILENO))

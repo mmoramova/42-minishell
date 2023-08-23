@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/22 16:59:43 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:52:15 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,19 @@ void	handle_waitpid(t_ms *ms, int is_parent)
 	waitpid(pids[i], &status, 0);
 	if (is_parent == 0 && WIFEXITED(status))
 		ms->exitstatus = WEXITSTATUS(status);
+	else if (is_parent == 0 && WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			ms->exitstatus = 130;
+			printf("^C\n");
+		}
+		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			ms->exitstatus = 131;
+			printf("^\\Quit 3\n");
+		}
+	}
 }
 
 void	handle_redirections(t_ms *ms, int fd[2], int lvl)
@@ -127,16 +140,19 @@ int	handle_forks(t_ms *ms)
 	com = ms->exe;
 	while (i < ms->cntcmds)
 	{
-		signal(SIGINT,handle_sigint);
-		signal(SIGQUIT,handle_sigint);
+
+		signal(SIGINT,SIG_IGN);
+		signal(SIGQUIT,SIG_IGN);
+
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
 			ft_error(ms, errno, strerror(errno), NULL, NULL);
 		if (ms->pids[i] == 0) //child i
 		{
+			signal(SIGINT,handle_sigintp);
+			signal(SIGQUIT,handle_sigintp);
 			// printf("I am in pid[%d] (child %d)\n", i, i+1);  //child 1 is pid[0]
 			// printf("-------------------Command %s %s\n",com->command[0], com->command[1]);
-
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
@@ -162,10 +178,7 @@ int	handle_forks(t_ms *ms)
 				return(1);
 			}
 			else
-			{
-
 				execute_builtin(ms,com->command, com->parent);
-			}
 		}
 	com = com->next;
 	i++;
@@ -178,9 +191,8 @@ void	execute_cmds(t_ms *ms)
 	//printf("Isbultin %s: %d \n", ms->exe->command[0], is_builtin(ms->exe->command[0]));
 	int	is_parent;
 
-	if (g_process == 4)
+	if (g_process == 1)
 		return;
-	g_process = 1;
 	ms->pipes = handle_pipes(ms);
 	ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
 	//children
