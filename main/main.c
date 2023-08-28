@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/24 00:23:43 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:11:52 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,19 @@
 
 int ft_checkinput(t_ms *ms)
 {
-	if (open_quotes(ms->line,strlen(ms->line)) != 0)
-		return(ft_error(ms, 1, "syntax error","odd number of quotes", NULL));
-	//if (ft_strchr(ms.line, ''))
-	// here i will check if in command is not \ ; or &
-	/*if (ft_strchr(ms.line, '&') || ft_strchr(ms.line, '\\') ||
-		ft_strchr(ms.line, ';'))
-	{
-		ft_error(ms, 1, "syntax error","incorrect symbol used", NULL);
-		return(1);
-	}*/
-	return(0);
+	if (open_quotes(ms->line, strlen(ms->line)) != 0)
+		return(ft_error(ms, 1, "syntax error", "odd number of quotes", NULL));
+	return (0);
 }
 
-int ft_parse(t_ms	*ms)
+int ft_parse(t_ms *ms)
 {
 	if (ft_checkinput(ms) == 1)
-		return(1);
+		return (1);
 	ms->start = ft_split_tok(ms, ' ');
 	if (ms->start == NULL)
 		return (1);
-	return(0);
+	return (0);
 }
 
 void term_init()
@@ -42,14 +34,13 @@ void term_init()
     struct termios term;
 
     tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag &= ~ECHOCTL; //activa
-	//term.c_lflag |= ECHOCTL; //desactiva
+    term.c_lflag &= ~ECHOCTL;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void handle_line(t_ms *ms)
 {
-	signal(SIGINT,SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	if (ft_parse(ms) == 0)
 	{
 		ft_prep_exe(ms);
@@ -59,7 +50,7 @@ void handle_line(t_ms *ms)
 	free_line(ms->line);
 }
 
-int	main(int argc, char **argv , char *env[])
+int	main(int argc, char **argv , char **env)
 {
 	t_ms	ms;
 
@@ -67,17 +58,22 @@ int	main(int argc, char **argv , char *env[])
 	ms.exitstatus = 0;
 
 	if (argc != 1 && argv[0])
-		return(1);
-	//print enviroment (like env, only for test, OK no bus error!!!)
+		return (1);
+
+	if (!env[0])
+	{
+		env = malloc(3 * sizeof(char*));
+		env[0] = ft_strdup("PWD=/Users/josorteg/Documents/GitHub/42-minishell");
+		env[1] = ft_strdup("SHLVL=0");
+		env[2] = NULL;
+	}
 	if(get_env(&ms,env) == 0)
 		return (0);
-	//adding (plusing!!) oldpwd for cd porpose
 	if (check_env (ms.env, "OLDPWD") == 1)
 		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
 	term_init();
 	while (42)
 	{
-		//******ya no necesito g_process
 		g_process = 0;
 		signal(SIGINT,handle_sigint);
 		signal(SIGQUIT,SIG_IGN);
@@ -109,8 +105,7 @@ int	main(int argc, char **argv , char *env[])
 
 		//2nd tester https://github.com/ChewyToast/mpanic (28 errors 1 seg fault)
 		ms.line = readline("minishell> ");
-		//ignoro el sigint, ahora no hay señales
-		signal(SIGINT,SIG_IGN);
+		signal(SIGINT, SIG_IGN);
 		if (!ms.line)
 		{
 			if (isatty(STDIN_FILENO))

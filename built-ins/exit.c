@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/23 23:56:03 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:10:32 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,15 @@ int	b_exit_checkinput(char *str)
 	int		isnum;
 	int		numlen;
 
-	i = 0;
-	isnum = 0;
-	numlen = 0;
+	(0 || (i = 0) || (isnum = 0) || (numlen = 0));
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i] == '0')
-	{
-		i++;
-		isnum = 1;
-	}
+		(1 && (i = i + 1) && (isnum = 1));
 	while (ft_isdigit(str[i]))
-	{
-		i++;
-		isnum = 1;
-		numlen++;
-	}
+		(1 && (i = i + 1) && (isnum = 1) && (numlen = 1));
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (i == ft_strlen(str) && isnum == 1 && numlen <= 19)
@@ -101,7 +92,7 @@ int	b_exit(t_ms *ms, char **com, int parent)
 	if (com[1] && (b_exit_checkinput(com[1]) == 1
 			|| ft_atoi_longchecker(com[1]) == 1))
 	{
-		ft_error2(ms, 255, "exit: " , com[1], ": numeric argument required");
+		ft_error2(ms, 255, "exit: ", com[1], ": numeric argument required");
 		exit (255);
 	}
 	else if (com[1] && com[2] != NULL)
@@ -115,9 +106,6 @@ int	b_exit(t_ms *ms, char **com, int parent)
 		exitstatus = ms->exitstatus;
 	if (parent == 1)
 		parent = 1;
-		//ft_putstr_fd("exit\n", 2);
-		//printf("exit\n"); //this i commented for tests, i will show you later
-
 	exit(exitstatus);
 	return (exitstatus);
 }
