@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 16:10:32 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:15:27 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ int	b_exit_checkinput(char *str)
 	while (str[i] == '0')
 		(1 && (i = i + 1) && (isnum = 1));
 	while (ft_isdigit(str[i]))
-		(1 && (i = i + 1) && (isnum = 1) && (numlen = 1));
+	{
+		i++;
+		isnum = 1;
+		numlen++;
+	}
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (i == ft_strlen(str) && isnum == 1 && numlen <= 19)
