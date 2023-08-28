@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/24 00:03:32 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:33:54 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,15 @@ void	execute_cmds(t_ms *ms)
 	if (g_process == 1)
 		return;
 	ms->pipes = handle_pipes(ms);
-	ms->pids =  malloc(sizeof(int) * (ms->cntcmds));
+	ms->pids =  malloc(sizeof(int) * (ms->cntcmds + 1));
+	if (!ms->pids)
+		return;
+	ms->pids[ms->cntcmds] = '\0';
 	//children
 	is_parent = handle_forks(ms);
 	//parent
 	close_pipes(ms->pipes);
 	handle_waitpid(ms, is_parent);
+	free(ms->pids);
 	g_process = 0;
 }

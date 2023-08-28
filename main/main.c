@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 15:11:52 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:29:19 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int argc, char **argv , char **env)
 	if (!env[0])
 	{
 		env = malloc(3 * sizeof(char*));
-		env[0] = ft_strdup("PWD=/Users/josorteg/Documents/GitHub/42-minishell");
+		env[0] = ft_strdup("PWD=/Users/josorteg/Documents/GitHub/42-minishell");//chdir
 		env[1] = ft_strdup("SHLVL=0");
 		env[2] = NULL;
 	}
@@ -77,33 +77,6 @@ int	main(int argc, char **argv , char **env)
 		g_process = 0;
 		signal(SIGINT,handle_sigint);
 		signal(SIGQUIT,SIG_IGN);
-		// if(signal(EOF,handle_sigint)) //control d
-		// {
-		// 	perror("exit");
-		// 	exit(ms.exitstatus);
-		// }
-
-		//old readline
-		// ms.line = readline("minishell> ");
-
-		//1st tester (57 stdout, 35 stderr)
-		//NEW PROACH WITH ISATTY
-		/*if (isatty(fileno(stdin)))
-			ms.line = readline("minishell> ");
-		else
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			ms.line = ft_strtrim(line, "\n");
-			free(line);
-		}
-		signal(SIGINT,SIG_IGN);
-		if (!ms.line)
-			b_exit(&ms, NULL, 1);
-		*/
-
-
-		//2nd tester https://github.com/ChewyToast/mpanic (28 errors 1 seg fault)
 		ms.line = readline("minishell> ");
 		signal(SIGINT, SIG_IGN);
 		if (!ms.line)

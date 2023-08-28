@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 16:38:43 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:31:32 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	shlvl_add(t_ms *ms)
 		if (shlvl > 1000)
 		{
 			ft_putstr_fd("warning: shell level (", 2);
-			ft_putstr_fd(ft_itoa(shlvl), 2);
-			ft_putstr_fd(") too high, resetting to 1", 2);
-			ft_putstr_fd("\n", 2);
+			val = ft_itoa(shlvl);
+			ft_putstr_fd(val, 2);
+			ft_putstr_fd(") too high, resetting to 1\n", 2);
 			shlvl = 1;
 		}
-		change_env(ms->env, "SHLVL", ft_itoa(shlvl));
+		val = ft_itoa(shlvl);
+		change_env(ms->env, "SHLVL", val);
+		free(val);
 	}
 }
 
