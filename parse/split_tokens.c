@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 12:07:06 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:09:10 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	if ((lst -> previous && lst -> previous -> type == 3))
 		lst->content = content;
 	else if (ft_strchrn (content,'$') == - 1)
-		lst->content = ft_quotes_remove(content);
+		lst->content = ft_q_r(content);
 	else
 	{
 		free(lst);

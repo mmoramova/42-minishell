@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/23 23:59:08 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:08:38 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	**env_toarray(t_ms *ms);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);
-char 	*ft_quotes_remove(char *s);
+char 	*ft_q_r(char *s);
 int 	ft_quotes_nbr(char *line);
 
 //split the token
@@ -109,6 +109,7 @@ int		ft_wordlen_wq(char const *s, char c);
 int		ft_tok_addtype(char *s);
 void	ft_toklstadd_back(t_tok **lst, t_tok *new);
 t_tok	*ft_toklstlast(t_tok *lst);
+char	*ft_exp_quotes(char *str, int quot);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);

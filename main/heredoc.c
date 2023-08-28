@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/24 00:05:57 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:09:42 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 	char	*line;
 	char	*filewq;
 
-	filewq = ft_quotes_remove(file);
+	filewq = ft_q_r(file);
 	while (42)
 	{
 

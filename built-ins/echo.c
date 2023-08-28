@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 08:50:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 12:38:59 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:16:22 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	b_echo(char **com)
 	n = 0;
 	i = 0;
 	m = 0;
-	while (com [i + 1] && com[++i])
+	while (com[++i])
 	{
 		while (com[i] && check_n(com[i]) == 1 && n == 0)
 			(m = 1 && i++);
