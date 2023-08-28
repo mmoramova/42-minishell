@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/20 17:29:25 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:07:06 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 	//s = ft_expand(ms,ms->line);
 	s = ms->line;
 	lst = NULL;
+
 	while (*s)
 	{
 		if (*s != c)
@@ -149,12 +150,12 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 			//printf("WORDLEN IS: %d\n", ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, ft_substr(s, 0, ft_wordlen_wq(s, c))));
 			//malloc protection in this line...
-
 			s += ft_wordlen_wq(s, c) - 1;
 
 		}
 		s++;
 	}
+
 	if (ft_tok_checks(ms, lst) == 1)
 		lst = NULL;
 	return (lst);

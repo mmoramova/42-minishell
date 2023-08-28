@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/21 18:05:15 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:33:30 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,14 @@ char    *get_env_value(t_env *env ,char *var)
 		return(NULL);
 	aux = env;
 	str = NULL;
+
 	while (aux)
 	{
 		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
 		&& ft_strlen(aux->evar) == ft_strlen(var))
 		{
-			str = aux->eval;
+			if (aux->eval)
+				str = aux->eval;
 			return (str);
 		}
 		aux = aux->next;
