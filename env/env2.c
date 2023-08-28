@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:53:44 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/22 17:40:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:39:27 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,45 @@ char	**env_toarray(t_ms *ms)
 		return (NULL);
 	while (env)
 	{
-		if(env->eval)
+		if (env->eval)
 			p[i] = ft_strjoin(ft_strjoin(env->evar, "="), env->eval);
-		/*if (!p[i])
-			{
-				ft_free(p, i);
-				return (NULL);
-			}
-		}*/
-		//printf("env p[%d]: %s\n", i, p[i]);
 		env = env -> next;
 		i++;
 	}
 	p[i] = NULL;
 	return (p);
+}
+
+int	check_env(t_env *env, char *var)
+{
+	t_env	*aux;
+
+	if (!env || !var)
+		return (1);
+	aux = env;
+	while (aux)
+	{
+		if (ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
+			&& ft_strlen(var) == ft_strlen(aux->evar))
+			return (0);
+		aux = aux->next;
+	}
+	return (1);
+}
+
+void	change_env(t_env *env, char *var, char *val)
+{
+	t_env		*aux;
+
+	aux = env;
+	while (aux && !(ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) == 0
+			&& ft_strlen(aux->evar) == ft_strlen(var)))
+		aux = aux->next;
+	if (aux->eval)
+		free (aux->eval);
+	if (val)
+		aux->eval = ft_strdup(val);
+	else
+		aux->eval = ft_strdup("");
+	return ;
 }

@@ -6,24 +6,23 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 12:33:30 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:38:43 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void shlvl_add(t_ms *ms) //its not finished, i will finish it
+void	shlvl_add(t_ms *ms)
 {
-	int shlvl;
-	char *val;
+	int		shlvl;
+	char	*val;
 
-	if (check_env(ms->env,"SHLVL") == 1)
+	if (check_env(ms->env, "SHLVL") == 1)
 		add_env(ms->env, "SHLVL", "1");
-	else{
+	else
+	{
 		val = get_env_value(ms->env, "SHLVL");
-		//printf("shlvl is %s", val);
 		shlvl = ft_atoi(val) + 1;
-		//printf("shlvl is %d", shlvl);
 		if (shlvl < 0)
 			shlvl = 0;
 		if (shlvl > 1000)
@@ -40,9 +39,9 @@ void shlvl_add(t_ms *ms) //its not finished, i will finish it
 
 int	get_env(t_ms *ms, char **env)
 {
-	int     i;
-	t_env   *aux;
-	t_env   *new;
+	int		i;
+	t_env	*aux;
+	t_env	*new;
 
 	aux = new_env(env[0]);
 	ms->env = aux;
@@ -55,27 +54,25 @@ int	get_env(t_ms *ms, char **env)
 		i++;
 	}
 	shlvl_add(ms);
-	return(1);
+	return (1);
 }
 
-void	add_env (t_env *env, char *var, char *val)
+void	add_env(t_env *env, char *var, char *val)
 {
 	t_env	*aux;
 	t_env	*new;
 
-	new= malloc(sizeof(t_env));
+	new = malloc(sizeof(t_env));
 	aux = env;
 	while (aux && aux->next)
 		aux = aux->next;
 	aux->next = new;
 	aux = new;
-	aux->evar = strdup(var);
-
+	aux->evar = ft_strdup(var);
 	if (val)
-		aux->eval = strdup(val);
+		aux->eval = ft_strdup(val);
 	else
 		aux->eval = NULL;
-
 	aux->next = NULL;
 }
 
@@ -86,47 +83,39 @@ t_env	*new_env(char *env)
 	size_t		j;
 
 	j = ft_strchrn(env, '=');
-	if (!(ft_strchr(env,'=')))
+	if (!(ft_strchr(env, '=')))
 	{
 		new = malloc(sizeof(t_env));
 		if (!new)
-			return(NULL);
+			return (NULL);
 		new->evar = ft_strdup(env);
 		new->eval = NULL;
 		new->next = NULL;
-		//no free si viene de cadena!!!!
-		// if (env)
-		// 	free(env);
-		return(new);
+		return (new);
 	}
 	k = ft_strlen(env);
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return(NULL);
+		return (NULL);
 	new->evar = ft_substr(env, 0, j);
 	new->eval = ft_substr(env, j + 1, k);
 	new->next = NULL;
-	// if (env)
-	// 	free(env);
 	return (new);
 }
 
-// we can use getenv("var"), its allowed on the subject
-// char *getenv(const char *name)
-char    *get_env_value(t_env *env ,char *var)
+char	*get_env_value(t_env *env, char *var)
 {
-	char    *str;
+	char	*str;
 	t_env	*aux;
 
-	if(!env || !var)
-		return(NULL);
+	if (!env || !var)
+		return (NULL);
 	aux = env;
 	str = NULL;
-
 	while (aux)
 	{
-		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
-		&& ft_strlen(aux->evar) == ft_strlen(var))
+		if (ft_strncmp(var, aux->evar, ft_strlen(var)) == 0
+			&& ft_strlen(aux->evar) == ft_strlen(var))
 		{
 			if (aux->eval)
 				str = aux->eval;
@@ -134,46 +123,5 @@ char    *get_env_value(t_env *env ,char *var)
 		}
 		aux = aux->next;
 	}
-	return(str);
+	return (str);
 }
-
-int	check_env (t_env *env, char *var)
-{
-	t_env	*aux;
-
-	if(!env || !var)
-		return(1);
-	aux = env;
-
-	while (aux)
-	{
-
-		if(ft_strncmp (var, aux->evar, ft_strlen(var)) == 0
-		&& ft_strlen(var) == ft_strlen(aux->evar))
-		{
-			return(0);
-		}
-		aux = aux->next;
-	}
-	//printf("la variable %s NO EXISTE EN EL ENVIROMENT\n", var);
-	return(1);
-}
-
-void	change_env(t_env *env, char *var, char *val)
-{
-	t_env		*aux;
-
-	aux = env;
-
-	while (aux &&  !(ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) == 0
-		&& ft_strlen(aux->evar) == ft_strlen(var)))
-		aux = aux->next;
-	if (aux->eval)
-		free (aux->eval);
-	if (val)
-		aux->eval = strdup(val);
-	else
-		aux->eval =strdup("");
-	return;
-}
-
