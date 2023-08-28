@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/26 11:30:56 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 19:16:58 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,23 @@ void	free_tok(t_tok *tok)
 {
 	t_tok	*a;
 	t_tok	*b;
+	int		i;
 
 	if (!tok)
 		return ;
+	i = 0;
 	a = tok;
 	while (a->next)
 	{
 		if (a->content)
+		{
+			while (a->content[i])
+			{
+				free(&a->content[i]);
+				i++;
+			}
 			free(a->content);
+		}
 		b = a->next;
 		free (a);
 		a = b;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 18:33:54 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 19:18:36 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,18 @@ int	**handle_pipes(t_ms *ms)
 
 	l = 0;
 	pipes = malloc(sizeof(int *) * ms->cntcmds);
+	if (!pipes)
+		return ((int **)0);
 	while (l < ms->cntcmds - 1)
 	{
 		pipes[l] = malloc(sizeof(int) * 2);
+		if (!pipes)
+		{
+			while (l--)
+				free(pipes[l]);
+			free(pipes);
+			return ((int **)0);
+		}
 		l++;
 	}
 	pipes[l] = NULL;
@@ -77,6 +86,7 @@ void	close_pipes(int **pipes)
 		close(pipes[i][0]);
 		close(pipes[i][1]);
 	}
+	free(pipes);
 }
 
 void	handle_waitpid(t_ms *ms, int is_parent)
