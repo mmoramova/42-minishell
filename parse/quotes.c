@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 15:27:41 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:08:16 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,51 +27,49 @@ int	open_quotes(char *line, int in)
 			res = 2;
 		else if (res == 1 & line[i] == '\"')
 			res = 0;
-		else if	(res == 2 & line[i] == '\'')
+		else if (res == 2 & line[i] == '\'')
 			res = 0;
 		i++;
 	}
 	return (res);
 }
 
-int ft_quotes_nbr(char *line)
+int	ft_quotes_nbr(char *line)
 {
-	//function returns how many quotes I have
-	int qnbr;
-	int i;
+	int	qnbr;
+	int	i;
 
 	qnbr = 0;
 	i = 0;
-	while(line[i])
-		{
-		if (open_quotes(line, i) != open_quotes(line, i-1))
-		qnbr++;
+	while (line[i])
+	{
+		if (open_quotes(line, i) != open_quotes(line, i - 1))
+			qnbr++;
 		i++;
-		}
+	}
 	return (qnbr);
 }
 
-char *ft_quotes_remove(char *s)  //need to repair if the expansion adds one ' / "
+char	*ft_q_r(char *s)
 {
-	char *res;
-	int i;
-	int j;
+	char	*res;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	res = malloc(sizeof(char) * (ft_strlen(s) - ft_quotes_nbr(s) + 1));
 	if (!res)
 		return (NULL);
-
 	while (s[i])
 	{
-		if ((open_quotes(s, i) != open_quotes(s, i-1)))
-		i++;
+		if ((open_quotes(s, i) != open_quotes(s, i - 1)))
+			i++;
 		else
-		res[j++] = s[i++];
+			res[j++] = s[i++];
 	}
 	res[j] = '\0';
-	return(res);
+	return (res);
 }
 /*
 int main(void)

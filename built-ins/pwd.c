@@ -6,15 +6,15 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:30:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/07/20 09:48:34 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:17:26 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 int	pwd(t_env *env)
 {
 	if (env)
-		printf("%s\n",getcwd(NULL, PATH_MAX));
+		printf("%s\n", getcwd(NULL, PATH_MAX));
 	exit(0);
 }

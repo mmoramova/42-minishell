@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:19:08 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 11:50:19 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:08:23 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void process_0(int sig)
+void handle_sigint(int sig)
 {
 	//rl_catch_signals = 0;
 
-    if (sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
 		printf("\n");
@@ -27,7 +27,7 @@ void process_0(int sig)
 
 }
 
-void	process_2(int sig) //heredoc
+void	handle_siginth(int sig) //heredoc
 {
 	if (sig == SIGINT)
 	{
@@ -37,32 +37,35 @@ void	process_2(int sig) //heredoc
 
 }
 
-void	process_1(int sig) //execution
+void	handle_sigintp(int sig) //execution
 {
-	if (sig == SIGINT) //control d
+	write(2,"a",1);
+	if (sig == SIGINT) //control c
 	{
+
 		printf("^C\n");
-		g_exit.status = 130;
+		exit(130);
 	}
-	if (sig == SIGQUIT) //control
+
+	if (sig == SIGQUIT) //control contrabarra
 	{
 		printf("^\\Quit 3\n");
-		g_exit.status = 131;
+		exit(131);
 	}
 }
 
 
 
-void	handle_sigint(int sig)
-{
-	if (g_exit.proces == 0)
-		process_0(sig);
-	else if (g_exit.proces == 1) //execution
-		process_1(sig);
-	else if (g_exit.proces == 2) //heredoc hijo
-		process_2(sig);
+// void	handle_sigint(int sig)
+// {
+// 	if (g_process == 0)
+// 		process_0(sig);
+// 	else if (g_process == 1) //execution
+// 		process_1(sig);
+// 	else if (g_process == 2) //heredoc hijo
+// 		process_2(sig);
 
-}
+// }
 
 
 

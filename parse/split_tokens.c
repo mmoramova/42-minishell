@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/04 15:34:20 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:32:20 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	if ((lst -> previous && lst -> previous -> type == 3))
 		lst->content = content;
 	else if (ft_strchrn (content,'$') == - 1)
-		lst->content = ft_quotes_remove(content);
+		lst->content = ft_q_r(content);
 	else
 	{
 		free(lst);
@@ -85,6 +85,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 		if (lst)
 			lst -> previous = ft_toklstlast(tokens);
 	}
+	//free(content);
 	return (lst);
 }
 
@@ -96,58 +97,67 @@ void	ft_toklstadd_back(t_tok **lst, t_tok *new)
 		*lst = new;
 }
 
-void	ft_tok_checks(t_tok *lst)
+int	ft_tok_checks(t_ms *ms, t_tok *lst)
 {
 	t_tok	*previous;
 
 	if (!lst)
-		return;
+		return (1);
 	previous = lst;
 	if (lst->type == 1)
 	{
-		exit(1);
-		//TODO ERROR PIPE
+		ft_error2(ms, 258, "syntax error near unexpected token `", lst->content, "\'");
+		return (1);
+	}
+	if (lst->type > 1 && !lst->next)
+	{
+		ft_error2(ms, 258, "syntax error near unexpected token `", "newline", "\'");
+		return (1);
 	}
 	lst = lst -> next;
-
 	while (lst)
 	{
-		//ERRORS IN TOKENS
 		if ((previous->type > 1 && (lst->type != 0))
-			|| (previous->type == 1 && lst->type == 1)
-			|| (lst->type > 0 && !lst->next))
+			|| (previous->type == 1 && lst->type == 1))
 		{
-			//TODO ERROR
-			exit(1);
+			ft_error2(ms, 258, "syntax error near unexpected token `", lst->content, "\'");
+			return (1);
+		}
+		if ((lst->type > 0 && !lst->next))
+		{
+			ft_error2(ms, 258, "syntax error near unexpected token `", "newline", "\'");
+			return (1);
 		}
 		previous = lst;
 		lst = lst -> next;
 	}
-
+	return (0);
 }
 
 t_tok	*ft_split_tok(t_ms *ms, char c)
 {
 	t_tok	*lst;
 	char	*s;
+	char	*r;
 
 	//s = ft_expand(ms,ms->line);
 	s = ms->line;
 	lst = NULL;
+
 	while (*s)
 	{
 		if (*s != c)
 		{
-			//printf("WORDLEN IS: %d\n", ft_wordlen_wq(s, c));
-			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, ft_substr(s, 0, ft_wordlen_wq(s, c))));
-			//malloc protection in this line...
-
+			r = ft_substr(s, 0, ft_wordlen_wq(s, c));
+			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, r));
+			free(r);
 			s += ft_wordlen_wq(s, c) - 1;
-
 		}
 		s++;
 	}
-	ft_tok_checks(lst);
+
+	if (ft_tok_checks(ms, lst) == 1)
+		lst = NULL;
 	return (lst);
 }
 

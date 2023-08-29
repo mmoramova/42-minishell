@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/04 12:36:37 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:08:38 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,12 @@ typedef	struct s_ms
 	int		**pipes;
 	int		*pids;
 	int		heredocfd;
+	int		exitstatus;
 
 }	t_ms;
 
 //global variable
-
-typedef struct s_exit
-{
-	int	status;
-	int	proces;
-}	t_exit;
-
-t_exit	g_exit;
-
-
+int	g_process;
 
 //enviroment functions
 t_env	*new_env(char *env);
@@ -99,10 +91,11 @@ char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
 void	add_env(t_env *env, char *val, char *var); //añade variables, para oldpwd y para export
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
+char	**env_toarray(t_ms *ms);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);
-char 	*ft_quotes_remove(char *s);
+char 	*ft_q_r(char *s);
 int 	ft_quotes_nbr(char *line);
 
 //split the token
@@ -116,6 +109,7 @@ int		ft_wordlen_wq(char const *s, char c);
 int		ft_tok_addtype(char *s);
 void	ft_toklstadd_back(t_tok **lst, t_tok *new);
 t_tok	*ft_toklstlast(t_tok *lst);
+char	*ft_exp_quotes(char *str, int quot);
 
 //commad structure
 void	ft_prep_exe(t_ms	*ms);
@@ -135,11 +129,11 @@ int		pwd(t_env *env);
 void	print_env(t_env *env);/*only for test, it will becomes ENV command...*/
 int		enviroment(t_env *env);
 void	print_env_export(t_env *env); //for EXPORT
-int		check_export(char	*nenv);
+int		check_export(char *nenv);
 int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com, int parent);
 int		unset(t_ms *ms ,char **com);
-void	b_exit(int parent);
+int		b_exit(t_ms *ms, char **com, int parent);
 
 //free
 void	free_ms(t_ms *ms);
@@ -149,22 +143,22 @@ void	free_ex(t_ex *ex);
 void	free_tok(t_tok *tok);
 
 //execution
-void	execute_cmds(t_ms *ms, char **env);
+void	execute_cmds(t_ms *ms);
 int		execute_builtin(t_ms *ms,char **cmd, int parent);
-void	execve_prepare(t_ms	*ms, char **env, char **cmd);
+void	execve_prepare(t_ms	*ms, char **cmd);
+void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env);
 int		**handle_pipes(t_ms *ms);
-int		handle_forks(t_ms *ms, char **env);
+int		handle_forks(t_ms *ms);
 void	handle_redirections(t_ms *ms, int fd[2], int lvl);
-void	handle_waitpid(int *pids, int is_parent);
+void	handle_waitpid(t_ms *ms, int is_parent);
 void	close_pipes(int **pipes);
 
-//execution second option, i created file executionsV2
-void execute_secondoption(t_ms	*ms, char **env);
-void execute_secondoption2(t_ms	*ms, char **env);
-
-
-//exit and signal
-void	ft_exit(int exitnumber, char *txt, char *txt2, char *txt3);
+//error and signal
+int		ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error2(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
+void	handle_siginth(int sig);
+void	handle_sigintp(int sig);
 
+void	handle_line(t_ms *ms);
 #endif
