@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:12:13 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:08:30 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*ft_expand (t_ms *ms, char *s)
 				if (s[i++] == '?')
 					break;
 			}
-
 			var = ft_substr(s, i - count, count);
 			if (var[0] == '?')
 				aux = ft_strjoinfree(aux, ft_itoa(ms->exitstatus));
@@ -56,7 +55,7 @@ char	*ft_expand (t_ms *ms, char *s)
 			count++;
 			i++;
 		}
-		aux = ft_strjoinfree(aux,ft_substr(s, i - count, count));
+		aux = ft_strjoinfree(aux, ft_substr(s, i - count, count));
 	}
 	ms->exitstatus = 0;
 	return (aux);

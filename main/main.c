@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 18:29:19 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:15:38 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ void handle_line(t_ms *ms)
 	if (ft_parse(ms) == 0)
 	{
 		ft_prep_exe(ms);
+		//free s_tok
 		execute_cmds(ms);
 	}
 	add_history(ms->line);
 	free_line(ms->line);
+	//free all
 }
 
 int	main(int argc, char **argv , char **env)
@@ -83,7 +85,8 @@ int	main(int argc, char **argv , char **env)
 		{
 			if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
-    		exit (ms.exitstatus);
+			clear_history();
+			exit (ms.exitstatus);
 		}
 
 		if (ms.line && strlen(ms.line) > 0)

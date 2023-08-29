@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:08:38 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:27:09 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
 void	free_line(char *line);
 void	free_ex(t_ex *ex);
+void	free_ex2(t_ex *ex);
 void	free_tok(t_tok *tok);
 
 //execution

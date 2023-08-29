@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 19:16:58 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:00:33 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,95 @@
 void	free_ex(t_ex *ex)
 {
 	t_ex	*a;
-	t_ex	*b;
+	int		i;
 
 	if (!ex)
 		return ;
+	i = 0;
+	a = ex;
+
+	if (a->command)
+	{
+		while (a->command[i])
+		{
+			free(a->command[i]);
+			i++;
+		}
+		free(a->command);
+		//a->command = NULL;
+	}
+	//if (a -> previous)
+	//	free(a ->previous);
+	free (a);
+	//a = NULL;
+}
+
+void	free_ex2(t_ex *ex)
+{
+	t_ex	*a;
+	t_ex	*b;
+	int		i;
+
+	if (!ex)
+		return ;
+	i = 0;
 	a = ex;
 	while (a->next)
 	{
 		if (a->command)
+		{
+			i = 0;
+			while (a->command[i])
+			{
+				free(a->command[i]);
+				i++;
+			}
 			free(a->command);
+			a->command = NULL;
+		}
+		if (a -> previous)
+			free(a ->previous);
 		b = a->next;
+		if (a -> next)
+			free(a -> next);
 		free (a);
 		a = b;
 	}
+	i = 0;
+	if (a->command)
+	{
+		while (a->command[i])
+		{
+			free(a->command[i]);
+			i++;
+		}
+		//free(a->command);
+		a->command = NULL;
+
+	}
+	free (a);
+
 }
 
 void	free_tok(t_tok *tok)
 {
 	t_tok	*a;
 	t_tok	*b;
-	int		i;
 
 	if (!tok)
 		return ;
-	i = 0;
 	a = tok;
 	while (a->next)
 	{
 		if (a->content)
-		{
-			while (a->content[i])
-			{
-				free(&a->content[i]);
-				i++;
-			}
 			free(a->content);
-		}
 		b = a->next;
 		free (a);
 		a = b;
 	}
+	if (a->content)
+			free(a->content);
+		free (a);
 }
 
 void	free_env(t_env *env)
