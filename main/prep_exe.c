@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/29 17:01:45 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:18:15 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,5 @@ void	ft_prep_exe(t_ms *ms)
 		ms->cntcmds++;
 	}
 	ms->exe = aux;
-	free_tok(ms->start);
+	//free_tok(ms->start);
 }
