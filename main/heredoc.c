@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 17:09:42 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:12:28 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,10 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 	char	*filewq;
 
 	filewq = ft_q_r(file);
+	printf("i am reading %s\n", file);
 	while (42)
 	{
-
-		//start for tester
-		if (isatty(fileno(stdin)))
 		line = readline("> ");
-		else
-		{
-			char *line2;
-			line2 = get_next_line(fileno(stdin));
-			line = ft_strtrim(line2, "\n");
-			free(line2);
-		}
-		//end for tester, uncomment line below
-		//line = readline("> ");
 		if (!line)
 		{
 			rl_replace_line("", 0);
@@ -40,17 +29,26 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 		}
 		if (line)
 		{
+			printf("my line is %s\n", line);
+			printf ("%d|%d|%d|%d", (int)ft_strlen(line),(int)ft_strlen(filewq), ft_strncmp(line, filewq, ft_strlen(filewq)), ft_strchrn(line, '$'));
 			if (ft_strlen(line) == ft_strlen(filewq)
 				&& ft_strncmp(line, filewq, ft_strlen(filewq)) == 0)
 			{
+				printf("i am here 1");
 				free(line);
 				exit(0);
 			}
 			if (ft_strlen(file) == ft_strlen(filewq)
 				&& ft_strchrn(line, '$') != -1)
+			{
+				printf("i am here e");
 				ft_putstr_fd(ft_expand(ms, line), fd[1]);
+			}
 			else
+			{
 				ft_putstr_fd(line, fd[1]);
+				printf("i am here");
+			}
 			ft_putchar_fd('\n', fd[1]);
 			free(line);
 		}
@@ -94,6 +92,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	t_tok	*token;
 
 	token = tokens;
+	fd = (int) NULL;
 	while (token && g_process != 1)
 	{
 		if (token->type == 3)

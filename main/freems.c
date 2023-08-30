@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/29 19:00:33 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:00:27 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ void	free_ex2(t_ex *ex)
 			free(a->command);
 			a->command = NULL;
 		}
+		if (a ->fd[0])
+			close(a ->fd[0]);
+		if (a ->fd[1])
+			close(a ->fd[1]);
 		if (a -> previous)
 			free(a ->previous);
 		b = a->next;

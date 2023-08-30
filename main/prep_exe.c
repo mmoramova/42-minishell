@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/30 18:18:15 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:37:37 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	ft_prep_exe(t_ms *ms)
 	aux = NULL;
 	token = ms->start;
 	ms->cntcmds = 0;
+	ms->heredocfd = (int) NULL;
 	ms->heredocfd =  heredoc_fillfd(ms, token);
 	while (token && (token->content[0] || token->type == 0) && g_process != 1)
 	{
@@ -146,5 +147,6 @@ void	ft_prep_exe(t_ms *ms)
 		ms->cntcmds++;
 	}
 	ms->exe = aux;
-	//free_tok(ms->start);
+
+	free_tok(ms->start);
 }
