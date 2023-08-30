@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 00:26:22 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 01:08:55 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,26 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 		if (line)
 		{
 			printf("my line is %s\n", line);
-			printf ("%d|%d|%d|%d", (int)ft_strlen(line),(int)ft_strlen(filewq), ft_strncmp(line, filewq, ft_strlen(filewq)), ft_strchrn(line, '$'));
+			printf ("%d|%d|%d|%d\n", (int)ft_strlen(line),(int)ft_strlen(filewq), ft_strncmp(line, filewq, ft_strlen(filewq)), ft_strchrn(line, '$'));
 			if (ft_strlen(line) == ft_strlen(filewq)
 				&& ft_strncmp(line, filewq, ft_strlen(filewq)) == 0)
 			{
-				printf("i am here 1");
 				free(line);
+				printf("I finished in child in %d\n", fd[0]);
+				close(fd[0]);
+				close(fd[1]);
 				exit(0);
 			}
 			if (ft_strlen(file) == ft_strlen(filewq)
 				&& ft_strchrn(line, '$') != -1)
 			{
-				printf("i am here e");
+				printf("i am here 2\n");
 				ft_putstr_fd(ft_expand(ms, line), fd[1]);
 			}
 			else
 			{
 				ft_putstr_fd(line, fd[1]);
-				printf("i am here");
+				printf("i am here\n");
 			}
 			ft_putchar_fd('\n', fd[1]);
 			free(line);
@@ -64,25 +66,33 @@ int	heredoc_execute(t_ms *ms, char *file)
 	//**YA NO NECESITO G_PROCESS
 	//g_process = 2;
 	if (pipe(fd) == -1)
+	{
 		ft_error(ms, errno, strerror(errno), NULL);
+		return (-2);
+	}
 	pid = fork();
 	if (pid == -1)
+	{
 		ft_error(ms, errno, strerror(errno), NULL);
+		return (-2);
+	}
 	if (pid == 0)
 	{
 		signal(SIGINT, handle_siginth); //handle_siginth
 		heredoc_read(ms, file, fd);
+		printf("I finished in child out %d\n", fd[0]);
 		close(fd[0]);
 		close(fd[1]);
 		exit(0);
 	}
-	close(fd[1]);
 	/// this is for know the exit code, if 1 i change process to 1 and cancel executions
 	//if 0 we continue with heredoc and executions
 	waitpid(pid, &proces_status, 0);
 	if (WIFEXITED(proces_status) && WEXITSTATUS(proces_status) == 1)
 			g_process = 1;
 	ms->exitstatus = g_process;
+	close(fd[1]);
+	//printf("I finished and i am returning %d\n", fd[0]);
 	return (fd[0]);
 }
 
@@ -101,9 +111,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 				close(fd);
 			fd = heredoc_execute(ms, token->next->content);
 			token = token->next;
-			if (fd == -1)
 			//no me va bien en la ejecucion del control D y control C
-				ft_error(ms, errno, token->next->content, strerror(errno));
 		}
 		if (token)
 			token = token->next;

@@ -6,12 +6,11 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:28:12 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:42:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	check_pwds(t_ms *ms)
 {
