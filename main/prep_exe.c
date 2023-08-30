@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/30 18:37:37 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/30 23:43:48 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_open(t_ms *ms, int type, int fd[2], char *file)
 {
 	if (type == 2 || type == 3)
 	{
-		if (fd[0])
+		if (fd[0] && fd[0] != -2)
 			close(fd[0]);
 		if (type == 2)
 			fd[0] = open(file, O_RDONLY, 0666);
@@ -53,7 +53,7 @@ int	ft_open(t_ms *ms, int type, int fd[2], char *file)
 	}
 	else
 	{
-		if (fd[1])
+		if (fd[1] && fd[1] != -2)
 			close(fd[1]);
 		if (type == 4)
 			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
@@ -93,8 +93,8 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 	if (!lst)
 		return (NULL);
 	lst -> next = NULL;
-	lst->fd[0] = (int) NULL;
-	lst->fd[1] = (int) NULL;
+	lst->fd[0] = -2;
+	lst->fd[1] = -2;
 	lst -> command = malloc(sizeof(char *) * (ft_lstcmd_count(token) + 1));
 	while (token && token->type != 1)
 	{
@@ -135,7 +135,7 @@ void	ft_prep_exe(t_ms *ms)
 	aux = NULL;
 	token = ms->start;
 	ms->cntcmds = 0;
-	ms->heredocfd = (int) NULL;
+	ms->heredocfd = -2;
 	ms->heredocfd =  heredoc_fillfd(ms, token);
 	while (token && (token->content[0] || token->type == 0) && g_process != 1)
 	{

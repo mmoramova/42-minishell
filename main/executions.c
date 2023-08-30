@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 19:18:36 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/30 23:45:37 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,12 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 		dup2(ms->pipes[lvl-1][0], STDIN_FILENO);
 	if (ms->pipes && lvl < ms->cntcmds-1)
 		dup2(ms->pipes[lvl][1], STDOUT_FILENO);
-	if (fd[0] && fd[0] != -1)
+	if (fd[0] && fd[0] != -1 && fd[0] != -2)
 	{
 		dup2(fd[0] ,STDIN_FILENO);
 		close(fd[0]);
 	}
-	if (fd[1] && fd[1] != -1)
+	if (fd[1] && fd[1] != -1 && fd[1] != -2)
 	{
 		dup2(fd[1] ,STDOUT_FILENO);
 		close(fd[1]);

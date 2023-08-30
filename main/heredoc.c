@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/30 19:12:28 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/30 23:24:40 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	t_tok	*token;
 
 	token = tokens;
-	fd = (int) NULL;
+	fd = -2;
 	while (token && g_process != 1)
 	{
 		if (token->type == 3)
 		{
-			if (fd)
+			if (fd && fd != -2)
 				close(fd);
 			fd = heredoc_execute(ms, token->next->content);
 			token = token->next;
