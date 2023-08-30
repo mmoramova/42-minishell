@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/30 23:45:37 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:20:00 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,10 @@ int	handle_forks(t_ms *ms)
 				execve_prepare(ms, com->command);
 			exit(0);
 		}
+		if (com->fd[0] && com->fd[0] != -1 && com->fd[0] != -2)
+			close(com->fd[0]);
+		if (com->fd[1] && com->fd[1] != -1 && com->fd[1] != -2)
+			close(com->fd[1]);
 		if (is_builtin(com->command[0]) && com->parent == 1)
 		{
 			if (!com -> next)
