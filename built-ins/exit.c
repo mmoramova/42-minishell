@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/29 16:36:31 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:27:10 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,13 @@ int	b_exit(t_ms *ms, char **com, int parent)
 		if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
 		clear_history();
-		ft_error2(ms, 255, "exit: ", com[1], ": numeric argument required");
+		ms->exitstatus = 255;
+		ft_error2(255, "exit: ", com[1], ": numeric argument required");
 		exit (255);
 	}
 	else if (com[1] && com[2] != NULL)
 	{
-		ft_error(ms, 1, com[0], "too many arguments", NULL);
+		ft_error(ms, 1, com[0], "too many arguments");
 		return (1);
 	}
 	else if (com[1])

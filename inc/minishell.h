@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/29 19:27:09 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:28:17 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,10 @@ void	handle_waitpid(t_ms *ms, int is_parent);
 void	close_pipes(int **pipes);
 
 //error and signal
-int		ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
-int		ft_error2(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2);
+int		ft_error2(int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error3(int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error4(int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
 void	handle_siginth(int sig);
 void	handle_sigintp(int sig);

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/30 23:24:40 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:26:22 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	heredoc_execute(t_ms *ms, char *file)
 	//**YA NO NECESITO G_PROCESS
 	//g_process = 2;
 	if (pipe(fd) == -1)
-		ft_error(ms, errno, strerror(errno), NULL, NULL);
+		ft_error(ms, errno, strerror(errno), NULL);
 	pid = fork();
 	if (pid == -1)
-		ft_error(ms, errno, strerror(errno), NULL, NULL);
+		ft_error(ms, errno, strerror(errno), NULL);
 	if (pid == 0)
 	{
 		signal(SIGINT, handle_siginth); //handle_siginth
@@ -103,7 +103,7 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 			token = token->next;
 			if (fd == -1)
 			//no me va bien en la ejecucion del control D y control C
-				ft_error(ms, errno, token->next->content, strerror(errno), NULL);
+				ft_error(ms, errno, token->next->content, strerror(errno));
 		}
 		if (token)
 			token = token->next;

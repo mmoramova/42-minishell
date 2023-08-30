@@ -3,37 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   newcd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/30 16:29:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:28:12 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_error3(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3)
-{
-	if (txt)
-		ft_putstr_fd(txt, 2);
-	if (txt2 && ft_strlen(txt2) > 0)
-	{
-		ft_putstr_fd(": ", 2);
-		if (txt3 && !ft_strncmp(txt3, "not a valid identifier", 23))
-			ft_putchar_fd('`', 2);
-		ft_putstr_fd(txt2, 2);
-		if (txt3 && !ft_strncmp(txt3, "not a valid identifier", 23))
-			ft_putchar_fd('\'', 2);
-	}
-	if (txt3 && ft_strlen(txt3) > 0)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(txt3, 2);
-	}
-	ft_putstr_fd("\n", 2);
-	ms->exitstatus = exitnumber;
-	return (exitnumber);
-}
 
 void	check_pwds(t_ms *ms)
 {
@@ -53,7 +31,8 @@ void	set_pwds(t_ms *ms, char *com)
 		com = ft_strdup(ft_strjoin("/", com));
 		change_env(ms->env, "PWD",
 			ft_strdup(ft_strjoin(get_env_value(ms->env, "PWD"), com)));
-		ft_error3(ms, 1, "cd: error retrieving current directory",
+		ms->exitstatus = 1;
+		ft_error3(1, "cd: error retrieving current directory",
 			"getcwd: cannot access parent directories", strerror(errno));
 	}
 	else
@@ -71,7 +50,8 @@ int	cd(t_ms *ms, char **com)
 	{
 		if (com[i][0] == 0)
 			return (0);
-		ft_error(ms, 1, "cd", com[i], strerror(errno));
+		ms->exitstatus = 1;
+		ft_error4(1, "cd", com[i], strerror(errno));
 		return (1);
 	}
 	else

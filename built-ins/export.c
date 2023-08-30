@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 15:34:51 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:24:41 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	export(t_ms *ms, char **com, int parent)
 		{
 			if (check_export(com[i]) == 1)
 			{
-				ft_error(ms, 1, com[0], com[i], "not a valid identifier");
+				ms->exitstatus = 1;
+				ft_error4(1, com[0], com[i], "not a valid identifier");
 				error = 1;
 			}
 			else

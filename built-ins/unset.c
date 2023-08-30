@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:00:39 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 15:20:34 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:25:09 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	unset(t_ms *ms, char **com)
 	{
 		if (check_export(com[i]) == 1)
 		{
-			ft_error(ms, 1, com[0], com[i], "not a valid identifier");
+			ms->exitstatus = 1;
+			ft_error4(1, com[0], com[i], "not a valid identifier");
 			return (1);
 		}
 		if (check_env (ms->env, com[i]) == 1)

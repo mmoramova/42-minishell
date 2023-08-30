@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/30 12:35:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:26:27 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int ft_checkinput(t_ms *ms)
 {
 	if (open_quotes(ms->line, strlen(ms->line)) != 0)
-		return(ft_error(ms, 1, "syntax error", "odd number of quotes", NULL));
+		return(ft_error(ms, 1, "syntax error", "odd number of quotes"));
 	return (0);
 }
 

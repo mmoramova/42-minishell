@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:20:00 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:26:12 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	execute_builtin(t_ms *ms,char **cmd, int parent)
 		return(enviroment(ms->env));
 	if (!ft_strncmp(cmd[0], "exit", 4))
 		return(b_exit(ms, cmd, parent));
-	return(ft_error(ms, 1,cmd[0],cmd[1],"not a valid option"));
+	ms->exitstatus = 1;
+	return(ft_error4(1, cmd[0], cmd[1], "not a valid option"));
 }
 
 int	**handle_pipes(t_ms *ms)
@@ -70,7 +71,7 @@ int	**handle_pipes(t_ms *ms)
 	while (l < ms->cntcmds - 1)
 	{
 		if (pipe(pipes[l]) == -1)
-			ft_error(ms, errno, strerror(errno), NULL, NULL);
+			ft_error(ms, errno, strerror(errno), NULL);
 		l++;
 	}
 	return (pipes);
@@ -148,7 +149,7 @@ int	handle_forks(t_ms *ms)
 		signal(SIGQUIT,SIG_IGN);
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
-			ft_error(ms, errno, strerror(errno), NULL, NULL);
+			ft_error(ms, errno, strerror(errno), NULL);
 		if (ms->pids[i] == 0) //child i
 		{
 			signal(SIGINT,handle_sigintp);
