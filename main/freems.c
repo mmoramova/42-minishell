@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 17:36:23 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:24:19 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,13 @@ void	free_ex2(t_ex *ex)
 		a = a->next;
 	}
 	// i = 0;
-	// if (a->command)
-	// {
-	// 	while (a->command[i])
-	// 	{
-	// 		free(a->command[i]);
-	// 		i++;
-	// 	}
-	// 	//free(a->command);
-	// 	a->command = NULL;
-
-	// }
-	// free (a);
+	if (a->command)
+		free_double(a->command);
+	if (a ->fd[0] && a->fd[0] != -2)
+		close(a ->fd[0]);
+	if (a ->fd[1] && a->fd[1] != -2)
+		close(a ->fd[1]);
+	free (a);
 
 }
 
@@ -150,5 +145,5 @@ void	free_double(char **ptr)
         ptr++;
     }
 	ptr = NULL;
-    free(ptr);
+	free(ptr);
 }
