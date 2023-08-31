@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 01:08:55 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 23:09:58 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,21 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 		}
 		if (line)
 		{
-			printf("my line is %s\n", line);
-			printf ("%d|%d|%d|%d\n", (int)ft_strlen(line),(int)ft_strlen(filewq), ft_strncmp(line, filewq, ft_strlen(filewq)), ft_strchrn(line, '$'));
+			//printf("my line is %s\n", line);
+			//printf ("%d|%d|%d|%d\n", (int)ft_strlen(line),(int)ft_strlen(filewq), ft_strncmp(line, filewq, ft_strlen(filewq)), ft_strchrn(line, '$'));
 			if (ft_strlen(line) == ft_strlen(filewq)
 				&& ft_strncmp(line, filewq, ft_strlen(filewq)) == 0)
 			{
 				free(line);
-				printf("I finished in child in %d\n", fd[0]);
 				close(fd[0]);
 				close(fd[1]);
 				exit(0);
 			}
 			if (ft_strlen(file) == ft_strlen(filewq)
 				&& ft_strchrn(line, '$') != -1)
-			{
-				printf("i am here 2\n");
 				ft_putstr_fd(ft_expand(ms, line), fd[1]);
-			}
 			else
-			{
 				ft_putstr_fd(line, fd[1]);
-				printf("i am here\n");
-			}
 			ft_putchar_fd('\n', fd[1]);
 			free(line);
 		}
@@ -80,7 +73,6 @@ int	heredoc_execute(t_ms *ms, char *file)
 	{
 		signal(SIGINT, handle_siginth); //handle_siginth
 		heredoc_read(ms, file, fd);
-		printf("I finished in child out %d\n", fd[0]);
 		close(fd[0]);
 		close(fd[1]);
 		exit(0);
@@ -105,10 +97,12 @@ int	heredoc_fillfd(t_ms *ms, t_tok *tokens)
 	fd = -2;
 	while (token && g_process != 1)
 	{
+		//printf("token is %s and type is %d\n", token->content, token->type);
 		if (token->type == 3)
 		{
 			if (fd && fd != -2)
 				close(fd);
+			//printf("token is %s and type is %d\n", token->next->content, token->type);
 			fd = heredoc_execute(ms, token->next->content);
 			token = token->next;
 			//no me va bien en la ejecucion del control D y control C
