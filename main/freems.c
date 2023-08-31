@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/30 19:00:27 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:49:09 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,4 +154,16 @@ void	free_ms(t_ms *ms)
 		free_ex(ms->exe);
 	if (ms)
 		free(ms);
+}
+
+void	free_double(char **ptr)
+{
+
+    while (*ptr != NULL)
+	{
+        free(*ptr);
+        ptr++;
+    }
+	ptr = NULL;
+    free(ptr);
 }

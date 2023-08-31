@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 00:26:27 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:48:37 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void handle_line(t_ms *ms)
 		execute_cmds(ms);
 	}
 	add_history(ms->line);
+	//free_double(ms->array_env);
 	free_line(ms->line);
 	//free all
 }

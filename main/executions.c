@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:26:12 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:42:12 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,5 +203,9 @@ void	execute_cmds(t_ms *ms)
 	close_pipes(ms->pipes);
 	handle_waitpid(ms, is_parent);
 	free(ms->pids);
+	//free the array enviroment after all the executions
+
+	if (ms->array_env)
+		free_double(ms->array_env);
 	g_process = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:53:44 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 16:39:27 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:44:04 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	**env_toarray(t_ms *ms)
 	int		i;
 	char	**p;
 	t_env	*env;
+	char	*a;
 
 	i = 0;
 	env = ms->env;
@@ -39,7 +40,11 @@ char	**env_toarray(t_ms *ms)
 	while (env)
 	{
 		if (env->eval)
-			p[i] = ft_strjoin(ft_strjoin(env->evar, "="), env->eval);
+		{
+			a = ft_strjoin(env->evar, "=");
+			p[i] = ft_strjoin(a, env->eval);
+			free (a);
+		}
 		env = env -> next;
 		i++;
 	}
