@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 12:40:26 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:25:00 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 		 	free_double(ms->array_env);
 		free_double(paths);
 	}
-	exit(ft_error(ms, 127, cmd[0], "command not found"));
+	ft_error(ms, 127, cmd[0], "command not found");
+	if (ms->exe)
+		free_ex2(ms->exe);
+	exit(127);
 }

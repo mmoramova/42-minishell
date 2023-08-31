@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 12:42:12 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:53:03 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	close_pipes(int **pipes)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
+		free(pipes[i]);
 	}
 	free(pipes);
 }
@@ -183,6 +184,7 @@ int	handle_forks(t_ms *ms)
 	com = com->next;
 	i++;
 	}
+
 	return(0);
 }
 
@@ -204,8 +206,9 @@ void	execute_cmds(t_ms *ms)
 	handle_waitpid(ms, is_parent);
 	free(ms->pids);
 	//free the array enviroment after all the executions
-
-	if (ms->array_env)
-		free_double(ms->array_env);
+	if (ms->exe)
+		free_ex2(ms->exe);
+	// if (ms->array_env)
+	// 	free_double(ms->array_env);
 	g_process = 0;
 }

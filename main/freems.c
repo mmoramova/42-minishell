@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 11:49:09 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:36:23 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,10 @@ void	free_ex(t_ex *ex)
 	a = ex;
 
 	if (a->command)
-	{
-		while (a->command[i])
-		{
-			free(a->command[i]);
-			i++;
-		}
-		free(a->command);
-		//a->command = NULL;
-	}
-	//if (a -> previous)
-	//	free(a ->previous);
+		free_double(a->command);
+
+	if (a -> previous)
+		free(a ->previous);
 	free (a);
 	//a = NULL;
 }
@@ -41,7 +34,7 @@ void	free_ex(t_ex *ex)
 void	free_ex2(t_ex *ex)
 {
 	t_ex	*a;
-	t_ex	*b;
+	//t_ex	*b;
 	int		i;
 
 	if (!ex)
@@ -51,41 +44,33 @@ void	free_ex2(t_ex *ex)
 	while (a->next)
 	{
 		if (a->command)
-		{
-			i = 0;
-			while (a->command[i])
-			{
-				free(a->command[i]);
-				i++;
-			}
-			free(a->command);
-			a->command = NULL;
-		}
-		if (a ->fd[0])
+			free_double(a->command);
+		if (a ->fd[0] && a->fd[0] != -2)
 			close(a ->fd[0]);
-		if (a ->fd[1])
+		if (a ->fd[1] && a->fd[1] != -2)
 			close(a ->fd[1]);
 		if (a -> previous)
 			free(a ->previous);
-		b = a->next;
-		if (a -> next)
-			free(a -> next);
-		free (a);
-		a = b;
+		// b = a->next;
+		// if (a -> next)
+		// 	free(a -> next);
+		// a = NULL;
+		// a = b;
+		a = a->next;
 	}
-	i = 0;
-	if (a->command)
-	{
-		while (a->command[i])
-		{
-			free(a->command[i]);
-			i++;
-		}
-		//free(a->command);
-		a->command = NULL;
+	// i = 0;
+	// if (a->command)
+	// {
+	// 	while (a->command[i])
+	// 	{
+	// 		free(a->command[i]);
+	// 		i++;
+	// 	}
+	// 	//free(a->command);
+	// 	a->command = NULL;
 
-	}
-	free (a);
+	// }
+	// free (a);
 
 }
 

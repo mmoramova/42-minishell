@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 00:27:59 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:38:13 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		{
 			r = ft_substr(s, 0, ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, r));
-			//free(r);
+			if (r)
+				free(r);
 			s += ft_wordlen_wq(s, c) - 1;
 		}
 		s++;

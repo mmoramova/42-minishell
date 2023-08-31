@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 01:08:50 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:44:20 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 	lst = (t_ex *) malloc(sizeof(t_ex));
 	if (!lst)
 		return (NULL);
+	lst -> previous = NULL;
 	lst -> next = NULL;
 	lst->fd[0] = -2;
 	lst->fd[1] = -2;

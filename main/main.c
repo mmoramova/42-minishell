@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 11:48:37 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:42:45 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int ft_parse(t_ms *ms)
 	if (ft_checkinput(ms) == 1)
 		return (1);
 	ms->start = ft_split_tok(ms, ' ');
+	ms->array_env = NULL;
 	if (ms->start == NULL)
 		return (1);
 	return (0);
