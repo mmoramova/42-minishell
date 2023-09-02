@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
+#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/08/28 16:59:52 by josorteg         ###   ########.fr        #
+#    Updated: 2023/09/02 17:50:03 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,16 @@ F_OBJ = obj/
 OBJ = $(addprefix $(F_OBJ), $(SRC:.c=.o))
 DEP = $(addprefix $(F_OBJ), $(SRC:.c=.d))
 
-all: dir make_libs make_readline $(NAME)
+all: dir make_libs make_configure make_readline $(NAME)
 
 make_libs:
 	@$(MAKE_LIBFT)
+
+make_configure:
+	if [ ! -e readline/.h ]; then \
+        sh readline/configure; \
+        touch readline/.h; \
+    fi
 
 make_readline:
 	@$(MAKE_READLINE)
@@ -57,7 +63,7 @@ $(F_OBJ)%.o: %.c
 	$(CC) $(C_FLAGS) -I ./inc -c -D READLINE_LIBRARY=1 $< -o $@
 
 $(NAME): $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
-	$(CC) $(C_FLAGS) $(^)  -ltermcap -lreadline -o $(NAME)
+	$(CC) $(C_FLAGS) $(^) -ltermcap -lreadline -o $(NAME)
 	@echo "$(BLUE)Everything has been compilated.$(BLACK)"
 
 #-L /readline/lib -I /readline/include -L /readline/lib -I /readline/include  -lreadline
@@ -73,7 +79,8 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE_LIBFT) fclean
+#$(MAKE_READLINE) fclean
 	@echo "$(MAGENTA)Everything has been cleaned.$(BLACK)"
 
-re: fclean all
-.SILENT:
+re: fclean al
+
