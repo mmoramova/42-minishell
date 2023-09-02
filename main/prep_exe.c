@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 11:19:11 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:33:57 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,12 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 	{
 		if (token->type == 0)
 			lst -> command[i++] = ft_strdup(token ->content);
-		if (token->type > 1 && res != 1)
+		if (token->type > 1)
 		{
-			res = ft_open(ms, token->type, lst->fd, token->next->content);
+			if (res != 1)
+				res = ft_open(ms, token->type, lst->fd, token->next->content);
 			token = token -> next;
+
 		}
 		token = token -> next;
 	}

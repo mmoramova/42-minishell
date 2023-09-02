@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:24:41 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:43:36 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ int	add_exp(t_ms *ms, char **com, int i)
 {
 	t_env	*nenv;
 
-	nenv = malloc (sizeof(t_env));
-	if (!nenv)
-		return (1);
 	nenv = new_env(com[i]);
 	if (check_env(ms->env, nenv->evar) == 1)
 		add_env(ms->env, nenv->evar, nenv->eval);
 	else if (ft_strchr(com[i], '=') != 0)
 		change_env(ms->env, nenv->evar, nenv->eval);
+	if (nenv->evar)
+		free(nenv->evar);
+	if (nenv->eval)
+		free(nenv->eval);
+	free (nenv);
 	return (0);
 }
 

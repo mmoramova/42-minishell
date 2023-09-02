@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 11:05:32 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:35:10 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,19 @@ t_env	*new_env(char *env)
 	int			k;
 	size_t		j;
 
+	new = malloc(sizeof(t_env));
+		if (!new)
+			return (NULL);
 	j = ft_strchrn(env, '=');
 	if (!(ft_strchr(env, '=')))
 	{
-		new = malloc(sizeof(t_env));
-		if (!new)
-			return (NULL);
+
 		new->evar = ft_strdup(env);
 		new->eval = NULL;
 		new->next = NULL;
 		return (new);
 	}
 	k = ft_strlen(env);
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (NULL);
 	new->evar = ft_substr(env, 0, j);
 	new->eval = ft_substr(env, j + 1, k);
 	new->next = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   newcd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:42:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:29:42 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	set_pwds(t_ms *ms, char *com)
 {
 	char	str[PATH_MAX];
 
-	change_env(ms->env, "OLDPWD", ft_strdup(get_env_value(ms->env, "PWD")));
+	change_env(ms->env, "OLDPWD", get_env_value(ms->env, "PWD"));
 	if (getcwd(str, PATH_MAX) == NULL)
 	{
 		com = ft_strdup(ft_strjoin("/", com));
@@ -35,7 +35,7 @@ void	set_pwds(t_ms *ms, char *com)
 			"getcwd: cannot access parent directories", strerror(errno));
 	}
 	else
-		change_env(ms->env, "PWD", ft_strdup(getcwd(str, PATH_MAX)));
+		change_env(ms->env, "PWD", getcwd(str, PATH_MAX));
 }
 
 int	cd(t_ms *ms, char **com)

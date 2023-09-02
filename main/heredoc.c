@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/02 10:39:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:35:45 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 	char	*filewq;
 
 	filewq = ft_q_r(file);
-	printf("i am reading %s\n", file);
 	while (42)
 	{
 		line = readline("> ");
