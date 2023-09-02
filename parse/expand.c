@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 11:16:54 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 16:36:21 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,18 @@ char	*ft_expand (t_ms *ms, char *s)
 			else if (var[0] == '\0')
 				aux = ft_strjoinfree(aux, "$");
 			else
+			{
 				aux = ft_strjoinfree(aux, "");
+				ms->exitstatus = 0;
+			}
+
 		}
 		count = 0;
 		while ((s[i] !='$' || (s[i] == '$' && (open_quotes(s, i) == 2))) && s[i] != '\0')
 			(1 && (count = count + 1) && (i = i + 1));
 		aux = ft_strjoinfree2(aux, ft_substr(s, i - count, count));
 	}
-	ms->exitstatus = 0;
+
 	return (aux);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/02 10:38:14 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 16:36:36 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		}
 		s++;
 	}
-
 	if (ft_tok_checks(ms, lst) == 1)
 		lst = NULL;
 	return (lst);
