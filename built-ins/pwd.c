@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:30:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 15:17:26 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/30 15:02:55 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 int	pwd(t_env *env)
 {
+	char	str[PATH_MAX];
+
 	if (env)
-		printf("%s\n", getcwd(NULL, PATH_MAX));
+	{
+		if (getcwd(str, PATH_MAX) != NULL)
+			printf("%s\n", getcwd(str, PATH_MAX));
+		else
+			printf("%s\n", get_env_value(env, "PWD"));
+	}
 	exit(0);
 }

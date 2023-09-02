@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 18:29:19 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:18:39 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int ft_checkinput(t_ms *ms)
 {
 	if (open_quotes(ms->line, strlen(ms->line)) != 0)
-		return(ft_error(ms, 1, "syntax error", "odd number of quotes", NULL));
+		return(ft_error(ms, 1, "syntax error", "odd number of quotes"));
 	return (0);
 }
 
@@ -24,6 +24,7 @@ int ft_parse(t_ms *ms)
 	if (ft_checkinput(ms) == 1)
 		return (1);
 	ms->start = ft_split_tok(ms, ' ');
+	ms->array_env = NULL;
 	if (ms->start == NULL)
 		return (1);
 	return (0);
@@ -44,10 +45,13 @@ void handle_line(t_ms *ms)
 	if (ft_parse(ms) == 0)
 	{
 		ft_prep_exe(ms);
+		//free s_tok
 		execute_cmds(ms);
 	}
 	add_history(ms->line);
+	//free_double(ms->array_env);
 	free_line(ms->line);
+	//free all
 }
 
 int	main(int argc, char **argv , char **env)
@@ -70,7 +74,7 @@ int	main(int argc, char **argv , char **env)
 	if(get_env(&ms,env) == 0)
 		return (0);
 	if (check_env (ms.env, "OLDPWD") == 1)
-		add_env (ms.env, "OLDPWD", getcwd(NULL,PATH_MAX));
+		add_env (ms.env, "OLDPWD", ft_strdup(getcwd(NULL,PATH_MAX)));
 	term_init();
 	while (42)
 	{
@@ -83,7 +87,8 @@ int	main(int argc, char **argv , char **env)
 		{
 			if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
-    		exit (ms.exitstatus);
+			clear_history();
+			exit (ms.exitstatus);
 		}
 
 		if (ms.line && strlen(ms.line) > 0)

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:08:38 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:44:07 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_env
 typedef	struct s_ms
 {
 	t_env	*env;
+	char	**array_env;
 	char	*line;
 	t_tok	*start;
 	t_ex	*exe;
@@ -103,7 +104,7 @@ t_tok	*ft_split_tok(t_ms *ms, char c);
 
 //expand
 char	*ft_expand (t_ms *ms, char *s);
-char	*ft_strjoinfree(char *s1, char const *s2);
+char	*ft_strjoinfree(char *s1, char *s2);
 t_tok	*ft_expand_token(char *str);
 int		ft_wordlen_wq(char const *s, char c);
 int		ft_tok_addtype(char *s);
@@ -140,7 +141,9 @@ void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
 void	free_line(char *line);
 void	free_ex(t_ex *ex);
+void	free_ex2(t_ex *ex);
 void	free_tok(t_tok *tok);
+void	free_double(char **ptr);
 
 //execution
 void	execute_cmds(t_ms *ms);
@@ -154,8 +157,10 @@ void	handle_waitpid(t_ms *ms, int is_parent);
 void	close_pipes(int **pipes);
 
 //error and signal
-int		ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
-int		ft_error2(t_ms *ms, int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2);
+int		ft_error2(int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error3(int exitnumber, char *txt, char *txt2, char *txt3);
+int		ft_error4(int exitnumber, char *txt, char *txt2, char *txt3);
 void	handle_sigint(int sig);
 void	handle_siginth(int sig);
 void	handle_sigintp(int sig);

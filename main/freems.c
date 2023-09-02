@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/29 19:12:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 17:51:34 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,79 @@
 void	free_ex(t_ex *ex)
 {
 	t_ex	*a;
-	t_ex	*b;
+	int		i;
 
 	if (!ex)
 		return ;
+	i = 0;
+	a = ex;
+
+	if (a->command)
+		free_double(a->command);
+
+	if (a -> previous)
+		free(a ->previous);
+	free (a);
+	//a = NULL;
+}
+
+void	free_ex2(t_ex *ex)
+{
+	t_ex	*a;
+	//t_ex	*b;
+	int		i;
+
+	if (!ex)
+		return ;
+	i = 0;
 	a = ex;
 	while (a->next)
 	{
-		if (a->command)
-			free(a->command);
-		b = a->next;
-		free (a);
-		a = b;
+		if (a->command != NULL)
+			free_double(a->command);
+		if (a ->fd[0] && a->fd[0] != -2)
+			close(a ->fd[0]);
+		if (a ->fd[1] && a->fd[1] != -2)
+			close(a ->fd[1]);
+		if (a -> previous != NULL)
+			free(a ->previous);
+		// b = a->next;
+		// if (a -> next)
+		// 	free(a -> next);
+		// a = NULL;
+		// a = b;
+		a = a->next;
 	}
+	// i = 0;
+	if (a->command != NULL)
+		free_double(a->command);
+	if (a ->fd[0] && a->fd[0] != -1 && a->fd[0] != -2)
+		close(a ->fd[0]);
+	if (a ->fd[1] && a->fd[0] != -1 && a->fd[1] != -2)
+		close(a ->fd[1]);
+	free (a);
+
 }
 
 void	free_tok(t_tok *tok)
 {
 	t_tok	*a;
 	t_tok	*b;
-	int		i;
 
 	if (!tok)
 		return ;
-	i = 0;
 	a = tok;
 	while (a->next)
 	{
 		if (a->content)
-		{
-			while (a->content[i])
-			{
-				free(&a->content[i]);
-				i++;
-			}
 			free(a->content);
-		}
 		b = a->next;
 		free (a);
 		a = b;
 	}
+	if (a->content)
+			free(a->content);
+		free (a);
 }
 
 void	free_env(t_env *env)
@@ -93,4 +126,16 @@ void	free_ms(t_ms *ms)
 	if (ms->line)
 		free_line(ms->line);
 	free(ms);
+}
+
+void	free_double(char **ptr)
+{
+
+    while (*ptr != NULL)
+	{
+        free(*ptr);
+        ptr++;
+    }
+	ptr = NULL;
+	free(ptr);
 }

@@ -6,13 +6,13 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:06:49 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:14:32 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoinfree(char *s1, char const *s2)
+char	*ft_strjoinfree(char *s1, char *s2)
 {
 	int		j;
 	int		i;
@@ -33,7 +33,8 @@ char	*ft_strjoinfree(char *s1, char const *s2)
 		p[i + j] = s2[j];
 	p[i + j] = '\0';
 	free(s1);
-	s1 = NULL;
+	//free(s2);
+	//s1 = NULL;
 	return (p);
 }
 

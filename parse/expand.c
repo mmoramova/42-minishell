@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:12:13 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 16:36:21 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+char	*ft_strjoinfree2(char *s1, char *s2)
+{
+	int		j;
+	int		i;
+	char	*p;
+
+	if (!s1)
+		return ((char *)s2);
+	if (!s2)
+		return (s1);
+	p = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!p)
+		return (NULL);
+	i = -1;
+	while (s1[++i])
+		p[i] = s1[i];
+	j = -1;
+	while (s2[++j])
+		p[i + j] = s2[j];
+	p[i + j] = '\0';
+	free(s1);
+	free(s2);
+	//s1 = NULL;
+	return (p);
+}
 
 char	*ft_expand (t_ms *ms, char *s)
 {
@@ -37,7 +63,6 @@ char	*ft_expand (t_ms *ms, char *s)
 				if (s[i++] == '?')
 					break;
 			}
-
 			var = ft_substr(s, i - count, count);
 			if (var[0] == '?')
 				aux = ft_strjoinfree(aux, ft_itoa(ms->exitstatus));
@@ -46,19 +71,20 @@ char	*ft_expand (t_ms *ms, char *s)
 			else if ((s[i] == '\"' || s[i] == '\'') && open_quotes(s, i - 1) == 0)
 				aux = ft_strjoinfree(aux, "");
 			else if (var[0] == '\0')
-				aux = ft_strjoin(aux, "$");
+				aux = ft_strjoinfree(aux, "$");
 			else
+			{
 				aux = ft_strjoinfree(aux, "");
+				ms->exitstatus = 0;
+			}
+
 		}
 		count = 0;
 		while ((s[i] !='$' || (s[i] == '$' && (open_quotes(s, i) == 2))) && s[i] != '\0')
-		{
-			count++;
-			i++;
-		}
-		aux = ft_strjoinfree(aux,ft_substr(s, i - count, count));
+			(1 && (count = count + 1) && (i = i + 1));
+		aux = ft_strjoinfree2(aux, ft_substr(s, i - count, count));
 	}
-	ms->exitstatus = 0;
+
 	return (aux);
 }
 

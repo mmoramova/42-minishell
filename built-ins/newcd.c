@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 09:43:40 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:29:42 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,22 @@ void	check_pwds(t_ms *ms)
 		add_env(ms->env, "OLDPWD", "");
 }
 
-void	set_pwds(t_ms *ms)
+void	set_pwds(t_ms *ms, char *com)
 {
+	char	str[PATH_MAX];
+
 	change_env(ms->env, "OLDPWD", get_env_value(ms->env, "PWD"));
-	change_env(ms->env, "PWD", getcwd(NULL, PATH_MAX));
+	if (getcwd(str, PATH_MAX) == NULL)
+	{
+		com = ft_strdup(ft_strjoin("/", com));
+		change_env(ms->env, "PWD",
+			ft_strdup(ft_strjoin(get_env_value(ms->env, "PWD"), com)));
+		ms->exitstatus = 1;
+		ft_error3(1, "cd: error retrieving current directory",
+			"getcwd: cannot access parent directories", strerror(errno));
+	}
+	else
+		change_env(ms->env, "PWD", getcwd(str, PATH_MAX));
 }
 
 int	cd(t_ms *ms, char **com)
@@ -32,18 +44,19 @@ int	cd(t_ms *ms, char **com)
 
 	i = 1;
 	if (com[i] == NULL)
-		com[i] = get_env_value(ms->env, "HOME");
-	if (chdir (com[i]) != 0)
+		chdir(get_env_value(ms->env, "HOME"));
+	else if (chdir (com[i]) != 0)
 	{
-		ft_error(ms, 1, "cd", com[1], strerror(errno));
-		if (com[i][0] == '\0')
+		if (com[i][0] == 0)
 			return (0);
+		ms->exitstatus = 1;
+		ft_error4(1, "cd", com[i], strerror(errno));
 		return (1);
 	}
 	else
 	{
 		check_pwds(ms);
-		set_pwds(ms);
+		set_pwds(ms, com[i]);
 	}
 	return (0);
 }

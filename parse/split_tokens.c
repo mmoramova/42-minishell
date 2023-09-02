@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/28 18:32:20 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 16:36:36 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	lst -> type = ft_tok_addtype(content);
 	lst -> next = NULL;
 	if ((lst -> previous && lst -> previous -> type == 3))
-		lst->content = content;
+		lst->content = ft_strdup(content);
 	else if (ft_strchrn (content,'$') == - 1)
 		lst->content = ft_q_r(content);
 	else
@@ -106,12 +106,14 @@ int	ft_tok_checks(t_ms *ms, t_tok *lst)
 	previous = lst;
 	if (lst->type == 1)
 	{
-		ft_error2(ms, 258, "syntax error near unexpected token `", lst->content, "\'");
+		ms->exitstatus = 258;
+		ft_error2(258, "syntax error near unexpected token `", lst->content, "\'");
 		return (1);
 	}
 	if (lst->type > 1 && !lst->next)
 	{
-		ft_error2(ms, 258, "syntax error near unexpected token `", "newline", "\'");
+		ms->exitstatus = 258;
+		ft_error2(258, "syntax error near unexpected token `", "newline", "\'");
 		return (1);
 	}
 	lst = lst -> next;
@@ -120,12 +122,14 @@ int	ft_tok_checks(t_ms *ms, t_tok *lst)
 		if ((previous->type > 1 && (lst->type != 0))
 			|| (previous->type == 1 && lst->type == 1))
 		{
-			ft_error2(ms, 258, "syntax error near unexpected token `", lst->content, "\'");
+			ms->exitstatus = 258;
+			ft_error2(258, "syntax error near unexpected token `", lst->content, "\'");
 			return (1);
 		}
 		if ((lst->type > 0 && !lst->next))
 		{
-			ft_error2(ms, 258, "syntax error near unexpected token `", "newline", "\'");
+			ms->exitstatus = 258;
+			ft_error2(258, "syntax error near unexpected token `", "newline", "\'");
 			return (1);
 		}
 		previous = lst;
@@ -150,12 +154,12 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		{
 			r = ft_substr(s, 0, ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, r));
-			free(r);
+			if (r)
+				free(r);
 			s += ft_wordlen_wq(s, c) - 1;
 		}
 		s++;
 	}
-
 	if (ft_tok_checks(ms, lst) == 1)
 		lst = NULL;
 	return (lst);
