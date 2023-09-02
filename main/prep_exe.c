@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 17:44:20 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:19:11 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_open(t_ms *ms, int type, int fd[2], char *file)
 {
 	if (type == 2 || type == 3)
 	{
-		if (fd[0] && fd[0] != -2)
+		if (fd[0] && fd[0] != -2 && fd[0] !=  ms->heredocfd)
 			close(fd[0]);
 		if (type == 2)
 			fd[0] = open(file, O_RDONLY, 0666);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 17:53:03 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:19:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,11 @@ int	handle_forks(t_ms *ms)
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
+			{
+				printf("i am here ");
 				exit(1);
+
+			}
 			if (is_builtin(com->command[0]) && com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
 			else if(is_builtin(com->command[0]) && com->parent == 1)
@@ -167,6 +171,7 @@ int	handle_forks(t_ms *ms)
 				execve_prepare(ms, com->command);
 			exit(0);
 		}
+
 		if (com->fd[0] && com->fd[0] != -1 && com->fd[0] != -2)
 			close(com->fd[0]);
 		if (com->fd[1] && com->fd[1] != -1 && com->fd[1] != -2)
@@ -191,6 +196,7 @@ int	handle_forks(t_ms *ms)
 void	execute_cmds(t_ms *ms)
 {
 	int	is_parent;
+	t_ex *aux;
 
 	if (g_process == 1)
 		return;
@@ -206,8 +212,17 @@ void	execute_cmds(t_ms *ms)
 	handle_waitpid(ms, is_parent);
 	free(ms->pids);
 	//free the array enviroment after all the executions
-	if (ms->exe)
+	if (ms->exe != NULL)  //comented for heredoc
+	{
+		aux = ms->exe;
+		printf("B\n");
+		while (aux)
+		{
+			printf("%s\n", aux->command[0]);
+			aux=aux->next;
+		}
 		free_ex2(ms->exe);
+	}
 	// if (ms->array_env)
 	// 	free_double(ms->array_env);
 	g_process = 0;

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 23:09:58 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:39:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 		if (!line)
 		{
 			rl_replace_line("", 0);
+			free_tok(ms->start);
 			exit(0);
 		}
 		if (line)
@@ -35,6 +36,7 @@ void	heredoc_read(t_ms *ms, char *file, int fd[2])
 				&& ft_strncmp(line, filewq, ft_strlen(filewq)) == 0)
 			{
 				free(line);
+				free_tok(ms->start);
 				close(fd[0]);
 				close(fd[1]);
 				exit(0);
@@ -73,6 +75,7 @@ int	heredoc_execute(t_ms *ms, char *file)
 	{
 		signal(SIGINT, handle_siginth); //handle_siginth
 		heredoc_read(ms, file, fd);
+		free_tok(ms->start);
 		close(fd[0]);
 		close(fd[1]);
 		exit(0);

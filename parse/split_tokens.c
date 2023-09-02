@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:48:00 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 23:11:07 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:38:14 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	lst -> type = ft_tok_addtype(content);
 	lst -> next = NULL;
 	if ((lst -> previous && lst -> previous -> type == 3))
-		lst->content = content;
+		lst->content = ft_strdup(content);
 	else if (ft_strchrn (content,'$') == - 1)
 		lst->content = ft_q_r(content);
 	else
@@ -154,7 +154,7 @@ t_tok	*ft_split_tok(t_ms *ms, char c)
 		{
 			r = ft_substr(s, 0, ft_wordlen_wq(s, c));
 			ft_toklstadd_back(&lst, ft_toklstnew(ms, lst, r));
-			if (r) //Jose this is not ok it somehow changes tokens in heredoc, i will show you at school
+			if (r)
 				free(r);
 			s += ft_wordlen_wq(s, c) - 1;
 		}

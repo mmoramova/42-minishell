@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 18:24:19 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:20:47 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void	free_ex2(t_ex *ex)
 	a = ex;
 	while (a->next)
 	{
-		if (a->command)
+		if (a->command != NULL)
 			free_double(a->command);
 		if (a ->fd[0] && a->fd[0] != -2)
 			close(a ->fd[0]);
 		if (a ->fd[1] && a->fd[1] != -2)
 			close(a ->fd[1]);
-		if (a -> previous)
+		if (a -> previous != NULL)
 			free(a ->previous);
 		// b = a->next;
 		// if (a -> next)
@@ -59,11 +59,11 @@ void	free_ex2(t_ex *ex)
 		a = a->next;
 	}
 	// i = 0;
-	if (a->command)
+	if (a->command != NULL)
 		free_double(a->command);
-	if (a ->fd[0] && a->fd[0] != -2)
+	if (a ->fd[0] && a->fd[0] != -1 && a->fd[0] != -2)
 		close(a ->fd[0]);
-	if (a ->fd[1] && a->fd[1] != -2)
+	if (a ->fd[1] && a->fd[0] != -1 && a->fd[1] != -2)
 		close(a ->fd[1]);
 	free (a);
 
