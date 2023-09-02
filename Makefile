@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
+#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/08/28 16:59:52 by josorteg         ###   ########.fr        #
+#    Updated: 2023/09/02 17:00:03 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 HEADER = inc/minishell.h
 C_FLAGS = -Wall -Wextra -Werror -MMD -g
 RM = rm -f
+
 
 #------------------------------LIBRARIES---------------------------------------#
 
@@ -43,8 +44,16 @@ all: dir make_libs make_readline $(NAME)
 make_libs:
 	@$(MAKE_LIBFT)
 
+make_configure:
+
+	@if [ !$(.hola)]; then \
+		@cd readline; ./configure; cd ..; \
+		@touch .hola;\
+	fi
 make_readline:
+
 	@$(MAKE_READLINE)
+#@touch $(SRC_READLINE)
 
 -include ${DEP}
 
@@ -71,7 +80,7 @@ clean:
 	$(MAKE_READLINE) clean
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) .hola
 	$(MAKE_LIBFT) fclean
 	@echo "$(MAGENTA)Everything has been cleaned.$(BLACK)"
 
