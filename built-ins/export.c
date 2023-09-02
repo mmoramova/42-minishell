@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 12:43:36 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 18:10:42 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,43 @@ int	add_exp(t_ms *ms, char **com, int i)
 	return (0);
 }
 
+int	check_export_plus(char *nenv)
+{
+	int	i;
+
+	i = 0;
+	i = 0;
+	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
+		return (1);
+	i++;
+	while (nenv[i] != '+' && nenv[i] != '\0')
+	{
+		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
+			return (1);
+		i++;
+	}
+	if (nenv[i + 1] == '=')
+		return (0);
+	return (1);
+}
+
+int	add_exp_plus(t_ms *ms, char **com, int i)
+{
+	t_env	*nenv;
+
+	nenv = new_env_plus(com[i]);
+	if (check_env(ms->env, nenv->evar) == 1)
+		add_env(ms->env, nenv->evar, nenv->eval);
+	else
+		plus_env(ms->env, nenv->evar, nenv->eval);
+	if (nenv->evar)
+		free(nenv->evar);
+	if (nenv->eval)
+		free(nenv->eval);
+	free (nenv);
+	return (0);
+}
+
 int	export(t_ms *ms, char **com, int parent)
 {
 	int		i;
@@ -64,7 +101,10 @@ int	export(t_ms *ms, char **com, int parent)
 		i = 0;
 		while (com[++i])
 		{
-			if (check_export(com[i]) == 1)
+
+			if (check_export_plus(com[i]) == 0)
+				add_exp_plus(ms, com, i);
+			else if (check_export(com[i]) == 1)
 			{
 				ms->exitstatus = 1;
 				ft_error4(1, com[0], com[i], "not a valid identifier");

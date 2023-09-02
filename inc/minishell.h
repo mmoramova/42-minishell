@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 11:44:07 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/02 17:47:47 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	add_env(t_env *env, char *val, char *var); //añade variables, para oldpwd 
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
 char	**env_toarray(t_ms *ms);
+t_env	*new_env_plus(char *env);
+void	plus_env(t_env *env, char *var, char *val);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);
