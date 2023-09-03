@@ -6,23 +6,16 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 15:11:34 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:43:24 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int ft_checkinput(t_ms *ms)
+int ft_parse(t_ms *ms)
 {
 	if (open_quotes(ms->line, strlen(ms->line)) != 0)
 		return(ft_error(ms, 1, "syntax error", "odd number of quotes"));
-	return (0);
-}
-
-int ft_parse(t_ms *ms)
-{
-	if (ft_checkinput(ms) == 1)
-		return (1);
 	ms->start = ft_split_tok(ms, ' ');
 	ms->array_env = NULL;
 	if (ms->start == NULL)
@@ -49,7 +42,7 @@ void handle_line(t_ms *ms)
 		execute_cmds(ms);
 	}
 	add_history(ms->line);
-	//free_double(ms->array_env);
+	//free_doublechar(ms->array_env);
 	free_line(ms->line);
 	//free all
 }
@@ -60,10 +53,8 @@ int	main(int argc, char **argv , char **env)
 
 	ms.start = NULL;
 	ms.exitstatus = 0;
-
 	if (argc != 1 && argv[0])
 		return (1);
-
 	if (!env[0])
 	{
 		env = malloc(3 * sizeof(char*));
