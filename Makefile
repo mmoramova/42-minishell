@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+         #
+#    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/08/28 16:59:52 by josorteg         ###   ########.fr        #
+#    Updated: 2023/09/03 11:52:39 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ RM = rm -f
 
 SRC_LIBFT = libs/libft/libft.a
 MAKE_LIBFT = make -C libs/libft --no-print-directory
+READLINE = ./readline/
 SRC_READLINE = readline/libreadline.a
 SRC_HISTORY = readline/libhistory.a
 MAKE_READLINE = make -C readline --no-print-directory
@@ -38,7 +39,13 @@ F_OBJ = obj/
 OBJ = $(addprefix $(F_OBJ), $(SRC:.c=.o))
 DEP = $(addprefix $(F_OBJ), $(SRC:.c=.d))
 
-all: dir make_libs make_readline $(NAME)
+all: dir conf make_libs make_readline $(NAME)
+
+conf:
+	@if [ ! -f $(READLINE)config.status ]; then\
+		cd $(READLINE) && ./configure; \
+		echo "create config.status"; \
+	fi
 
 make_libs:
 	@$(MAKE_LIBFT)
