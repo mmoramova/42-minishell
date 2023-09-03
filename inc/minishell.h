@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:04:25 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:22:40 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,27 @@ typedef struct s_ex
 	int			fd[2];
 	int			parent;
 	struct s_ex	*next;
-	struct s_ex *previous;
-} t_ex;
+	struct s_ex	*previous;
+}	t_ex;
 
 //struct for storage the enviroment
-typedef	struct s_tok
+typedef struct s_tok
 {
 	char			*content;
 	int				type;
-	struct	s_tok	*previous;
-	struct	s_tok	*next;
+	struct s_tok	*previous;
+	struct s_tok	*next;
 
 }	t_tok;
 
 typedef struct s_env
 {
-	char	*evar;
-	char	*eval;
+	char			*evar;
+	char			*eval;
 	struct s_env	*next;
 }	t_env;
 
-typedef	struct s_ms
+typedef struct s_ms
 {
 	t_env	*env;
 	char	**array_env;
@@ -85,9 +85,9 @@ int	g_process;
 
 //enviroment functions
 t_env	*new_env(char *env);
-int		get_env(t_ms *ms, char **env);/*initial version, malloc protetcion and compact*/
-char	*get_env_value(t_env *env ,char *var); /*to get a value of env f.e. PATH*/
-void	add_env(t_env *env, char *val, char *var); //añade variables, para oldpwd y para export
+int		get_env(t_ms *ms, char **env);
+char	*get_env_value(t_env *env, char *var);
+void	add_env(t_env *env, char *val, char *var);
 int		check_env(t_env *env, char *var);
 void	change_env(t_env *env, char *var, char *val);
 char	**env_toarray(t_ms *ms);
@@ -96,11 +96,12 @@ void	plus_env(t_env *env, char *var, char *val);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);
-char 	*ft_q_r(char *s);
-int 	ft_quotes_nbr(char *line);
+char	*ft_q_r(char *s);
+int		ft_quotes_nbr(char *line);
 int		ft_wordlen_wq(char const *s, char c);
 
 //split the token
+int		ft_parse(t_ms *ms);
 t_tok	*ft_split_tok(t_ms *ms, char c);
 int		ft_tok_addtype(char *s);
 int		ft_tok_checks(t_ms *ms, t_tok *lst);
@@ -110,7 +111,7 @@ t_tok	*ft_toklstlast(t_tok *lst);
 void	ft_toklstadd_back(t_tok **lst, t_tok *new);
 
 //expand
-char	*ft_expand (t_ms *ms, char *s);
+char	*ft_expand(t_ms *ms, char *s);
 t_tok	*ft_expand_token(char *str);
 char	*ft_exp_quotes(char *str, int quot);
 
@@ -139,7 +140,7 @@ void	print_env_export(t_env *env); //for EXPORT
 int		check_export(char *nenv);
 int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com);
-int		unset(t_ms *ms ,char **com);
+int		unset(t_ms *ms, char **com);
 int		b_exit(t_ms *ms, char **com, int parent);
 
 //free
@@ -155,7 +156,7 @@ void	free_ex_exit(t_ms *ms, int exitstatus);
 
 //execution
 void	execute_cmds(t_ms *ms);
-int		execute_builtin(t_ms *ms,char **cmd, int parent);
+int		execute_builtin(t_ms *ms, char **cmd, int parent);
 void	execve_prepare(t_ms	*ms, char **cmd);
 void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env);
 void	ft_execve_paths(t_ms *ms, char **cmd, char **paths);
@@ -175,4 +176,5 @@ void	handle_siginth(int sig);
 void	handle_sigintp(int sig);
 
 void	handle_line(t_ms *ms);
+void	ft_exit_finish(void);
 #endif

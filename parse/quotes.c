@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:52:34 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:11:28 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*ft_q_r(char *s)
 	res[j] = '\0';
 	return (res);
 }
+
 int	ft_wordlen_wq(char const *s, char c)
 {
 	int		i;

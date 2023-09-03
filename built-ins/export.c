@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:39:19 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:12:45 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	export(t_ms *ms, char **com)
 				error = 1;
 			}
 			else if (add_exp(ms, com, i) == 1)
-					return (1);
+				return (1);
 		}
 	}
 	return (error);

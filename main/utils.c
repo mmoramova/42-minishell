@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:48:38 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 17:53:01 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:15:39 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ char	*ft_strjoinfree(char *s1, char *s2)
 		p[i + j] = s2[j];
 	p[i + j] = '\0';
 	free(s1);
-	//free(s2);
-	//s1 = NULL;
 	return (p);
 }
 
@@ -60,6 +58,5 @@ char	*ft_strjoinfree2(char *s1, char *s2)
 	p[i + j] = '\0';
 	free(s1);
 	free(s2);
-	//s1 = NULL;
 	return (p);
 }

@@ -6,33 +6,22 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 16:52:35 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:20:54 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-int ft_parse(t_ms *ms)
+void	term_init()
 {
-	if (open_quotes(ms->line, strlen(ms->line)) != 0)
-		return(ft_error(ms, 1, "syntax error", "odd number of quotes"));
-	ms->start = ft_split_tok(ms, ' ');
-	ms->array_env = NULL;
-	if (ms->start == NULL)
-		return (1);
-	return (0);
-}
-
-void term_init()
-{
-	struct termios term;
+	struct termios	term;
 
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void handle_line(t_ms *ms)
+void	handle_line(t_ms *ms)
 {
 	signal(SIGINT, SIG_IGN);
 	if (ft_parse(ms) == 0)
@@ -45,7 +34,7 @@ void handle_line(t_ms *ms)
 	//free all
 }
 
-int	main(int argc, char **argv , char **env)
+int	main(int argc, char **argv, char **env)
 {
 	t_ms	ms;
 
@@ -60,23 +49,21 @@ int	main(int argc, char **argv , char **env)
 		env[1] = ft_strdup("SHLVL=0");
 		env[2] = NULL;
 	}
-	if(get_env(&ms,env) == 0)
+	if(get_env(&ms, env) == 0)
 		return (0);
 	if (check_env (ms.env, "OLDPWD") == 1)
-		add_env (ms.env, "OLDPWD", ft_strdup(getcwd(NULL,PATH_MAX)));
+		add_env (ms.env, "OLDPWD", ft_strdup(getcwd(NULL, PATH_MAX)));
 	term_init();
 	while (42)
 	{
 		g_process = 0;
-		signal(SIGINT,handle_sigint);
-		signal(SIGQUIT,SIG_IGN);
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
 		ms.line = readline("minishell> ");
 		signal(SIGINT, SIG_IGN);
 		if (!ms.line)
 		{
-			if (isatty(STDIN_FILENO))
-			write(2, "exit\n", 6);
-			clear_history();
+			ft_exit_finish();
 			exit (ms.exitstatus);
 		}
 		if (ms.line && ft_strlen(ms.line) > 0)
