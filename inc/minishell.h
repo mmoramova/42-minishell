@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:03:59 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:38:01 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 # define HEREDOC 3
 # define OUTFILE 4
 # define OUTFILETRUNC 5
-
-# define DEF_PATH "/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 typedef struct s_ex
 {
@@ -155,6 +153,7 @@ void	execute_cmds(t_ms *ms);
 int		execute_builtin(t_ms *ms,char **cmd, int parent);
 void	execve_prepare(t_ms	*ms, char **cmd);
 void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env);
+void	ft_execve_paths(t_ms *ms, char **cmd, char **paths);
 int		**handle_pipes(t_ms *ms);
 int		handle_forks(t_ms *ms);
 void	handle_redirections(t_ms *ms, int fd[2], int lvl);

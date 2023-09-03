@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:04:31 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:43:50 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,23 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 		close(fd[1]);
 	}
 }
+void handle_child(t_ms *ms, t_ex *com, int i)
+{
+	signal(SIGINT, handle_sigintp);
+	signal(SIGQUIT, handle_sigintp);
+	handle_redirections(ms, com->fd, i);
+	close_pipes(ms->pipes);
+	if (com->fd[0] == -1 || com->fd[1] == -1)
+		free_ex_exit(ms, 1);
+	if (is_builtin(com->command[0]) && com->parent == 0)
+		free_ex_exit(ms,
+			execute_builtin(ms, com->command, com->parent));
+	else if (is_builtin(com->command[0]) && com->parent == 1)
+		free_ex_exit(ms, 0);
+	else if (com->command)
+		execve_prepare(ms, com->command);
+	free_ex_exit(ms, 0);
+}
 
 int	handle_forks(t_ms *ms)
 {
@@ -149,21 +166,7 @@ int	handle_forks(t_ms *ms)
 		if (ms->pids[i] == -1)
 			ft_error(ms, errno, strerror(errno), NULL);
 		if (ms->pids[i] == 0)
-		{
-			signal(SIGINT, handle_sigintp);
-			signal(SIGQUIT, handle_sigintp);
-			handle_redirections(ms, com->fd, i);
-			close_pipes(ms->pipes);
-			if (com->fd[0] == -1 || com->fd[1] == -1)
-				free_ex_exit(ms, 1);
-			if (is_builtin(com->command[0]) && com->parent == 0)
-				free_ex_exit(ms, execute_builtin(ms, com->command, com->parent));
-			else if (is_builtin(com->command[0]) && com->parent == 1)
-				free_ex_exit(ms, 0);
-			else if (com->command)
-				execve_prepare(ms, com->command);
-			free_ex_exit(ms, 0);
-		}
+			handle_child(ms, com, i);
 		if (com->fd[0] && com->fd[0] != -1 && com->fd[0] != -2)
 			close(com->fd[0]);
 		if (com->fd[1] && com->fd[1] != -1 && com->fd[1] != -2)
@@ -172,16 +175,16 @@ int	handle_forks(t_ms *ms)
 		{
 			if (!com -> next)
 			{
-				ms->exitstatus = execute_builtin(ms,com->command, com->parent);
-				return(1);
+				ms->exitstatus = execute_builtin(ms, com->command, com->parent);
+				return (1);
 			}
 			else
-				execute_builtin(ms,com->command, com->parent);
+				execute_builtin(ms, com->command, com->parent);
 		}
-	com = com->next;
-	i++;
+		com = com->next;
+		i++;
 	}
-	return(0);
+	return (0);
 }
 
 void	execute_cmds(t_ms *ms)
@@ -189,15 +192,13 @@ void	execute_cmds(t_ms *ms)
 	int	is_parent;
 
 	if (g_process == 1)
-		return;
+		return ;
 	ms->pipes = handle_pipes(ms);
-	ms->pids =  malloc(sizeof(int) * (ms->cntcmds + 1));
+	ms->pids = malloc(sizeof(int) * (ms->cntcmds + 1));
 	if (!ms->pids)
-		return;
+		return ;
 	ms->pids[ms->cntcmds] = '\0';
-	//children
 	is_parent = handle_forks(ms);
-	//parent
 	close_pipes(ms->pipes);
 	handle_waitpid(ms, is_parent);
 	if (ms->pids != NULL)
@@ -205,7 +206,5 @@ void	execute_cmds(t_ms *ms)
 	//free the array enviroment after all the executions
 	if (ms->exe != NULL)
 		free_ex2(ms->exe);
-	// if (ms->array_env)
-	// 	free_doublechar(ms->array_env);
 	g_process = 0;
 }

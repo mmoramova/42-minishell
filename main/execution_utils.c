@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:23:13 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:37:49 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	**ft_get_paths(char *env)
 		paths = ft_split(env, ':');
 	else
 		paths = NULL;
-		//paths = ft_split(DEF_PATH, ':');
 	return (paths);
 }
 
@@ -37,38 +36,43 @@ void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env)
 	}
 }
 
-void	execve_prepare(t_ms	*ms, char **cmd)
+void	ft_execve_paths(t_ms *ms, char **cmd, char **paths)
 {
 	int		i;
-	char	**paths;
-	DIR		*dir;
 	char	*a;
 	char	*b;
 
 	i = 0;
+	while (paths[i])
+	{
+		b = ft_strjoin(paths[i], "/");
+		a = ft_strjoin(b, cmd[0]);
+		ft_execve(ms, a, cmd, ms->array_env);
+		free (a);
+		free (b);
+		i++;
+	}
+	free_doublechar(paths);
+}
+
+void	execve_prepare(t_ms	*ms, char **cmd)
+{
+	char	**paths;
+	DIR		*dir;
+
 	ms->array_env = env_toarray(ms);
 	if (cmd[0][0] != '\0')
 	{
-		if (ft_strchr(cmd[0], '/') && (dir = opendir(cmd[0])))
-		{
+		dir = opendir(cmd[0]);
+		if (ft_strchr(cmd[0], '/') && (dir))
 			exit(ft_error(ms, 126, cmd[0], "is a directory"));
-		}
 		paths = ft_get_paths(get_env_value(ms->env, "PATH"));
 		if (ft_strchr(cmd[0], '/') || paths == NULL)
 		{
-			ft_execve(ms, cmd[0], cmd, ms->array_env);//env
+			ft_execve(ms, cmd[0], cmd, ms->array_env);
 			exit(ft_error(ms, 127, cmd[0], "No such file or directory"));
 		}
-		i = 0;
-		while (paths[i])
-		{
-			b = ft_strjoin(paths[i++], "/");
-			a = ft_strjoin(b,cmd[0]);
-			ft_execve(ms, a, cmd, ms->array_env);//env
-			free (a);
-			free (b);
-		}
-		free_doublechar(paths);
+		ft_execve_paths(ms, cmd, paths);
 	}
 	ft_error(ms, 127, cmd[0], "command not found");
 	if (ms->exe)
