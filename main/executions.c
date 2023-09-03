@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 16:48:40 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:04:31 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,14 +155,14 @@ int	handle_forks(t_ms *ms)
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
-				free_ex_exit(ms->exe, 1);
+				free_ex_exit(ms, 1);
 			if (is_builtin(com->command[0]) && com->parent == 0)
-				free_ex_exit(ms->exe, execute_builtin(ms, com->command, com->parent));
+				free_ex_exit(ms, execute_builtin(ms, com->command, com->parent));
 			else if (is_builtin(com->command[0]) && com->parent == 1)
-				free_ex_exit(ms->exe, 0);
+				free_ex_exit(ms, 0);
 			else if (com->command)
 				execve_prepare(ms, com->command);
-			free_ex_exit(ms->exe, 0);
+			free_ex_exit(ms, 0);
 		}
 		if (com->fd[0] && com->fd[0] != -1 && com->fd[0] != -2)
 			close(com->fd[0]);
@@ -200,7 +200,8 @@ void	execute_cmds(t_ms *ms)
 	//parent
 	close_pipes(ms->pipes);
 	handle_waitpid(ms, is_parent);
-	free(ms->pids);
+	if (ms->pids != NULL)
+		free(ms->pids);
 	//free the array enviroment after all the executions
 	if (ms->exe != NULL)
 		free_ex2(ms->exe);

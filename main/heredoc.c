@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:17:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 15:08:44 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:54:24 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	heredoc_checkline(t_ms *ms, char *file, int fd[2], char *line)
 	if (ft_strlen(line) == ft_strlen(filewq)
 		&& ft_strncmp(line, filewq, ft_strlen(filewq)) == 0)
 	{
+		free(filewq);
 		free(line);
 		free_tok(ms->start);
 		close(fd[0]);
@@ -32,6 +33,7 @@ void	heredoc_checkline(t_ms *ms, char *file, int fd[2], char *line)
 	else
 		ft_putstr_fd(line, fd[1]);
 	ft_putchar_fd('\n', fd[1]);
+	free(filewq);
 	free(line);
 }
 

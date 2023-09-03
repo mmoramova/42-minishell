@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 16:14:25 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:52:35 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void handle_line(t_ms *ms)
 	if (ft_parse(ms) == 0)
 	{
 		ft_prep_exe(ms);
-		//free s_tok
 		execute_cmds(ms);
 	}
 	add_history(ms->line);

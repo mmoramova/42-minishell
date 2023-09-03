@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:43:24 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:23:13 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 {
 	int		i;
 	char	**paths;
-	//char	**env;
 	DIR		*dir;
-	char	*a;//new
+	char	*a;
 	char	*b;
 
 	i = 0;
-	//env = env_toarray(ms);
 	ms->array_env = env_toarray(ms);
 	if (cmd[0][0] != '\0')
 	{
 		if (ft_strchr(cmd[0], '/') && (dir = opendir(cmd[0])))
+		{
 			exit(ft_error(ms, 126, cmd[0], "is a directory"));
+		}
 		paths = ft_get_paths(get_env_value(ms->env, "PATH"));
 		if (ft_strchr(cmd[0], '/') || paths == NULL)
 		{
@@ -68,8 +68,6 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 			free (a);
 			free (b);
 		}
-		if (ms->array_env)
-		 	free_doublechar(ms->array_env);
 		free_doublechar(paths);
 	}
 	ft_error(ms, 127, cmd[0], "command not found");

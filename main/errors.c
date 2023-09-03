@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 00:14:21 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 15:13:40 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:22:07 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2)
 		ft_putstr_fd(txt2, 2);
 	}
 	ft_putstr_fd("\n", 2);
+	if (ms->array_env)
+		free_doublechar(ms->array_env);
 	ms->exitstatus = exitnumber;
 	return (exitnumber);
 }

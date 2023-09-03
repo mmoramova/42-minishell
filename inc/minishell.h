@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 16:21:03 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:03:59 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	free_ex2(t_ex *ex);
 void	free_tok(t_tok *tok);
 void	free_doublechar(char **ptr);
 void	free_doubleint(int **ptr);
-void	free_ex_exit(t_ex *ex, int exitstatus);
+void	free_ex_exit(t_ms *ms, int exitstatus);
 
 //execution
 void	execute_cmds(t_ms *ms);

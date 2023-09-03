@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 08:59:51 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:08:16 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:06:35 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,3 @@ char	*ft_q_r(char *s)
 	res[j] = '\0';
 	return (res);
 }
-/*
-int main(void)
-{
-	char *s  = "'''";
-
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-	printf("%d\n", open_quotes(s,(int)strlen(s)));
-
-	//gcc quotes.c && ./a.out
-}
-*/

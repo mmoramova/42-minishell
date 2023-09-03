@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 16:49:23 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:04:44 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,11 @@ void	free_doubleint(int **ptr)
 	}
 	free(ptr);
 }
-void	free_ex_exit(t_ex *ex, int exitstatus)
+void	free_ex_exit(t_ms *ms, int exitstatus)
 {
-	if (ex != NULL)
-		free_ex2(ex);
+	if (ms->exe != NULL)
+		free_ex2(ms->exe);
+	if (ms->pids != NULL)
+		free(ms->pids);
 	exit(exitstatus);
 }
