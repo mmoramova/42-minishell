@@ -6,7 +6,7 @@
 #    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/09/03 11:52:39 by mmoramov         ###   ########.fr        #
+#    Updated: 2023/09/03 12:25:11 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,19 +39,26 @@ F_OBJ = obj/
 OBJ = $(addprefix $(F_OBJ), $(SRC:.c=.o))
 DEP = $(addprefix $(F_OBJ), $(SRC:.c=.d))
 
+#------------------------------COLORS-----------------------------------------#
+BLACK = \033[0;39m
+BLUE = \033[0;94m
+GREEN = \033[0;92m
+MAGENTA = \033[0;95m
+
+#------------------------------EXECUTION-----------------------------------------#
 all: dir conf make_libs make_readline $(NAME)
 
 conf:
 	@if [ ! -f $(READLINE)config.status ]; then\
 		cd $(READLINE) && ./configure; \
-		echo "create config.status"; \
 	fi
 
 make_libs:
+	@echo "$(BLUE)Libft:$(BLACK)"
 	@$(MAKE_LIBFT)
 
 make_readline:
-	@$(MAKE_READLINE)
+	@$(MAKE_READLINE) &> /dev/null
 
 -include ${DEP}
 
@@ -63,9 +70,16 @@ dir:
 $(F_OBJ)%.o: %.c
 	$(CC) $(C_FLAGS) -I ./inc -c -D READLINE_LIBRARY=1 $< -o $@
 
-$(NAME): $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
+
+$(NAME)::
+	@echo "$(GREEN)Minishell:$(BLACK)"
+
+$(NAME):: $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
 	$(CC) $(C_FLAGS) $(^)  -ltermcap -lreadline -o $(NAME)
-	@echo "$(BLUE)Everything has been compilated.$(BLACK)"
+	@echo "$(GREEN)Everything has been compilated.$(BLACK)"
+
+$(NAME)::
+	@echo "$(GREEN)No actions needed.$(BLACK)"
 
 #-L /readline/lib -I /readline/include -L /readline/lib -I /readline/include  -lreadline
 
@@ -80,7 +94,7 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE_LIBFT) fclean
+	$(MAKE_READLINE) clean
 	@echo "$(MAGENTA)Everything has been cleaned.$(BLACK)"
 
 re: fclean all
-.SILENT:
