@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 16:08:58 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:49:23 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,23 @@ void	free_ex(t_ex *ex)
 	free (a);
 	//a = NULL;
 }
+void	free_ex_closepipes(t_ex *ex)
+{
+	t_ex	*a;
+
+	if (!ex)
+		return ;
+	a = ex;
+	if (a ->fd[0] && a->fd[0] != -1 && a->fd[0] != -2)
+		close(a ->fd[0]);
+	if (a ->fd[1] && a->fd[0] != -1 && a->fd[1] != -2)
+		close(a ->fd[1]);
+}
 
 void	free_ex2(t_ex *ex)
 {
 	t_ex	*a;
-	//t_ex	*b;
+	t_ex	*b;
 	int		i;
 
 	if (!ex)
@@ -45,28 +57,17 @@ void	free_ex2(t_ex *ex)
 	{
 		if (a->command != NULL)
 			free_doublechar(a->command);
-		if (a ->fd[0] && a->fd[0] != -2)
-			close(a ->fd[0]);
-		if (a ->fd[1] && a->fd[1] != -2)
-			close(a ->fd[1]);
+		free_ex_closepipes(a);
 		if (a -> previous != NULL)
 			free(a ->previous);
-		// b = a->next;
-		// if (a -> next)
-		// 	free(a -> next);
-		// a = NULL;
-		// a = b;
-		a = a->next;
+		b = a->next;
+		free (a);
+		a = b;
 	}
-	// i = 0;
 	if (a->command != NULL)
 		free_doublechar(a->command);
-	if (a ->fd[0] && a->fd[0] != -1 && a->fd[0] != -2)
-		close(a ->fd[0]);
-	if (a ->fd[1] && a->fd[0] != -1 && a->fd[1] != -2)
-		close(a ->fd[1]);
+	free_ex_closepipes(a);
 	free (a);
-
 }
 
 void	free_tok(t_tok *tok)
@@ -160,4 +161,10 @@ void	free_doubleint(int **ptr)
 		i++;
 	}
 	free(ptr);
+}
+void	free_ex_exit(t_ex *ex, int exitstatus)
+{
+	if (ex != NULL)
+		free_ex2(ex);
+	exit(exitstatus);
 }
