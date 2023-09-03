@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:46:09 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:08:58 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,23 +138,26 @@ void	free_ms(t_ms *ms)
 
 void	free_doublechar(char **ptr)
 {
+	int i;
 
-	while (*ptr != NULL)
+	i = 0;
+	while (ptr[i] != NULL)
 	{
-		free(*ptr);
-		ptr++;
+		free(ptr[i]);
+		i++;
 	}
-	ptr = NULL;
 	free(ptr);
 }
 
 void	free_doubleint(int **ptr)
 {
-	while (*ptr != NULL)
+	int i;
+
+	i = 0;
+	while (ptr[i] != NULL)
 	{
-		free(*ptr);
-		ptr++;
+		free(ptr[i]);
+		i++;
 	}
-	ptr = NULL;
 	free(ptr);
 }
