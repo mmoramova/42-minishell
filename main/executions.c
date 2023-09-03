@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:26:09 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:38:08 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_builtin(t_ms *ms, char **cmd, int parent)
 	if (!ft_strncmp(cmd[0], "pwd", 3))
 		return (pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
-		return (export(ms, cmd, parent));
+		return (export(ms, cmd));
 	if (!ft_strncmp(cmd[0], "unset", 5))
 		return (unset(ms, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3) && cmd[1] == NULL)

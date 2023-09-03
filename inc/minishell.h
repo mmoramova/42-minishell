@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:08:14 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:37:52 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		enviroment(t_env *env);
 void	print_env_export(t_env *env); //for EXPORT
 int		check_export(char *nenv);
 int		cd(t_ms *ms, char **com);
-int		export(t_ms *ms, char **com, int parent);
+int		export(t_ms *ms, char **com);
 int		unset(t_ms *ms ,char **com);
 int		b_exit(t_ms *ms, char **com, int parent);
 

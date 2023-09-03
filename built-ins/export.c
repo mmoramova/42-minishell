@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 18:10:42 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:39:19 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,11 @@ int	add_exp_plus(t_ms *ms, char **com, int i)
 	return (0);
 }
 
-int	export(t_ms *ms, char **com, int parent)
+int	export(t_ms *ms, char **com)
 {
 	int		i;
 	int		error;
 
-	(void)parent;
 	error = 0;
 	if (com[1] == NULL)
 		print_env_export(ms->env);
@@ -101,7 +100,6 @@ int	export(t_ms *ms, char **com, int parent)
 		i = 0;
 		while (com[++i])
 		{
-
 			if (check_export_plus(com[i]) == 0)
 				add_exp_plus(ms, com, i);
 			else if (check_export(com[i]) == 1)
@@ -110,11 +108,8 @@ int	export(t_ms *ms, char **com, int parent)
 				ft_error4(1, com[0], com[i], "not a valid identifier");
 				error = 1;
 			}
-			else
-			{
-				if (add_exp(ms, com, i) == 1)
+			else if (add_exp(ms, com, i) == 1)
 					return (1);
-			}
 		}
 	}
 	return (error);
