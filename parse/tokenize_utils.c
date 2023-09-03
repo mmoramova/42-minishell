@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:54:25 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 18:07:41 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:32:25 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,20 @@ void	ft_toklstadd_back(t_tok **lst, t_tok *new)
 		ft_toklstlast(*lst)-> next = new;
 	else
 		*lst = new;
+}
+
+int	ft_lstcmd_count(t_tok *token)
+{
+	int	len;
+
+	len = 0;
+	while (token && token->type != 1)
+	{
+		if (token->type == 0)
+			len++;
+		else
+			len--;
+		token = token -> next;
+	}
+	return (len);
 }

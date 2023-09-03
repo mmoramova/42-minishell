@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:22:40 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:41:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int		ft_tok_checks2(t_ms *ms, t_tok *lst);
 t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content);
 t_tok	*ft_toklstlast(t_tok *lst);
 void	ft_toklstadd_back(t_tok **lst, t_tok *new);
+int		ft_lstcmd_count(t_tok *token);
 
 //expand
 char	*ft_expand(t_ms *ms, char *s);
@@ -128,6 +129,9 @@ void	heredoc_checkline(t_ms *ms, char *file, int fd[2], char *line);
 //utils
 char	*ft_strjoinfree(char *s1, char *s2);
 char	*ft_strjoinfree2(char *s1, char *s2);
+int		ft_fd_isopen(int fd);
+int		ft_count_types(t_tok *token, int type);
+int		openfd(t_ms *ms, int type, int fd[2], char *file);
 
 //builts
 int		is_builtin(char *cmd);

@@ -6,25 +6,11 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:22:14 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:41:10 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_count_types(t_tok *token, int type)
-{
-	int	len;
-
-	len = 0;
-	while (token)
-	{
-		if (token->type == type)
-			len++;
-		token = token -> next;
-	}
-	return (len);
-}
 
 int	ft_parent_exe(t_ms	*ms, char **command)
 {
@@ -38,47 +24,19 @@ int	ft_parent_exe(t_ms	*ms, char **command)
 		return (0);
 }
 
-int	ft_open(t_ms *ms, int type, int fd[2], char *file)
+t_ex	*ft_exlstinit(void)
 {
-	if (type == 2 || type == 3)
-	{
-		if (fd[0] && fd[0] != -2 && fd[0] != ms->heredocfd)
-			close(fd[0]);
-		if (type == 2)
-			fd[0] = open(file, O_RDONLY, 0666);
-		else if (type == 3)
-			fd[0] = ms->heredocfd;
-		if (fd[0] == -1)
-			return (ft_error(ms, 1, file, strerror(errno)));
-	}
-	else
-	{
-		if (fd[1] && fd[1] != -2)
-			close(fd[1]);
-		if (type == 4)
-			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-		else if (type == 5)
-			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
-		if (fd[1] == -1)
-			return (ft_error(ms, 1, file, strerror(errno)));
-	}
-	return (0);
-}
+	t_ex	*lst;
 
-int	ft_lstcmd_count(t_tok *token)
-{
-	int	len;
-
-	len = 0;
-	while (token && token->type != 1)
-	{
-		if (token->type == 0)
-			len++;
-		else
-			len--;
-		token = token -> next;
-	}
-	return (len);
+	lst = (t_ex *) malloc(sizeof(t_ex));
+	if (!lst)
+		return (NULL);
+	lst -> previous = NULL;
+	lst -> next = NULL;
+	lst->fd[0] = -2;
+	lst->fd[1] = -2;
+	lst -> command = NULL;
+	return (lst);
 }
 
 t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
@@ -89,13 +47,9 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 
 	i = 0;
 	res = 0;
-	lst = (t_ex *) malloc(sizeof(t_ex));
+	lst = ft_exlstinit();
 	if (!lst)
 		return (NULL);
-	lst -> previous = NULL;
-	lst -> next = NULL;
-	lst->fd[0] = -2;
-	lst->fd[1] = -2;
 	lst -> command = malloc(sizeof(char *) * (ft_lstcmd_count(token) + 1));
 	while (token && token->type != 1)
 	{
@@ -104,7 +58,7 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 		if (token->type > 1)
 		{
 			if (res != 1)
-				res = ft_open(ms, token->type, lst->fd, token->next->content);
+				res = openfd(ms, token->type, lst->fd, token->next->content);
 			token = token -> next;
 		}
 		token = token -> next;

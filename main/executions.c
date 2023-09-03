@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:43:50 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:51:22 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,19 @@ void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 		dup2(ms->pipes[lvl - 1][0], STDIN_FILENO);
 	if (ms->pipes && lvl < ms->cntcmds - 1)
 		dup2(ms->pipes[lvl][1], STDOUT_FILENO);
-	if (fd[0] && fd[0] != -1 && fd[0] != -2)
+	if (ft_fd_isopen(fd[0]))
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
-	if (fd[1] && fd[1] != -1 && fd[1] != -2)
+	if (ft_fd_isopen(fd[1]))
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
 }
-void handle_child(t_ms *ms, t_ex *com, int i)
+
+void	handle_child(t_ms *ms, t_ex *com, int i)
 {
 	signal(SIGINT, handle_sigintp);
 	signal(SIGQUIT, handle_sigintp);
@@ -149,6 +150,18 @@ void handle_child(t_ms *ms, t_ex *com, int i)
 	else if (com->command)
 		execve_prepare(ms, com->command);
 	free_ex_exit(ms, 0);
+}
+
+int	execute_builtin_inparent(t_ms *ms, t_ex *com)
+{
+	if (!com -> next)
+	{
+		ms->exitstatus = execute_builtin(ms, com->command, com->parent);
+		return (1);
+	}
+	else
+		execute_builtin(ms, com->command, com->parent);
+	return (0);
 }
 
 int	handle_forks(t_ms *ms)
@@ -167,20 +180,13 @@ int	handle_forks(t_ms *ms)
 			ft_error(ms, errno, strerror(errno), NULL);
 		if (ms->pids[i] == 0)
 			handle_child(ms, com, i);
-		if (com->fd[0] && com->fd[0] != -1 && com->fd[0] != -2)
+		if (ft_fd_isopen(com->fd[0]))
 			close(com->fd[0]);
-		if (com->fd[1] && com->fd[1] != -1 && com->fd[1] != -2)
+		if (ft_fd_isopen(com->fd[1]))
 			close(com->fd[1]);
-		if (is_builtin(com->command[0]) && com->parent == 1)
-		{
-			if (!com -> next)
-			{
-				ms->exitstatus = execute_builtin(ms, com->command, com->parent);
-				return (1);
-			}
-			else
-				execute_builtin(ms, com->command, com->parent);
-		}
+		if (is_builtin(com->command[0]) && com->parent == 1
+			&& execute_builtin_inparent(ms, com))
+			return (1);
 		com = com->next;
 		i++;
 	}
@@ -203,7 +209,6 @@ void	execute_cmds(t_ms *ms)
 	handle_waitpid(ms, is_parent);
 	if (ms->pids != NULL)
 		free(ms->pids);
-	//free the array enviroment after all the executions
 	if (ms->exe != NULL)
 		free_ex2(ms->exe);
 	g_process = 0;

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:04:44 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:28:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	free_ex_closepipes(t_ex *ex)
 	if (!ex)
 		return ;
 	a = ex;
-	if (a ->fd[0] && a->fd[0] != -1 && a->fd[0] != -2)
+	if (ft_fd_isopen(a->fd[0]))
 		close(a ->fd[0]);
-	if (a ->fd[1] && a->fd[0] != -1 && a->fd[1] != -2)
+	if (ft_fd_isopen(a->fd[1]))
 		close(a ->fd[1]);
 }
 
