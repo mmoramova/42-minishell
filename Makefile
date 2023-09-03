@@ -6,7 +6,7 @@
 #    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/09/03 12:25:11 by mmoramov         ###   ########.fr        #
+#    Updated: 2023/09/03 12:35:11 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ RM = rm -f
 
 SRC_LIBFT = libs/libft/libft.a
 MAKE_LIBFT = make -C libs/libft --no-print-directory
-READLINE = ./readline/
-SRC_READLINE = readline/libreadline.a
-SRC_HISTORY = readline/libhistory.a
-MAKE_READLINE = make -C readline --no-print-directory
+READLINE = ./libs/readline/
+SRC_READLINE = libs/readline/libreadline.a
+SRC_HISTORY = libs/readline/libhistory.a
+MAKE_READLINE = make -C libs/readline --no-print-directory
 
 #------------------------------SOURCES-----------------------------------------#
 MAIN = main freems prep_exe execution_utils signal executions heredoc errors
@@ -58,7 +58,9 @@ make_libs:
 	@$(MAKE_LIBFT)
 
 make_readline:
+	@echo "$(MAGENTA)Readline:$(BLACK)"
 	@$(MAKE_READLINE) &> /dev/null
+	@echo "$(MAGENTA)No actions needed.$(BLACK)"
 
 -include ${DEP}
 
@@ -80,8 +82,6 @@ $(NAME):: $(OBJ) ./$(SRC_LIBFT) ./$(SRC_READLINE) ./$(SRC_HISTORY)
 
 $(NAME)::
 	@echo "$(GREEN)No actions needed.$(BLACK)"
-
-#-L /readline/lib -I /readline/include -L /readline/lib -I /readline/include  -lreadline
 
 .PHONY: all clean fclean re
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 17:47:47 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 12:35:14 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include "../readline/readline.h"
-# include "../readline/history.h"
+# include "../libs/readline/readline.h"
+# include "../libs/readline/history.h"
 # include <signal.h>
 # include <string.h>
 # include <sys/stat.h>
