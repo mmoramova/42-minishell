@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   prep_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:20:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 11:33:57 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:22:14 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_count_types (t_tok *token, int type)
+int	ft_count_types(t_tok *token, int type)
 {
 	int	len;
 
 	len = 0;
-	while(token)
+	while (token)
 	{
 		if (token->type == type)
 			len++;
@@ -28,11 +28,11 @@ int	ft_count_types (t_tok *token, int type)
 
 int	ft_parent_exe(t_ms	*ms, char **command)
 {
-	if (command[0] && ((ft_strncmp(command[0],"cd",2) == 0
-	|| ft_strncmp(command[0],"exit",4) == 0
-	|| ft_strncmp(command[0],"unset",5) == 0
-	|| ((ft_strncmp(command[0],"export",6) == 0) && command[1])))
-	&& (ft_count_types(ms->start, 1) == 0))
+	if (command[0] && ((ft_strncmp(command[0], "cd", 2) == 0
+				|| ft_strncmp(command[0], "exit", 4) == 0
+				|| ft_strncmp(command[0], "unset", 5) == 0
+				|| ((ft_strncmp(command[0], "export", 6) == 0) && command[1])))
+		&& (ft_count_types(ms->start, 1) == 0))
 		return (1);
 	else
 		return (0);
@@ -42,14 +42,14 @@ int	ft_open(t_ms *ms, int type, int fd[2], char *file)
 {
 	if (type == 2 || type == 3)
 	{
-		if (fd[0] && fd[0] != -2 && fd[0] !=  ms->heredocfd)
+		if (fd[0] && fd[0] != -2 && fd[0] != ms->heredocfd)
 			close(fd[0]);
 		if (type == 2)
 			fd[0] = open(file, O_RDONLY, 0666);
 		else if (type == 3)
 			fd[0] = ms->heredocfd;
 		if (fd[0] == -1)
-			return(ft_error(ms, 1, file, strerror(errno)));
+			return (ft_error(ms, 1, file, strerror(errno)));
 	}
 	else
 	{
@@ -58,19 +58,19 @@ int	ft_open(t_ms *ms, int type, int fd[2], char *file)
 		if (type == 4)
 			fd[1] = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		else if (type == 5)
-			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND , 0666);
+			fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (fd[1] == -1)
-			return(ft_error(ms, 1, file, strerror(errno)));
+			return (ft_error(ms, 1, file, strerror(errno)));
 	}
-	return(0);
+	return (0);
 }
 
-int ft_lstcmd_count(t_tok *token)
+int	ft_lstcmd_count(t_tok *token)
 {
 	int	len;
 
 	len = 0;
-	while(token && token->type != 1)
+	while (token && token->type != 1)
 	{
 		if (token->type == 0)
 			len++;
@@ -106,7 +106,6 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 			if (res != 1)
 				res = ft_open(ms, token->type, lst->fd, token->next->content);
 			token = token -> next;
-
 		}
 		token = token -> next;
 	}
@@ -115,17 +114,17 @@ t_ex	*ft_exlstnew(t_ms	*ms, t_tok *token)
 	return (lst);
 }
 
-t_ex	*ft_exlstlast(t_ex *lst)
-{
-	while (lst && lst -> next)
-		lst = lst -> next;
-	return (lst);
-}
-
 void	ft_exlstadd_back(t_ex **lst, t_ex *new)
 {
+	t_ex	*aux;
+
+	aux = *lst;
 	if (*lst)
-		ft_exlstlast(*lst)-> next = new;
+	{
+		while (aux && aux -> next)
+			aux = aux -> next;
+		aux->next = new;
+	}
 	else
 		*lst = new;
 }
@@ -150,6 +149,5 @@ void	ft_prep_exe(t_ms *ms)
 		ms->cntcmds++;
 	}
 	ms->exe = aux;
-
 	free_tok(ms->start);
 }

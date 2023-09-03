@@ -6,11 +6,18 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:43:43 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:27:10 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:30:14 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_exit_finish(void)
+{
+	if (isatty(STDIN_FILENO))
+		ft_putstr_fd("exit\n", 2);
+	clear_history();
+}
 
 int	ft_atoi_longchecker(const char *str)
 {
@@ -96,9 +103,7 @@ int	b_exit(t_ms *ms, char **com, int parent)
 	if (com[1] && (b_exit_checkinput(com[1]) == 1
 			|| ft_atoi_longchecker(com[1]) == 1))
 	{
-		if (isatty(STDIN_FILENO))
-			write(2, "exit\n", 6);
-		clear_history();
+		ft_exit_finish();
 		ms->exitstatus = 255;
 		ft_error2(255, "exit: ", com[1], ": numeric argument required");
 		exit (255);
@@ -113,11 +118,7 @@ int	b_exit(t_ms *ms, char **com, int parent)
 	else
 		exitstatus = ms->exitstatus;
 	if (parent == 1)
-		{
-			if (isatty(STDIN_FILENO))
-				write(2, "exit\n", 6);
-			clear_history();
-		}
+		ft_exit_finish();
 	exit(exitstatus);
 	return (exitstatus);
 }

@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 00:14:21 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/08/31 00:28:28 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:40 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	ft_error(t_ms *ms, int exitnumber, char *txt, char *txt2)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if(txt)
+	if (txt)
 		ft_putstr_fd(txt, 2);
 	if (txt2 && ft_strlen(txt2) > 0)
 	{
-			ft_putstr_fd(": ", 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(txt2, 2);
 	}
 	ft_putstr_fd("\n", 2);
@@ -65,11 +65,11 @@ int	ft_error3(int exitnumber, char *txt, char *txt2, char *txt3)
 int	ft_error4(int exitnumber, char *txt, char *txt2, char *txt3)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if(txt)
+	if (txt)
 		ft_putstr_fd(txt, 2);
 	if (txt2 && ft_strlen(txt2) > 0)
 	{
-			ft_putstr_fd(": ", 2);
+		ft_putstr_fd(": ", 2);
 		if (txt3 && !ft_strncmp(txt3, "not a valid identifier", 23))
 			ft_putchar_fd('`', 2);
 		ft_putstr_fd(txt2, 2);

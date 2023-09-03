@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 11:36:05 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:26:09 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,34 @@
 int	is_builtin(char *cmd)
 {
 	if (cmd && ((!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
-	  || (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
-	  || (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
-	  || (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
-	  || (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
-	  || (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-	  || (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)))
+			|| (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
+			|| (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
+			|| (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
+			|| (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
+			|| (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
+			|| (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)))
 		return (1);
-	return(0);
+	return (0);
 }
 
-int	execute_builtin(t_ms *ms,char **cmd, int parent)
+int	execute_builtin(t_ms *ms, char **cmd, int parent)
 {
 	if (!ft_strncmp(cmd[0], "echo", 4))
-		return(b_echo(cmd));
+		return (b_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 2))
-		return(cd(ms, cmd));
+		return (cd(ms, cmd));
 	if (!ft_strncmp(cmd[0], "pwd", 3))
-		return(pwd(ms->env));
+		return (pwd(ms->env));
 	if (!ft_strncmp(cmd[0], "export", 6))
-		return(export(ms, cmd, parent));
+		return (export(ms, cmd, parent));
 	if (!ft_strncmp(cmd[0], "unset", 5))
-		return(unset(ms, cmd));
+		return (unset(ms, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3) && cmd[1] == NULL)
-		return(enviroment(ms->env));
+		return (enviroment(ms->env));
 	if (!ft_strncmp(cmd[0], "exit", 4))
-		return(b_exit(ms, cmd, parent));
+		return (b_exit(ms, cmd, parent));
 	ms->exitstatus = 1;
-	return(ft_error4(1, cmd[0], cmd[1], "not a valid option"));
+	return (ft_error4(1, cmd[0], cmd[1], "not a valid option"));
 }
 
 int	**handle_pipes(t_ms *ms)
@@ -93,13 +93,13 @@ void	close_pipes(int **pipes)
 
 void	handle_waitpid(t_ms *ms, int is_parent)
 {
-	int	i;
+	int		i;
 	int		status;
 	int		*pids;
 
 	i = 0;
 	pids = ms->pids;
-	while (pids[i] && pids[i+1])
+	while (pids[i] && pids[i + 1])
 		waitpid(pids[i++], NULL, 0);
 	waitpid(pids[i], &status, 0);
 	if (is_parent == 0 && WIFEXITED(status))
@@ -122,17 +122,17 @@ void	handle_waitpid(t_ms *ms, int is_parent)
 void	handle_redirections(t_ms *ms, int fd[2], int lvl)
 {
 	if (ms->pipes && lvl > 0)
-		dup2(ms->pipes[lvl-1][0], STDIN_FILENO);
-	if (ms->pipes && lvl < ms->cntcmds-1)
+		dup2(ms->pipes[lvl - 1][0], STDIN_FILENO);
+	if (ms->pipes && lvl < ms->cntcmds - 1)
 		dup2(ms->pipes[lvl][1], STDOUT_FILENO);
 	if (fd[0] && fd[0] != -1 && fd[0] != -2)
 	{
-		dup2(fd[0] ,STDIN_FILENO);
+		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
 	if (fd[1] && fd[1] != -1 && fd[1] != -2)
 	{
-		dup2(fd[1] ,STDOUT_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
 }
@@ -146,28 +146,27 @@ int	handle_forks(t_ms *ms)
 	com = ms->exe;
 	while (i < ms->cntcmds)
 	{
-		signal(SIGINT,SIG_IGN);
-		signal(SIGQUIT,SIG_IGN);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		ms->pids[i] = fork();
 		if (ms->pids[i] == -1)
 			ft_error(ms, errno, strerror(errno), NULL);
-		if (ms->pids[i] == 0) //child i
+		if (ms->pids[i] == 0)
 		{
-			signal(SIGINT,handle_sigintp);
-			signal(SIGQUIT,handle_sigintp);
+			signal(SIGINT, handle_sigintp);
+			signal(SIGQUIT, handle_sigintp);
 			handle_redirections(ms, com->fd, i);
 			close_pipes(ms->pipes);
 			if (com->fd[0] == -1 || com->fd[1] == -1)
 				exit(1);
 			if (is_builtin(com->command[0]) && com->parent == 0)
 				exit(execute_builtin(ms, com->command, com->parent));
-			else if(is_builtin(com->command[0]) && com->parent == 1)
+			else if (is_builtin(com->command[0]) && com->parent == 1)
 				exit(0);
 			else if (com->command)
 				execve_prepare(ms, com->command);
 			exit(0);
 		}
-
 		if (com->fd[0] && com->fd[0] != -1 && com->fd[0] != -2)
 			close(com->fd[0]);
 		if (com->fd[1] && com->fd[1] != -1 && com->fd[1] != -2)
@@ -185,7 +184,6 @@ int	handle_forks(t_ms *ms)
 	com = com->next;
 	i++;
 	}
-
 	return(0);
 }
 

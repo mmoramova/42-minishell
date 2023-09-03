@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 10:20:47 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:31:38 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,11 @@ void	free_ms(t_ms *ms)
 void	free_double(char **ptr)
 {
 
-    while (*ptr != NULL)
+	while (*ptr != NULL)
 	{
-        free(*ptr);
-        ptr++;
-    }
+		free(*ptr);
+		ptr++;
+	}
 	ptr = NULL;
 	free(ptr);
 }
