@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 15:43:24 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:14:25 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void handle_line(t_ms *ms)
 	}
 	add_history(ms->line);
 	//free_doublechar(ms->array_env);
-	free_line(ms->line);
 	//free all
 }
 
@@ -81,9 +80,9 @@ int	main(int argc, char **argv , char **env)
 			clear_history();
 			exit (ms.exitstatus);
 		}
-
-		if (ms.line && strlen(ms.line) > 0)
+		if (ms.line && ft_strlen(ms.line) > 0)
 			handle_line(&ms);
+		free_line(ms.line);
 	}
 	//clean_history();
 	free_env(ms.env);
