@@ -3,41 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   aux_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 11:14:32 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:51:19 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoinfree(char *s1, char *s2)
-{
-	int		j;
-	int		i;
-	char	*p;
-
-	if (!s1)
-		return ((char *)s2);
-	if (!s2)
-		return (s1);
-	p = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!p)
-		return (NULL);
-	i = -1;
-	while (s1[++i])
-		p[i] = s1[i];
-	j = -1;
-	while (s2[++j])
-		p[i + j] = s2[j];
-	p[i + j] = '\0';
-	free(s1);
-	//free(s2);
-	//s1 = NULL;
-	return (p);
-}
-
+//jose i think we can do one file from aux_expand and expand because in each one are just 2 funcitons :)
 int	ft_one_space(char *str)
 {
 	int	space_count;

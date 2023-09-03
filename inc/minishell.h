@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:38:01 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:04:25 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,20 @@ void	plus_env(t_env *env, char *var, char *val);
 int		open_quotes(char *line, int i);
 char 	*ft_q_r(char *s);
 int 	ft_quotes_nbr(char *line);
+int		ft_wordlen_wq(char const *s, char c);
 
 //split the token
 t_tok	*ft_split_tok(t_ms *ms, char c);
+int		ft_tok_addtype(char *s);
+int		ft_tok_checks(t_ms *ms, t_tok *lst);
+int		ft_tok_checks2(t_ms *ms, t_tok *lst);
+t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content);
+t_tok	*ft_toklstlast(t_tok *lst);
+void	ft_toklstadd_back(t_tok **lst, t_tok *new);
 
 //expand
 char	*ft_expand (t_ms *ms, char *s);
-char	*ft_strjoinfree(char *s1, char *s2);
 t_tok	*ft_expand_token(char *str);
-int		ft_wordlen_wq(char const *s, char c);
-int		ft_tok_addtype(char *s);
-void	ft_toklstadd_back(t_tok **lst, t_tok *new);
-t_tok	*ft_toklstlast(t_tok *lst);
 char	*ft_exp_quotes(char *str, int quot);
 
 //commad structure
@@ -122,6 +124,9 @@ int		heredoc_execute(t_ms *ms, char *file);
 void	heredoc_read(t_ms *ms, char *file, int fd[2]);
 void	heredoc_checkline(t_ms *ms, char *file, int fd[2], char *line);
 
+//utils
+char	*ft_strjoinfree(char *s1, char *s2);
+char	*ft_strjoinfree2(char *s1, char *s2);
 
 //builts
 int		is_builtin(char *cmd);
