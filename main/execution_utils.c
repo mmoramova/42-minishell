@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 17:25:00 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:43:24 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 			free (b);
 		}
 		if (ms->array_env)
-		 	free_double(ms->array_env);
-		free_double(paths);
+		 	free_doublechar(ms->array_env);
+		free_doublechar(paths);
 	}
 	ft_error(ms, 127, cmd[0], "command not found");
 	if (ms->exe)

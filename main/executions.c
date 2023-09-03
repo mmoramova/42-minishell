@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:38:08 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:47:14 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,12 @@ int	**handle_pipes(t_ms *ms)
 		return ((int **)0);
 	while (l < ms->cntcmds - 1)
 	{
-		pipes[l] = malloc(sizeof(int) * 2);
+		pipes[l++] = malloc(sizeof(int) * 2);
 		if (!pipes)
 		{
-			while (l--)
-				free(pipes[l]);
-			free(pipes);
+			free_doubleint(pipes);
 			return ((int **)0);
 		}
-		l++;
 	}
 	pipes[l] = NULL;
 	l = 0;
@@ -208,6 +205,6 @@ void	execute_cmds(t_ms *ms)
 	if (ms->exe != NULL)
 		free_ex2(ms->exe);
 	// if (ms->array_env)
-	// 	free_double(ms->array_env);
+	// 	free_doublechar(ms->array_env);
 	g_process = 0;
 }

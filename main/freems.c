@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 15:31:38 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:46:09 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_ex(t_ex *ex)
 	a = ex;
 
 	if (a->command)
-		free_double(a->command);
+		free_doublechar(a->command);
 
 	if (a -> previous)
 		free(a ->previous);
@@ -44,7 +44,7 @@ void	free_ex2(t_ex *ex)
 	while (a->next)
 	{
 		if (a->command != NULL)
-			free_double(a->command);
+			free_doublechar(a->command);
 		if (a ->fd[0] && a->fd[0] != -2)
 			close(a ->fd[0]);
 		if (a ->fd[1] && a->fd[1] != -2)
@@ -60,7 +60,7 @@ void	free_ex2(t_ex *ex)
 	}
 	// i = 0;
 	if (a->command != NULL)
-		free_double(a->command);
+		free_doublechar(a->command);
 	if (a ->fd[0] && a->fd[0] != -1 && a->fd[0] != -2)
 		close(a ->fd[0]);
 	if (a ->fd[1] && a->fd[0] != -1 && a->fd[1] != -2)
@@ -136,9 +136,20 @@ void	free_ms(t_ms *ms)
 		free(ms);
 }
 
-void	free_double(char **ptr)
+void	free_doublechar(char **ptr)
 {
 
+	while (*ptr != NULL)
+	{
+		free(*ptr);
+		ptr++;
+	}
+	ptr = NULL;
+	free(ptr);
+}
+
+void	free_doubleint(int **ptr)
+{
 	while (*ptr != NULL)
 	{
 		free(*ptr);
