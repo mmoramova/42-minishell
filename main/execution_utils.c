@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:36 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:37:49 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:55:19 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ void	execve_prepare(t_ms	*ms, char **cmd)
 	}
 	ft_error(ms, 127, cmd[0], "command not found");
 	if (ms->exe)
-		free_ex2(ms->exe);
+		free_ex(ms->exe);
 	exit(127);
 }

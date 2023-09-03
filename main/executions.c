@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:19 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:51:22 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:55:25 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,6 @@ void	execute_cmds(t_ms *ms)
 	if (ms->pids != NULL)
 		free(ms->pids);
 	if (ms->exe != NULL)
-		free_ex2(ms->exe);
+		free_ex(ms->exe);
 	g_process = 0;
 }

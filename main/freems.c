@@ -6,30 +6,12 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:28:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:56:11 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void	free_ex(t_ex *ex)
-{
-	t_ex	*a;
-	int		i;
-
-	if (!ex)
-		return ;
-	i = 0;
-	a = ex;
-
-	if (a->command)
-		free_doublechar(a->command);
-
-	if (a -> previous)
-		free(a ->previous);
-	free (a);
-	//a = NULL;
-}
 void	free_ex_closepipes(t_ex *ex)
 {
 	t_ex	*a;
@@ -43,7 +25,7 @@ void	free_ex_closepipes(t_ex *ex)
 		close(a ->fd[1]);
 }
 
-void	free_ex2(t_ex *ex)
+void	free_ex(t_ex *ex)
 {
 	t_ex	*a;
 	t_ex	*b;
@@ -125,8 +107,6 @@ void	free_ms(t_ms *ms)
 {
 	if (ms->env)
 		free_env(ms->env);
-	// if (ms->start)
-	// 	free_exe(ms->start);
 	if (ms->line)
 		free_line(ms->line);
 	if (ms->start)
@@ -165,7 +145,7 @@ void	free_doubleint(int **ptr)
 void	free_ex_exit(t_ms *ms, int exitstatus)
 {
 	if (ms->exe != NULL)
-		free_ex2(ms->exe);
+		free_ex(ms->exe);
 	if (ms->pids != NULL)
 		free(ms->pids);
 	exit(exitstatus);
