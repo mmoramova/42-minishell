@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 12:35:14 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:08:14 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int		ft_parent_exe(t_ms	*ms, char **command);
 int		heredoc_fillfd(t_ms *ms, t_tok *tokens);
 int		heredoc_execute(t_ms *ms, char *file);
 void	heredoc_read(t_ms *ms, char *file, int fd[2]);
+void	heredoc_checkline(t_ms *ms, char *file, int fd[2], char *line);
 
 
 //builts
