@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:54:25 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 18:32:25 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:41:59 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 	char	*str;
 
 	(void)ms;
+	str = NULL;
 	lst = (t_tok *) malloc(sizeof(t_tok));
 	if (!lst)
 		return (NULL);
@@ -43,6 +44,8 @@ t_tok	*ft_toklstnew(t_ms	*ms, t_tok	*tokens, char *content)
 		if (lst)
 			lst -> previous = ft_toklstlast(tokens);
 	}
+	if (str)
+		free(str);
 	return (lst);
 }
 

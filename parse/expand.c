@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 20:18:20 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:48:53 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*ft_expand (t_ms *ms, char *s)
 				aux = ft_strjoinfree(aux, "");
 				ms->exitstatus = 0;
 			}
+			free(var);
 
 		}
 		count = 0;
