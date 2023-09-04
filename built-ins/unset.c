@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:00:39 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/31 00:25:09 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:03:45 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,21 @@ void	ft_unset_env(t_ms *ms, char *com)
 	aux = ms->env;
 	while (aux)
 	{
-		if (ft_strncmp(com, aux->next->evar, ft_strlen(aux->next->evar)) == 0)
+		while (ft_strncmp(com, aux->evar, ft_strlen(aux->evar)) != 0)
 		{
-			tmp = aux->next;
-			if (aux->next->next != NULL)
-				aux->next = aux->next->next;
+			tmp = aux;
+			if (aux->next)
+				aux = aux->next;
 			else
-				aux->next = NULL;
-			free(tmp);
-			return ;
+				return;
 		}
-		aux = aux->next;
+		tmp->next=aux->next;
+		aux->next = NULL;
+		free_env(aux);
+		return;
+
 	}
+	return ;
 }
 
 int	unset(t_ms *ms, char **com)

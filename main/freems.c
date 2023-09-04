@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freems.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:56:11 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:05:01 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	free_env(t_env *env)
 	if (!env)
 		return ;
 	a = env;
-	while (a->next)
+	while (a)
 	{
 		if (a->evar)
 			free(a->evar);
@@ -89,13 +89,18 @@ void	free_env(t_env *env)
 			free(a->eval);
 		b = a->next;
 		free (a);
+		a = NULL;
 		a = b;
 	}
+	//printf("free env\n");
 	// if (a->evar)
 	// 	free(a->evar);
 	// if (a->eval)
 	// 	free(a->eval);
+	// if (a->next)
+	// 	free(a->next);
 	// free (a);
+	// a = NULL; //noooo
 }
 
 void	free_line(char *line)
