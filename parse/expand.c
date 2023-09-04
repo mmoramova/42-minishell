@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:18:24 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:18:20 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_tok	*ft_expand_token(char *str)
 	t_tok	*lst;
 	t_tok	*tmp;
 	char	c;
+	char	*mec;
 
 	c = ' ';
 	lst = NULL;
@@ -79,7 +80,9 @@ t_tok	*ft_expand_token(char *str)
 			tmp = (t_tok *) malloc(sizeof(t_tok));
 			if (!tmp)
 				return (NULL);
-			tmp -> content = ft_q_r(ft_substr(str, 0, ft_wordlen_wq(str, c)));
+			mec = ft_substr(str, 0, ft_wordlen_wq(str, c));
+			tmp -> content = ft_q_r(mec);
+			free(mec);
 			tmp -> previous = ft_toklstlast(lst);
 			tmp -> type = 0;
 			tmp -> next = NULL;

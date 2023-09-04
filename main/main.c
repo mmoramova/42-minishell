@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 18:20:54 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:17:13 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ int	main(int argc, char **argv, char **env)
 	if (!env[0])
 	{
 		env = malloc(3 * sizeof(char*));
-		env[0] = ft_strdup("PWD=/Users/josorteg/Documents/GitHub/42-minishell");//chdir
+		env[0] = ft_strdup(getcwd(NULL, PATH_MAX));
 		env[1] = ft_strdup("SHLVL=0");
 		env[2] = NULL;
 	}
 	if(get_env(&ms, env) == 0)
 		return (0);
 	if (check_env (ms.env, "OLDPWD") == 1)
-		add_env (ms.env, "OLDPWD", ft_strdup(getcwd(NULL, PATH_MAX)));
+		add_env (ms.env, "OLDPWD", getcwd(NULL, PATH_MAX));
 	term_init();
 	while (42)
 	{

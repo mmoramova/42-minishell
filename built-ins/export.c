@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:12:45 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 18:49:08 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ int	check_export_plus(char *nenv)
 			return (1);
 		i++;
 	}
-	if (nenv[i + 1] == '=')
+	if (!nenv[i])
+		return(1);
+	if (nenv[i + 1] && nenv[i + 1] == '=')
 		return (0);
 	return (1);
 }

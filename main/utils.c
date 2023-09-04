@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:48:38 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/03 18:42:07 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:12:33 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	*ft_strjoinfree(char *s1, char *s2)
 	while (s2[++j])
 		p[i + j] = s2[j];
 	p[i + j] = '\0';
-	free(s1);
+	if (s1)
+		free(s1);
 	return (p);
 }
 
@@ -42,10 +43,20 @@ char	*ft_strjoinfree2(char *s1, char *s2)
 	int		i;
 	char	*p;
 
-	if (!s1)
-		return ((char *)s2);
-	if (!s2)
-		return (s1);
+	if (!s1 && s2)
+	{
+		p = ft_strdup(s2);
+		free(s2);
+		return (p);
+	}
+	if (!s2 && s1)
+	{
+		p = ft_strdup(s1);
+		free(s1);
+		return (p);
+	}
+	if (!s1 && !s2)
+		return(NULL);
 	p = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!p)
 		return (NULL);
@@ -56,8 +67,14 @@ char	*ft_strjoinfree2(char *s1, char *s2)
 	while (s2[++j])
 		p[i + j] = s2[j];
 	p[i + j] = '\0';
-	free(s1);
-	free(s2);
+	if (s1)
+	{
+		free(s1);
+	}
+	if (s2)
+	{
+		free(s2);
+	}
 	return (p);
 }
 
