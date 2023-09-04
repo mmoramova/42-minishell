@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/02 12:29:42 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/04 18:42:11 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,27 @@ void	set_pwds(t_ms *ms, char *com)
 
 int	cd(t_ms *ms, char **com)
 {
-	int	i;
+	char	*s;
 
-	i = 1;
-	if (com[i] == NULL)
-		chdir(get_env_value(ms->env, "HOME"));
-	else if (chdir (com[i]) != 0)
+	if (com[1] == NULL)
+		s = get_env_value(ms->env, "HOME");
+	else
+		s = (com[1]);
+	if (s == NULL)
 	{
-		if (com[i][0] == 0)
-			return (0);
+		ft_error4(1, "cd", "HOME not set", NULL);
 		ms->exitstatus = 1;
-		ft_error4(1, "cd", com[i], strerror(errno));
+		return(1);
+	}
+	if (s[0] == 0)
+		return (0);
+	if (chdir (s) != 0)
+	{
+		ms->exitstatus = 1;
+		ft_error4(1, "cd", s, strerror(errno));
 		return (1);
 	}
-	else
-	{
-		check_pwds(ms);
-		set_pwds(ms, com[i]);
-	}
-	return (0);
+	check_pwds(ms);
+	set_pwds(ms, s);
+	return(0);
 }
