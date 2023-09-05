@@ -6,7 +6,7 @@
 #    By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:03:35 by josorteg          #+#    #+#              #
-#    Updated: 2023/09/03 18:05:38 by mmoramov         ###   ########.fr        #
+#    Updated: 2023/09/05 19:29:11 by mmoramov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ SRC_HISTORY = libs/readline/libhistory.a
 MAKE_READLINE = make -C libs/readline --no-print-directory
 
 #------------------------------SOURCES-----------------------------------------#
-MAIN = main freems prep_exe execution_utils signal executions heredoc errors utils
+MAIN = main free free2 prep_exe execution execution_utils execution_utils2 signal heredoc errors utils
 ENV = env env2
-PARSE = quotes tokenize tokenize_utils expand aux_expand
-BUILT = echo envcomand pwd export unset exit newcd
+PARSE = quotes tokenize tokenize_utils expand expand_utils
+BUILT = echo envcomand pwd export export_utils unset exit cd
 
 SRC = $(addsuffix .c, $(PARSE)) \
 	  $(addsuffix .c, $(ENV)) \
