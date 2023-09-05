@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 16:09:38 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:55:24 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ char	*ft_exp_quotes(char *str, int quot)
 	char	*result;
 	int		j;
 
-	i = 0;
-	j = 0;
+	(0 || (i = 0) || (j = 0));
 	result = NULL;
 	if (quot == 1)
 		result = ft_strdup(str);

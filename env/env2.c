@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:53:44 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/05 16:31:10 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:51:35 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,20 @@ void	change_env(t_env *env, char *var, char *val)
 
 void	plus_env(t_env *env, char *var, char *val)
 {
-	t_env		*aux;
+	t_env	*aux;
+	char	*str;
 
 	aux = env;
 	while (aux && !(ft_strncmp(aux->evar, var, (int)ft_strlen(aux->evar)) == 0
 			&& ft_strlen(aux->evar) == ft_strlen(var)))
 		aux = aux->next;
 	if (val)
-		aux->eval = ft_strjoin(aux->eval,val);
+	{
+		str = ft_strjoin(aux->eval,val);
+		change_env(aux, var, str);
+		free (str);
+	}
 	else
-		aux->eval = ft_strjoin(aux->eval,"");
+		change_env(aux, var, ft_strjoin(aux->eval,""));
 	return ;
 }
