@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:14:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 18:49:08 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:18:59 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,6 @@ int	add_exp(t_ms *ms, char **com, int i)
 		free(nenv->eval);
 	free (nenv);
 	return (0);
-}
-
-int	check_export_plus(char *nenv)
-{
-	int	i;
-
-	i = 0;
-	i = 0;
-	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
-		return (1);
-	i++;
-	while (nenv[i] != '+' && nenv[i] != '\0')
-	{
-		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
-			return (1);
-		i++;
-	}
-	if (!nenv[i])
-		return(1);
-	if (nenv[i + 1] && nenv[i + 1] == '=')
-		return (0);
-	return (1);
 }
 
 int	add_exp_plus(t_ms *ms, char **com, int i)
@@ -115,21 +93,4 @@ int	export(t_ms *ms, char **com)
 		}
 	}
 	return (error);
-}
-
-int	check_export(char *nenv)
-{
-	int	i;
-
-	i = 0;
-	if (ft_isalpha(nenv[0]) == 0 && nenv[0] != '_')
-		return (1);
-	i++;
-	while (nenv[i] != '=' && nenv[i] != '\0')
-	{
-		if (ft_isalnum(nenv[i]) == 0 && nenv[i] != '_' && nenv[i] != '\0')
-			return (1);
-		i++;
-	}
-	return (0);
 }

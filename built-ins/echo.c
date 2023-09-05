@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 08:50:15 by josorteg          #+#    #+#             */
-/*   Updated: 2023/08/28 17:16:22 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:11:38 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdio.h>
-*/
 
 int	check_n(char *str)
 {
@@ -62,16 +57,3 @@ int	b_echo(char **com)
 		write(1, "\n", 1);
 	return (0);
 }
-
-/*
-
-int	main	(int args,char **argv)
-{
-	args = 0;
-	b_echo(argv);
-	return (0);
-}
-//gcc -Wall -Wextra -Werror echo.c
-
-
-*/

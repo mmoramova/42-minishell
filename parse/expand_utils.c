@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aux_expand.c                                       :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 17:55:24 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:36:05 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//jose i think we can do one file from aux_expand and expand because in each one are just 2 funcitons :)
 int	ft_one_space(char *str)
 {
 	int	space_count;
@@ -62,9 +61,9 @@ char	*ft_exp_quotes(char *str, int quot)
 
 char	*ft_start_expand(char *s, int i)
 {
-	while (s[i] !='$' && s[i] != '\0')
+	while (s[i] != '$' && s[i] != '\0')
 		i++;
-	return (ft_substr(s,0,i));
+	return (ft_substr(s, 0, i));
 }
 
 char	*ft_var_expand(char *s, int i)
@@ -76,23 +75,27 @@ char	*ft_var_expand(char *s, int i)
 	{
 		count++;
 		if (s[i++] == '?')
-			break;
+			break ;
 	}
 	return (ft_substr(s, i - count, count));
 }
-char    *ft_sub_expand(t_ms *ms,char *var, int i, char  *str)
+
+char	*ft_sub_expand(t_ms *ms, char *var, int i, char *str)
 {
-    if (var[0] == '?')
-        return(ft_itoa(ms->exitstatus));
-    else if (check_env(ms->env, var) == 0 && get_env_value (ms->env, var) != NULL)
-        return(ft_exp_quotes(ft_strdup(get_env_value (ms->env, var)), open_quotes(str, i - 1)));
-    else if ((!str || str[i] == '\"' || str[i] == '\'') && open_quotes(str, i - 1) == 0)
-        return(ft_strdup(""));
-    else if (var[0] == '\0')
-        return(ft_strdup("$"));
-    else
-    {
-        ms->exitstatus = 0;
-        return(ft_strdup(""));
-    }
+	if (var[0] == '?')
+		return (ft_itoa(ms->exitstatus));
+	else if (check_env(ms->env, var) == 0
+		&& get_env_value (ms->env, var) != NULL)
+		return (ft_exp_quotes(ft_strdup(get_env_value (ms->env, var)),
+				open_quotes(str, i - 1)));
+	else if ((!str || str[i] == '\"' || str[i] == '\'')
+		&& open_quotes(str, i - 1) == 0)
+		return (ft_strdup(""));
+	else if (var[0] == '\0')
+		return (ft_strdup("$"));
+	else
+	{
+		ms->exitstatus = 0;
+		return (ft_strdup(""));
+	}
 }

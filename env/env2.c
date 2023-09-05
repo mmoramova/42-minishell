@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:53:44 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/05 17:51:35 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:20:26 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ void	plus_env(t_env *env, char *var, char *val)
 		aux = aux->next;
 	if (val)
 	{
-		str = ft_strjoin(aux->eval,val);
+		str = ft_strjoin(aux->eval, val);
 		change_env(aux, var, str);
 		free (str);
 	}
 	else
-		change_env(aux, var, ft_strjoin(aux->eval,""));
+		change_env(aux, var, ft_strjoin(aux->eval, ""));
 	return ;
 }

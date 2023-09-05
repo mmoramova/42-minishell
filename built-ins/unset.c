@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:00:39 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 17:03:45 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:15:08 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ void	ft_unset_env(t_ms *ms, char *com)
 			if (aux->next)
 				aux = aux->next;
 			else
-				return;
+				return ;
 		}
-		tmp->next=aux->next;
+		tmp->next = aux->next;
 		aux->next = NULL;
 		free_env(aux);
-		return;
-
+		return ;
 	}
 	return ;
 }

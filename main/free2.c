@@ -1,38 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 22:47:03 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/05 18:22:33 by mmoramov         ###   ########.fr       */
+/*   Created: 2023/09/05 18:29:14 by mmoramov          #+#    #+#             */
+/*   Updated: 2023/09/05 18:29:36 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	free_doublechar(char **ptr)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (ptr[i] != NULL)
 	{
-		f(i, &s[i]);
+		free(ptr[i]);
 		i++;
 	}
+	free(ptr);
 }
 
-/*int	main(void)
+void	free_doubleint(int **ptr)
 {
-	void ft_testf(unsigned int i, char *c)
-	{
-		printf("%d, %s \n", i, c);
-	}
-	char *s;
+	int	i;
 
-	s = "hello";
-	ft_striteri (s, *ft_testf);
+	i = 0;
+	while (ptr[i] != NULL)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
 }
-*/
+
+void	free_ex_exit(t_ms *ms, int exitstatus)
+{
+	if (ms->exe != NULL)
+		free_ex(ms->exe);
+	if (ms->pids != NULL)
+		free(ms->pids);
+	exit(exitstatus);
+}

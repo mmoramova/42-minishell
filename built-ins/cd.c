@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   newcd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 10:09:02 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 18:42:11 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:14:48 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	cd(t_ms *ms, char **com)
 	{
 		ft_error4(1, "cd", "HOME not set", NULL);
 		ms->exitstatus = 1;
-		return(1);
+		return (1);
 	}
 	if (s[0] == 0)
 		return (0);
@@ -62,5 +62,5 @@ int	cd(t_ms *ms, char **com)
 	}
 	check_pwds(ms);
 	set_pwds(ms, s);
-	return(0);
+	return (0);
 }

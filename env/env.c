@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 08:17:04 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 18:42:43 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:20:15 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	shlvl_add(t_ms *ms)
-{
-	int		shlvl;
-	char	*val;
-
-	if (check_env(ms->env, "SHLVL") == 1)
-		add_env(ms->env, "SHLVL", "1");
-	else
-	{
-		val = get_env_value(ms->env, "SHLVL");
-		shlvl = ft_atoi(val) + 1;
-		if (shlvl < 0)
-			shlvl = 0;
-		if (shlvl > 1000)
-		{
-			ft_putstr_fd("warning: shell level (", 2);
-			val = ft_itoa(shlvl);
-			ft_putstr_fd(val, 2);
-			ft_putstr_fd(") too high, resetting to 1\n", 2);
-			shlvl = 1;
-		}
-		val = ft_itoa(shlvl);
-		change_env(ms->env, "SHLVL", val);
-		free(val);
-	}
-}
 
 int	get_env(t_ms *ms, char **env)
 {
@@ -56,7 +29,6 @@ int	get_env(t_ms *ms, char **env)
 		i++;
 	}
 	shlvl_add(ms);
-	//free_doublechar(env);
 	return (1);
 }
 
@@ -91,7 +63,6 @@ t_env	*new_env(char *env)
 	j = ft_strchrn(env, '=');
 	if (!(ft_strchr(env, '=')))
 	{
-
 		new->evar = ft_strdup(env);
 		new->eval = NULL;
 		new->next = NULL;
@@ -114,8 +85,8 @@ t_env	*new_env_plus(char *env)
 	size_t		j;
 
 	new = malloc(sizeof(t_env));
-		if (!new)
-			return (NULL);
+	if (!new)
+		return (NULL);
 	j = ft_strchrn(env, '+');
 	k = ft_strlen(env);
 	new->evar = ft_substr(env, 0, j);

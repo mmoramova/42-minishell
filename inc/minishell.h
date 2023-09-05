@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 15:33:23 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:38:39 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	change_env(t_env *env, char *var, char *val);
 char	**env_toarray(t_ms *ms);
 t_env	*new_env_plus(char *env);
 void	plus_env(t_env *env, char *var, char *val);
+void	shlvl_add(t_ms *ms);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);
@@ -115,7 +116,7 @@ int		ft_lstcmd_count(t_tok *token);
 char	*ft_expand(t_ms *ms, char *s);
 char	*ft_start_expand(char *s, int i);
 char	*ft_var_expand(char *s, int i);
-char    *ft_sub_expand(t_ms *ms,char *var, int i, char  *str);
+char	*ft_sub_expand(t_ms *ms, char *var, int i, char *str);
 t_tok	*ft_expand_token(char *str);
 char	*ft_exp_quotes(char *str, int quot);
 
@@ -131,7 +132,6 @@ void	heredoc_checkline(t_ms *ms, char *file, int fd[2], char *line);
 
 //utils
 char	*ft_strjoinfree(char *s1, char *s2);
-char	*ft_strjoinfree2(char *s1, char *s2);
 int		ft_fd_isopen(int fd);
 int		ft_count_types(t_tok *token, int type);
 int		openfd(t_ms *ms, int type, int fd[2], char *file);
@@ -147,13 +147,13 @@ void	print_env_export(t_env *env); //for EXPORT
 int		check_export(char *nenv);
 int		cd(t_ms *ms, char **com);
 int		export(t_ms *ms, char **com);
+int		check_export_plus(char *nenv);
 int		unset(t_ms *ms, char **com);
 int		b_exit(t_ms *ms, char **com, int parent);
 
 //free
 void	free_ms(t_ms *ms);
 void	free_env(t_env *env);
-void	free_line(char *line);
 void	free_ex(t_ex *ex);
 void	free_tok(t_tok *tok);
 void	free_doublechar(char **ptr);
@@ -168,6 +168,7 @@ void	ft_execve(t_ms	*ms, char *path, char **cmd, char **env);
 void	ft_execve_paths(t_ms *ms, char **cmd, char **paths);
 int		**handle_pipes(t_ms *ms);
 int		handle_forks(t_ms *ms);
+void	handle_child(t_ms *ms, t_ex *com, int i);
 void	handle_redirections(t_ms *ms, int fd[2], int lvl);
 void	handle_waitpid(t_ms *ms, int is_parent);
 void	close_pipes(int **pipes);

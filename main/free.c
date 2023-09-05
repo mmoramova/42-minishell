@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   freems.c                                           :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
+/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:50:34 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 17:05:01 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:29:43 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	free_ex_closepipes(t_ex *ex)
 {
@@ -69,8 +69,8 @@ void	free_tok(t_tok *tok)
 		a = b;
 	}
 	if (a->content)
-			free(a->content);
-		free (a);
+		free(a->content);
+	free (a);
 }
 
 void	free_env(t_env *env)
@@ -92,20 +92,6 @@ void	free_env(t_env *env)
 		a = NULL;
 		a = b;
 	}
-	//printf("free env\n");
-	// if (a->evar)
-	// 	free(a->evar);
-	// if (a->eval)
-	// 	free(a->eval);
-	// if (a->next)
-	// 	free(a->next);
-	// free (a);
-	// a = NULL; //noooo
-}
-
-void	free_line(char *line)
-{
-	free(line);
 }
 
 void	free_ms(t_ms *ms)
@@ -113,45 +99,11 @@ void	free_ms(t_ms *ms)
 	if (ms->env)
 		free_env(ms->env);
 	if (ms->line)
-		free_line(ms->line);
+		free(ms->line);
 	if (ms->start)
 		free_tok(ms->start);
 	if (ms->exe)
 		free_ex(ms->exe);
 	if (ms)
 		free(ms);
-}
-
-void	free_doublechar(char **ptr)
-{
-	int i;
-
-	i = 0;
-	while (ptr[i] != NULL)
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-}
-
-void	free_doubleint(int **ptr)
-{
-	int i;
-
-	i = 0;
-	while (ptr[i] != NULL)
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-}
-void	free_ex_exit(t_ms *ms, int exitstatus)
-{
-	if (ms->exe != NULL)
-		free_ex(ms->exe);
-	if (ms->pids != NULL)
-		free(ms->pids);
-	exit(exitstatus);
 }
