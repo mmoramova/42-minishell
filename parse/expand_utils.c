@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 18:36:05 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:12:43 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,18 @@ char	*ft_var_expand(char *s, int i)
 	int	count;
 
 	count = 0;
-	while (s[i] && (!ft_strchr("\'\" /$|<>", s[i])))
+	if (s[i] == '?')
 	{
-		count++;
-		if (s[i++] == '?')
-			break ;
+		count = 1;
+		i++;
+	}
+	else
+	{
+		while (s[i] && (!ft_strchr("\'\" /$|<>?", s[i])))
+		{
+			count++;
+			i++;
+		}
 	}
 	return (ft_substr(s, i - count, count));
 }
