@@ -6,7 +6,7 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 18:36:44 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:55:22 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ t_tok	*ft_expand_token(char *str)
 			mec = ft_substr(str, 0, ft_wordlen_wq(str, ' '));
 			tmp -> content = ft_q_r(mec);
 			free(mec);
-			tmp -> previous = ft_toklstlast(lst);
-			tmp -> type = 0;
+			(0 || (tmp -> previous = ft_toklstlast(lst)) || (tmp -> type = 0));
 			tmp -> next = NULL;
 			ft_toklstadd_back(&lst, tmp);
 			str += ft_wordlen_wq(str, ' ') - 1;

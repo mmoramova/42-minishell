@@ -6,13 +6,13 @@
 /*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/05 18:27:49 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:51:06 by mmoramov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	term_init()
+void	term_init(void)
 {
 	struct termios	term;
 
@@ -30,29 +30,31 @@ void	handle_line(t_ms *ms)
 		execute_cmds(ms);
 	}
 	add_history(ms->line);
-	//free_doublechar(ms->array_env);
-	//free all
+}
+
+void	env_init(t_ms *ms, char **env)
+{
+	ms->exitstatus = 0;
+	if (!env[0])
+	{
+		env = malloc(3 * sizeof(char *));
+		env[0] = ft_strdup(getcwd(NULL, PATH_MAX));
+		env[1] = ft_strdup("SHLVL=0");
+		env[2] = NULL;
+	}
+	get_env(ms, env);
+	if (check_env (ms->env, "OLDPWD") == 1)
+		add_env (ms->env, "OLDPWD", getcwd(NULL, PATH_MAX));
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_ms	ms;
 
-	ms.start = NULL;
-	ms.exitstatus = 0;
 	if (argc != 1 && argv[0])
 		return (1);
-	if (!env[0])
-	{
-		env = malloc(3 * sizeof(char*));
-		env[0] = ft_strdup(getcwd(NULL, PATH_MAX));
-		env[1] = ft_strdup("SHLVL=0");
-		env[2] = NULL;
-	}
-	if(get_env(&ms, env) == 0)
-		return (0);
-	if (check_env (ms.env, "OLDPWD") == 1)
-		add_env (ms.env, "OLDPWD", getcwd(NULL, PATH_MAX));
+	ms.start = NULL;
+	env_init(&ms, env);
 	term_init();
 	while (42)
 	{
@@ -70,8 +72,6 @@ int	main(int argc, char **argv, char **env)
 			handle_line(&ms);
 		free(ms.line);
 	}
-	//clean_history();
 	free_env(ms.env);
 	return (ms.exitstatus);
 }
-
