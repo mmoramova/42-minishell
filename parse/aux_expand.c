@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:00:23 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 17:51:19 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:09:38 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ char	*ft_exp_quotes(char *str, int quot)
 	j = 0;
 	result = NULL;
 	if (quot == 1)
-		return (str);
-	else if (quot == 0)
+		result = ft_strdup(str);
+	else
 	{
 		result = malloc (ft_one_space(str) * sizeof(char));
 		if (!result || !str)
@@ -55,7 +55,45 @@ char	*ft_exp_quotes(char *str, int quot)
 				result[j++] = str[i];
 			i++;
 		}
+		result[j] = '\0';
 	}
-	result[j] = '\0';
+	free(str);
 	return (result);
+}
+
+char	*ft_start_expand(char *s, int i)
+{
+	while (s[i] !='$' && s[i] != '\0')
+		i++;
+	return (ft_substr(s,0,i));
+}
+
+char	*ft_var_expand(char *s, int i)
+{
+	int	count;
+
+	count = 0;
+	while (s[i] && (!ft_strchr("\'\" /$|<>", s[i])))
+	{
+		count++;
+		if (s[i++] == '?')
+			break;
+	}
+	return (ft_substr(s, i - count, count));
+}
+char    *ft_sub_expand(t_ms *ms,char *var, int i, char  *str)
+{
+    if (var[0] == '?')
+        return(ft_itoa(ms->exitstatus));
+    else if (check_env(ms->env, var) == 0 && get_env_value (ms->env, var) != NULL)
+        return(ft_exp_quotes(ft_strdup(get_env_value (ms->env, var)), open_quotes(str, i - 1)));
+    else if ((!str || str[i] == '\"' || str[i] == '\'') && open_quotes(str, i - 1) == 0)
+        return(ft_strdup(""));
+    else if (var[0] == '\0')
+        return(ft_strdup("$"));
+    else
+    {
+        ms->exitstatus = 0;
+        return(ft_strdup(""));
+    }
 }

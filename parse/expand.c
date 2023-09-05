@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 12:44:22 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/04 20:48:53 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:39:46 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,46 +20,23 @@ char	*ft_expand (t_ms *ms, char *s)
 	char	*var;
 
 	i = 0;
-	aux = NULL;
-	while (s[i] !='$' && s[i] != '\0')
-		i++;
-	aux = ft_substr(s,0,i);
-
+	aux = ft_start_expand(s, i);
+	i = ft_strlen(aux);
 	while (s[i])
 	{
 		if (s[i] == '$' && (open_quotes(s, i) != 2))
 		{
 			i++;
-			count = 0;
-			while (s[i] && (!ft_strchr("\'\" /$|<>", s[i])))
-			{
-				count++;
-				if (s[i++] == '?')
-					break;
-			}
-			var = ft_substr(s, i - count, count);
-			if (var[0] == '?')
-				aux = ft_strjoinfree(aux, ft_itoa(ms->exitstatus));
-			else if (check_env(ms->env, var) == 0)
-				aux = ft_strjoinfree(aux, ft_exp_quotes(get_env_value (ms->env, var),open_quotes(s, i - 1)));
-			else if ((s[i] == '\"' || s[i] == '\'') && open_quotes(s, i - 1) == 0)
-				aux = ft_strjoinfree(aux, "");
-			else if (var[0] == '\0')
-				aux = ft_strjoinfree(aux, "$");
-			else
-			{
-				aux = ft_strjoinfree(aux, "");
-				ms->exitstatus = 0;
-			}
+			var = ft_var_expand(s, i);
+			i = i + ft_strlen(var);
+			aux = ft_strjoinfree(aux,ft_sub_expand(ms, var, i, s));
 			free(var);
-
 		}
 		count = 0;
 		while ((s[i] !='$' || (s[i] == '$' && (open_quotes(s, i) == 2))) && s[i] != '\0')
 			(1 && (count = count + 1) && (i = i + 1));
 		aux = ft_strjoinfree2(aux, ft_substr(s, i - count, count));
 	}
-
 	return (aux);
 }
 

@@ -6,7 +6,7 @@
 /*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:48:38 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/04 20:12:33 by josorteg         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:13:33 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*ft_strjoinfree(char *s1, char *s2)
 	p[i + j] = '\0';
 	if (s1)
 		free(s1);
+	if (s2)
+		free(s2);
 	return (p);
 }
 

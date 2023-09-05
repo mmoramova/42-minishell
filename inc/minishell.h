@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/03 18:55:15 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:33:23 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ int		ft_lstcmd_count(t_tok *token);
 
 //expand
 char	*ft_expand(t_ms *ms, char *s);
+char	*ft_start_expand(char *s, int i);
+char	*ft_var_expand(char *s, int i);
+char    *ft_sub_expand(t_ms *ms,char *var, int i, char  *str);
 t_tok	*ft_expand_token(char *str);
 char	*ft_exp_quotes(char *str, int quot);
 
