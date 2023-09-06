@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:00:39 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 18:15:08 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:57:19 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@ void	ft_unset_env(t_ms *ms, char *com)
 	return ;
 }
 
+void	ft_check_pwd(t_ms *ms, char *str)
+{
+	if (ft_strncmp(str, "PWD", ft_strlen(str)) == 0
+		&& ft_strlen("PWD") == ft_strlen(str))
+		ms->pwd = 1;
+	if (ft_strncmp(str, "OLDPWD", ft_strlen(str)) == 0
+		&& ft_strlen("OLDPWD") == ft_strlen(str))
+		ms->oldpwd = 1;
+}
+
 int	unset(t_ms *ms, char **com)
 {
 	int		i;
@@ -55,6 +65,7 @@ int	unset(t_ms *ms, char **com)
 			i++;
 		else
 		{
+			ft_check_pwd(ms, com[i]);
 			ft_unset_env(ms, com[i]);
 			i++;
 		}

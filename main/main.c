@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:34:17 by mmoramov          #+#    #+#             */
-/*   Updated: 2023/09/05 18:51:06 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:54:25 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	handle_line(t_ms *ms)
 void	env_init(t_ms *ms, char **env)
 {
 	ms->exitstatus = 0;
+	ms->oldpwd = 0;
+	ms->pwd = 1;
 	if (!env[0])
 	{
 		env = malloc(3 * sizeof(char *));
@@ -43,8 +45,8 @@ void	env_init(t_ms *ms, char **env)
 		env[2] = NULL;
 	}
 	get_env(ms, env);
-	if (check_env (ms->env, "OLDPWD") == 1)
-		add_env (ms->env, "OLDPWD", getcwd(NULL, PATH_MAX));
+	if (check_env(ms->env, "OLDPWD") == 0)
+		ft_unset_env(ms, "OLDPWD");
 }
 
 int	main(int argc, char **argv, char **env)

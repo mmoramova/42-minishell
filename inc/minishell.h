@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoramov <mmoramov@student.42barcel>       +#+  +:+       +#+        */
+/*   By: josorteg <josorteg@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:51:20 by josorteg          #+#    #+#             */
-/*   Updated: 2023/09/05 18:38:39 by mmoramov         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:31:23 by josorteg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef struct s_ms
 	int		*pids;
 	int		heredocfd;
 	int		exitstatus;
-
+	int		pwd;
+	int		oldpwd;
 }	t_ms;
 
 //global variable
@@ -94,6 +95,7 @@ char	**env_toarray(t_ms *ms);
 t_env	*new_env_plus(char *env);
 void	plus_env(t_env *env, char *var, char *val);
 void	shlvl_add(t_ms *ms);
+void	ft_unset_env(t_ms *ms, char *com);
 
 //check line functions and quotes
 int		open_quotes(char *line, int i);

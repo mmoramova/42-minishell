@@ -1,0 +1,5 @@
+*.a
+*.o
+config.status
+.vscode
+*.dSYM
